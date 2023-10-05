@@ -44,7 +44,14 @@ class PaystackService
      */
     protected function setBaseUrl()
     {
-        $this->baseUrl = Config::get('paystack.paymentUrl');
+        // Check if PAYSTACK_PAYMENT_URL is set in the .env file
+        if (env('PAYSTACK_PAYMENT_URL')) {
+            $this->baseUrl = env('PAYSTACK_PAYMENT_URL');
+        } else {
+            // Use the default value from the configuration
+            $this->baseUrl = config('paystack.paymentUrl');
+        }
+
     }
 
     /**
