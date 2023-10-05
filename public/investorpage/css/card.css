@@ -1,0 +1,193 @@
+.atm_block {
+  position: relative;
+  width: 100%;
+  padding-left: 13rem;
+
+  left: 5rem;
+  height: 30rem;
+  top: 8rem;
+}
+
+.atm_block img {
+  position: absolute;
+  z-index: 22;
+  height: 20rem;
+  left: 0;
+  top: 0;
+}
+
+.atm_block-img1 {
+  /* display: none; */
+}
+.atm_block-img2 {
+  display: none;
+}
+.atm_block-img3 {
+  display: none;
+}
+
+@media screen and (max-width: 991px) {
+  .atm_block {
+    /* display: none; */
+    position: inherit;
+    top: auto;
+    padding-left: 0;
+    text-align: center;
+  }
+.atm_block img {
+  position: relative;
+  left: auto;
+  top: 0;
+}
+
+}
+@media screen and (max-width: 400px) {
+ 
+.atm_block img {
+  width: 98%;
+  height: auto;
+}
+
+}
+@media screen and (max-width: 470px) {
+  .atm_block {
+    /* display: none; */
+  }
+}
+
+.color_card {
+  border-radius: 0.5rem;
+  position: absolute;
+}
+.red_card {
+  width: 60%;
+  height: 12rem;
+  background-color: #002bff;
+  left: 1rem;
+  z-index: 3;
+}
+.red_card p {
+  color: #002bff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-weight: 600;
+  background-color: #fff;
+  /* border-radius: .4rem; */
+  padding: 0 0.3rem;
+}
+.orange_card {
+  width: 35%;
+  height: 8rem;
+  background-color: #ef3b2f;
+  left: 17rem;
+  top: 1rem;
+  z-index: 4;
+}
+.yellow_card {
+  width: 35%;
+  height: 10rem;
+  background-color: #f1bb32;
+  left: 0rem;
+  top: 5rem;
+  z-index: 4;
+}
+.blue_card {
+  width: 30%;
+  height: 10rem;
+  background-color: #4933cf;
+  left: 3rem;
+  top: 7rem;
+  z-index: 2;
+}
+.blue2_card {
+  width: 45%;
+  height: 10rem;
+  background-color: #170a5a;
+  left: 10rem;
+  top: 5.5rem;
+  z-index: 1;
+}
+.white_card {
+  width: 60%;
+  height: 12rem;
+  background-color: rgba(255, 255, 255, 0.616);
+  left: 3.5rem;
+  top: 1.8rem;
+  z-index: 5;
+  padding: 0.8rem;
+  border: 1px solid #fff;
+}
+
+.white_card_name {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  letter-spacing: 0.1rem;
+  color: #fff;
+}
+.note_block {
+  list-style: none;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 100%;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  font-style: italic;
+  font-weight: 600;
+  color: #fff;
+  word-spacing: 1rem;
+  font-size: 1.1rem;
+}
+.note_block2 {
+  position: absolute;
+  top: 10.5rem;
+  left: 7rem;
+  width: 100%;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  font-style: italic;
+  font-weight: 600;
+  color: #fff;
+  word-spacing: 1rem;
+  font-size: 1.1rem;
+  background-image: linear-gradient(
+    to right,
+    #ef3b2f 25%,
+    #170a5a 25%,
+    #4933cf 55%,
+    #f1bb32 55%
+  );
+  background-clip: text;
+  color: transparent;
+}
+.note_block li {
+  margin: 0.5rem;
+  position: relative;
+}
+.note_block liu::before {
+  content: "";
+  width: 1rem;
+  height: 2px;
+  background-color: #111827;
+  position: absolute;
+  left: 2rem;
+  top: 50%;
+  display: inline-block;
+  transform: translateY(-50%);
+}
+
+.white_card_logo {
+  position: absolute;
+  top: 0rem;
+  right: 0.2rem;
+}
+
+.irr_shape {
+  position: absolute;
+  top: -12rem;
+}
+.irr_shape svg {
+  display: block;
+}

@@ -1,0 +1,45 @@
+image: lorisleiva/laravel-docker:7.3
+
+services:
+  - mysql:5.7
+
+variables:
+  MYSQL_DATABASE: unicredit_test
+  MYSQL_ROOT_PASSWORD: tgwAx*tq
+  DB_HOST: mysql
+  DB_USERNAME: root
+
+composer:
+  stage: build
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-composer
+    paths:
+      - vendor/
+  script:
+      - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+      - cp .env.testing .env
+      - php artisan key:generate
+      - php artisan storage:link
+  artifacts:
+    expire_in: 1 month
+    paths:
+      - vendor/
+      - .env
+    
+phpunit:
+  stage: test
+  script:
+    - echo "Migrating Database"
+    - php artisan migrate --quiet
+    - phpunit --process-isolation --group=Maintenance
+
+production:
+  stage: deploy
+  script:
+    - echo 'Deployed'
+  environment:
+    name: staging
+    url: http://142.93.49.82
+  when: manual
+  only:
+    - master

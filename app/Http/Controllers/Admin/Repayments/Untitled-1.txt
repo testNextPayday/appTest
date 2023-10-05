@@ -1,0 +1,8 @@
+// Steps in unconfirming a repayment plan
+
+Update status, date_paid, collection_mode, paid_amount, wallet_balance, paid_out
+
+if loan has gone fulfilled  bring back to active
+
+if loan is paid_out  : reverse the repayment
+

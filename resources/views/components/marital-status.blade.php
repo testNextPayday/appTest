@@ -1,0 +1,16 @@
+@switch($status)
+    @case(1)
+        Single
+        @break
+    @case(2)
+        Married
+        @break
+    @case(3)
+        Divorced
+        @break
+    @case(4)
+        Widowed
+        @break
+    @default
+        N/A
+@endswitch
