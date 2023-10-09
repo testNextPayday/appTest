@@ -23,7 +23,7 @@
                                     <tr>
                                         <td><a href="{{route('admin.loans.view', ['reference' => $loan->reference])}}"
                                                     class="btn btn-outline-primary">{{$loan->reference}}</a></td>
-                                        <td>{{ optional($loan->user)->name}}</td>
+                                        <td>{{ optional($loan->user)->name ?? "User not Found"}}</td>
                                         <td>₦{{ number_format($loan->amount, 2)}}</td>
                                         <td>
                                             {{$loan->due_date->diffInMonths($loan->created_at)}} Months ({{$loan->due_date->diffForHumans()}})
