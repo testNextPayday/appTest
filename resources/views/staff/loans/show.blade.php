@@ -236,7 +236,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-inline-block pt-3">
                             <div class="d-flex">
-                                <h2 class="mb-0">{{$loan->due_date->toDateString()}}</h2>
+                                <h2 class="mb-0">{{$loan->due_date}}</h2>
                                 <div class="d-none d-md-flex align-items-center ml-2">
                                     <!--<i class="mdi mdi-clock text-muted"></i>-->
                                     <!--<small class=" ml-1 mb-0">Updated: 9:10am</small>-->
@@ -598,7 +598,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <label for="date">Change Date</label>
                             <input type="hidden" name="loan_id" value="{{ $loan->id }}">
                             <input type="date" name="new_date"
-                                value="{{ $loan->due_date->toDateString() }}" class="form-control">
+                                value="{{ $loan->due_date }}" class="form-control">
                         </div>
                         <div class="form-group col-md-5">
                             <button class="btn btn-sm btn-success">Update</button>

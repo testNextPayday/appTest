@@ -124,7 +124,7 @@
                                         <div class="h1 text-muted text-right mb-4">
                                             <i class="icon-calendar"></i>
                                         </div>
-                                        <div class="h4 mb-0">{{$loanRequest->expected_withdrawal_date->toDateString()}}</div>
+                                        <div class="h4 mb-0">{{$loanRequest->expected_withdrawal_date}}</div>
                                         <small class="text-muted text-uppercase font-weight-bold">Date Expected</small>
                                     </div>
                                 </div>
@@ -297,7 +297,7 @@
                                         </td>
                                         <td>
                                             <div class="small text-muted">
-                                                {{$fund->created_at->toDateString()}}
+                                                {{$fund->created_at}}
                                             </div>
                                         </td>
                                     </tr>

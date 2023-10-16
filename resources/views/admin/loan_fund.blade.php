@@ -70,7 +70,7 @@
                                         <div class="h1 text-muted text-right mb-4">
                                             <i class="icon-compass"></i>
                                         </div>
-                                        <div class="h4 mb-0">{{$loan->created_at->toDateString()}}</div>
+                                        <div class="h4 mb-0">{{$loan->created_at}}</div>
                                         <small class="text-muted text-uppercase font-weight-bold">Loan Date</small>
                                     </div>
                                 </div>
@@ -79,7 +79,7 @@
                                         <div class="h1 text-muted text-right mb-4">
                                             <i class="icon-speedometer"></i>
                                         </div>
-                                        <div class="h4 mb-0">{{$loaneeLoan->due_date->toDateString()}}</div>
+                                        <div class="h4 mb-0">{{$loaneeLoan->due_date}}</div>
                                         <small class="text-muted text-uppercase font-weight-bold">Due Date</small>
                                     </div>
                                 </div>
@@ -141,7 +141,7 @@
                                         </td>
                                         <td>
                                             <div class="small text-muted">
-                                                {{$bid->created_at->toDateString()}}
+                                                {{$bid->created_at}}
                                             </div>
                                         </td>
                                         <td>

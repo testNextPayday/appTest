@@ -332,7 +332,7 @@
                                         </td>
                                         <td>
                                             <div class="small text-muted">
-                                                {{$fund->created_at->toDateString()}}
+                                                {{$fund->created_at}}
                                             </div>
                                         </td>
                                     </tr>

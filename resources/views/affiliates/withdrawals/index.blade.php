@@ -41,7 +41,7 @@
                                 <tr>
                                     <td>{{ $request->reference}}</td>
                                     <td>₦ {{$request->amount}}</td>
-                                    <td>{{$request->created_at->toDateString()}}</td>
+                                    <td>{{$request->created_at}}</td>
                                     <td class="text-center">
                                         @if($request->status == 1)
                                             <span class="badge badge-primary">Pending</span>

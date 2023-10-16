@@ -36,7 +36,7 @@
                                                 </a>
                                             </td>
                                             <td>{{ $bucket->employers_count}} {{ str_plural('Employer', $bucket->employers_count)}}</td>
-                                            <td>{{ $bucket->created_at->toDateString()}}</td>
+                                            <td>{{ $bucket->created_at}}</td>
                                             <td>
                                                 {{-- <a class="badge badge-success" href="{{route('admin.sweep.bucket', ['bucket' => $bucket->slug])}}"> --}}
                                                    {{-- Sweep --}}

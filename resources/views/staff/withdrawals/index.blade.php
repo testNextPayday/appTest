@@ -52,7 +52,7 @@
                                         </a></td>
                                    
                                     <td>₦ {{number_format($request->amount, 2)}}</td>
-                                    <td>{{$request->created_at->toDateString()}}</td>
+                                    <td>{{$request->created_at}}</td>
                                     <td>
                                         @if($request->status == 1)
                                             <span class="badge badge-primary">Pending</span>

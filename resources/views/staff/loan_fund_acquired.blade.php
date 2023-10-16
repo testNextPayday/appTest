@@ -74,7 +74,7 @@
                                         <div class="h1 text-muted text-right mb-4">
                                             <i class="icon-speedometer"></i>
                                         </div>
-                                        <div class="h4 mb-0">{{$loaneeLoan->due_date->toDateString()}}</div>
+                                        <div class="h4 mb-0">{{$loaneeLoan->due_date}}</div>
                                         <small class="text-muted text-uppercase font-weight-bold">Due Date</small>
                                     </div>
                                 </div>

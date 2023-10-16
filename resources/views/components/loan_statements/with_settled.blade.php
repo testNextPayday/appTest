@@ -22,7 +22,7 @@
         <tr>
           <td>
             <div>
-              <span style="float:right">{{$loan->created_at->toDateString()}}</span>
+              <span style="float:right">{{$loan->created_at}}</span>
               <span><b>Released Date</b></span>
             </div>
           </td>
@@ -36,7 +36,7 @@
         <tr>
           <td>
             <div>
-              <span style="float:right">{{$loan->due_date->toDateString()}}</span>
+              <span style="float:right">{{$loan->due_date}}</span>
               <span><b>Maturity Date</b></span>
             </div>
           </td>

@@ -95,7 +95,7 @@
                                         </td>
                                         <td>
                                             <div class="small text-muted">
-                                                {{$bid->created_at->toDateString()}}
+                                                {{$bid->created_at}}
                                             </div>
                                         </td>
                                     
