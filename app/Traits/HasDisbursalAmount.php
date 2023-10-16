@@ -28,7 +28,7 @@ trait HasDisbursalAmount {
             $sum += $loan->is_penalized ? $this->penalizedLoan() : $this->normalLoan();
         }
         
-        $upfrontInterest = $this->investorUpfrontInterest->total_payment;
+        $upfrontInterest = optional($this->investorUpfrontInterest)->total_payment;
         
         $loanAmount = $this->amount;
         $disbursedLoan = $loanAmount - ($sum + $upfrontInterest);
