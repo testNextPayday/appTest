@@ -67,7 +67,7 @@
                                     </td>
                                     
                                      <td class="text-center">
-                                        <a href="{{route('admin.staff.invites.delete', ['invite_id' => $invite->id])}}" 
+                                        <a href="{{route('admin.staff.invites.delete', ['id' => $invite->id])}}"
                                             onclick="return confirm('Are you sure you want to delete this invitation?');"
                                             class="btn btn-sm btn-warning"><i class="icon-close"></i> Delete Invitation</a>
                                     </td>
