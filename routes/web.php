@@ -338,11 +338,11 @@ Route::group(['prefix' => 'ucnull'], function () {
             Route::post('/store', 'LoanRequestController@store')->name('admin.loan-requests.store');
             Route::post('/update', 'LoanRequestController@updateLoanRequest')->name('admin.loan-requests.update');
             Route::get('/available', 'LoanRequestController@available')->name('admin.loan-requests.available');
-            Route::get('/view/{reference}', 'LoanRequestController@view')->name('admin.loan-requests.view');
-            Route::get('/view/{reference}/salary', 'LoanRequestController@viewSalaryData')->name('admin.loan-requests.salary');
+            Route::get('/view/{reference?}', 'LoanRequestController@view')->name('admin.loan-requests.view');
+            Route::get('/view/{reference?}/salary', 'LoanRequestController@viewSalaryData')->name('admin.loan-requests.salary');
             Route::post('loan-request/approve', 'LoanRequestController@approveLoanRequest')->name('admin.loan-requests.approve');
-            Route::get('loan-request/decline/{reference}', 'LoanRequestController@declineLoanRequest')->name('admin.loan-requests.decline');
-            Route::get('loan-request/refer/{reference}', 'LoanRequestController@referLoanRequest')->name('admin.loan-requests.refer');
+            Route::get('loan-request/decline/{reference?}', 'LoanRequestController@declineLoanRequest')->name('admin.loan-requests.decline');
+            Route::get('loan-request/refer/{reference?}', 'LoanRequestController@referLoanRequest')->name('admin.loan-requests.refer');
             Route::get('/max-amount/{reference?}/{duration?}', 'LoanRequestController@checkMaxRequestAmount')->name('admin.loan-requests.checkmax');
             Route::get('/emi-amount/{duration?}/{employment?}/{amount?}', 'LoanRequestController@checkMonthlyRepayment')->name('admin.loan-requests.checkemi');
 
