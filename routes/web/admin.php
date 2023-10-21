@@ -196,7 +196,7 @@ Route::group(['prefix'=>'bills'],function(){
 
 Route::group(['prefix' => 'loans'], function() {
 
-   Route::get('/view/{reference}', 'LoanController@view')->name('admin.loans.view');
+   Route::get('/view/{reference?}', 'LoanController@view')->name('admin.loans.view');
    Route::post('/back-date-collected-date', 'LoanController@backDateCollectionDate')->name('admin.loans.back_date');
    Route::post('/back-date-due-days', 'LoanController@backDateDueDate')->name('admin.loans.back_date_due_date');
    Route::post('/back-date-single-due-date', 'LoanController@changeSingleDueDate')->name('admin.loans.change_single_due_date');
@@ -214,7 +214,7 @@ Route::group(['prefix' => 'loans'], function() {
 
    Route::get('/sweepable','LoanController@sweepableLoans')->name('admin.loans.sweepable');
 
-   Route::get('/sweep/logs/{loan}','LoanSweeperController@getLogs');
+   Route::get('/sweep/logs/{loan?}','LoanSweeperController@getLogs');
    
    Route::get('/received', 'LoanController@receivedLoans')->name('admin.loans.received'); 
    Route::get('/given', 'LoanController@givenLoans')->name('admin.loans.given'); 
@@ -224,36 +224,36 @@ Route::group(['prefix' => 'loans'], function() {
    Route::get('/purchase/available', 'LoanController@getAvailableLoanPurchases')->name('admin.loans.purchase.available');
    Route::get('/fulfilled','LoanController@fulfilledLoans')->name('admin.loans.fulfilled');
    Route::post('/date/fulfilled', 'LoanController@fulfilledLoans')->name('date.fulfilled');
-   Route::post('/fulfill/{reference}', 'LoanController@fulfillLoan')->name('admin.loan.fulfill');
-   Route::post('/unfulfill/{reference}', 'LoanController@unfulfillLoan')->name('admin.loans.unfulfill');
-   Route::post('/wallet/zerorise/{reference}', 'LoanController@zeroriseWallet')->name('admin.loans.zerorise.wallet');
+   Route::post('/fulfill/{reference?}', 'LoanController@fulfillLoan')->name('admin.loan.fulfill');
+   Route::post('/unfulfill/{reference?}', 'LoanController@unfulfillLoan')->name('admin.loans.unfulfill');
+   Route::post('/wallet/zerorise/{reference?}', 'LoanController@zeroriseWallet')->name('admin.loans.zerorise.wallet');
    Route::get('/pending', 'LoanController@pendingLoans')->name('admin.loans.pending');
-   Route::get('/pending/retry/{loan}/{code}', 'LoanRequestDisbursementController@retryPreparation')->name('admin.loans.pending.retry');
-   Route::get('/mandate-status/{loan}', 'LoanRequestDisbursementController@checkMandateStatus')->name('admin.loans.mandate-status');
+   Route::get('/pending/retry/{loan?}/{code?}', 'LoanRequestDisbursementController@retryPreparation')->name('admin.loans.pending.retry');
+   Route::get('/mandate-status/{loan?}', 'LoanRequestDisbursementController@checkMandateStatus')->name('admin.loans.mandate-status');
 
-   Route::post('/mandate-request-otp/{loan}', 'MandateController@requestMandateOtp')->name('admin.loans.mandate-request-otp');
-   Route::post('/mandate-validate-otp/{loan}', 'MandateController@validateMandateOtp')->name('admin.loans.mandate-validate-otp');
-   Route::get('/mandate-stop/{loan}','MandateController@stopMandate')->name('admin.loans.mandate-stop');
-   Route::get('/mandate-history/{loan}','MandateController@historyMandate')->name('admin.loans.mandate-history');
+   Route::post('/mandate-request-otp/{loan?}', 'MandateController@requestMandateOtp')->name('admin.loans.mandate-request-otp');
+   Route::post('/mandate-validate-otp/{loan?}', 'MandateController@validateMandateOtp')->name('admin.loans.mandate-validate-otp');
+   Route::get('/mandate-stop/{loan?}','MandateController@stopMandate')->name('admin.loans.mandate-stop');
+   Route::get('/mandate-history/{loan?}','MandateController@historyMandate')->name('admin.loans.mandate-history');
    Route::get('/remita/banks','MandateController@getRemitaBanks')->name('admin.loans.remita-banks');
    
    Route::get('/disburse/{loan}', 'LoanRequestDisbursementController@disburseLoan')->name('admin.loans.disburse');
-   Route::get('/disburse/backend/{loan}', 'LoanRequestDisbursementController@disburseLoanBackend')->name('admin.loans.disburse-backend');
-   Route::post('/update/sweep-params/{loan}', 'LoanController@updateSweepParams')->name('admin.loans.sweep-params');
+   Route::get('/disburse/backend/{loan?}', 'LoanRequestDisbursementController@disburseLoanBackend')->name('admin.loans.disburse-backend');
+   Route::post('/update/sweep-params/{loan?}', 'LoanController@updateSweepParams')->name('admin.loans.sweep-params');
    
-   Route::get('/mandates/get-authority-form/{loan}/{type?}', 'MandateController@getAuthorityForm')->name('admin.loans.mandate-form');
-   Route::get('/mandates/approve/{loan}/{type?}', 'MandateController@approve')->name('admin.loans.mandate-approve');
-   Route::get('/mandates/decline/{loan}/{type?}', 'MandateController@decline')->name('admin.loans.mandate-decline');
+   Route::get('/mandates/get-authority-form/{loan?}/{type?}', 'MandateController@getAuthorityForm')->name('admin.loans.mandate-form');
+   Route::get('/mandates/approve/{loan?}/{type?}', 'MandateController@approve')->name('admin.loans.mandate-approve');
+   Route::get('/mandates/decline/{loan?}/{type?}', 'MandateController@decline')->name('admin.loans.mandate-decline');
 
-   Route::get('/sweep/pause/toggle/{loan}', 'LoanController@toggleSweepPause')->name('admin.loans.pause-sweep-toggle');
-   Route::get('/sweep/auto/toggle/{loan}', 'LoanController@toggleAutoSweep')->name('admin.loans.auto-sweep-toggle');
-   Route::get('/remita/auto/toggle/{loan}', 'LoanController@toggleAutoRemita')->name('admin.loans.remita-sweep-toggle');
-   Route::post('/markAsManaged/{reference}', 'LoanController@markAsManaged')->name('admin.loans.markasmanaged');
-   Route::post('/markAsVoid/{reference}', 'LoanController@markAsVoid')->name('admin.loans.markasvoid');
-   Route::post('/markAsActive/{reference}', 'LoanController@markAsActive')->name('admin.loans.markasactive');
-   Route::post('/restore/void/{reference}', 'LoanController@restoreVoid')->name('admin.loans.restorevoid');
-   Route::post('/markAsInActive/{reference}', 'LoanController@markAsInActive')->name('admin.loans.markasinactive');
-   Route::post('/dissolve/loan/{reference}', 'LoanController@dissolveLoan')->name('admin.loans.dissolveloan');
+   Route::get('/sweep/pause/toggle/{loan?}', 'LoanController@toggleSweepPause')->name('admin.loans.pause-sweep-toggle');
+   Route::get('/sweep/auto/toggle/{loan?}', 'LoanController@toggleAutoSweep')->name('admin.loans.auto-sweep-toggle');
+   Route::get('/remita/auto/toggle/{loan?}', 'LoanController@toggleAutoRemita')->name('admin.loans.remita-sweep-toggle');
+   Route::post('/markAsManaged/{reference?}', 'LoanController@markAsManaged')->name('admin.loans.markasmanaged');
+   Route::post('/markAsVoid/{reference?}', 'LoanController@markAsVoid')->name('admin.loans.markasvoid');
+   Route::post('/markAsActive/{reference?}', 'LoanController@markAsActive')->name('admin.loans.markasactive');
+   Route::post('/restore/void/{reference?}', 'LoanController@restoreVoid')->name('admin.loans.restorevoid');
+   Route::post('/markAsInActive/{reference?}', 'LoanController@markAsInActive')->name('admin.loans.markasinactive');
+   Route::post('/dissolve/loan/{reference?}', 'LoanController@dissolveLoan')->name('admin.loans.dissolveloan');
 
    Route::post('/restructure/{loan}', 'LoanRestructureController@restructure')->name('admin.loans.restructure');
    Route::post('/restructure/setup/{loan}', 'LoanRestructureController@setupLoan')->name('admin.loans.setup.loan');
@@ -267,7 +267,7 @@ Route::group(['prefix' => 'loans'], function() {
    Route::get('/group/add', 'BorrowerGroupController@getActiveLoans')->name('admin.group.create');
    Route::post('/group/create', 'BorrowerGroupController@storeGroupedBorrowers')->name('admin.group.store');
    Route::get('/group/view', 'BorrowerGroupController@viewGroups')->name('admin.group.view');
-   Route::get('/group/view/{reference}', 'BorrowerGroupController@viewSingleGroup')->name('admin.group.single-view');
+   Route::get('/group/view/{reference?}', 'BorrowerGroupController@viewSingleGroup')->name('admin.group.single-view');
 
    Route::get('/group/search', 'BorrowerGroupController@search')->name('admin.group.search');
    Route::get('/group/index', 'BorrowerGroupController@index')->name('admin.group.index');
@@ -277,7 +277,7 @@ Route::group(['prefix' => 'loans'], function() {
 Route::group(['prefix'=>'mails'],function(){
    Route::get('/investors','MailController@investor')->name('admin.mails.investors');
    Route::get('/staffs','MailController@staff')->name('admin.mails.staffs');
-   Route::get('/affiliates','MailController@affiliate')->name('admin.mails.affiliates');
+   Route::get('/affiliates?','MailController@affiliate')->name('admin.mails.affiliates');
    Route::get('/borrowers','MailController@borrower')->name('admin.mails.borrowers');
    Route::post('/post','MailController@sendMail')->name('admin.mails.send');
 });
@@ -299,12 +299,12 @@ Route::group(['prefix' => 'affiliates', 'middleware' => 'auth:admin'], function(
    Route::get('/active', 'AffiliateController@getAllActive'); 
    Route::get('/settle', 'AffiliateController@settleAffiliatePage')->name('admin.affiliates.settle'); 
    Route::post('/settle/commission', 'AffiliateController@settleAffiliateCommission')->name('admin.affiliates.settle.commission'); 
-   Route::get('/{affiliate}', 'AffiliateController@show')->name('admin.affiliates.show'); 
-   Route::get('/{affiliate}/toggle', 'AffiliateController@toggleStatus')->name('admin.affiliates.toggle-status');
-   Route::post('/{affiliate}/verify', 'AffiliateController@verify')->name('admin.affiliates.verify');
-   Route::post('/{affiliate}/update', 'AffiliateController@update')->name('admin.affiliates.update');
-   Route::post('/{affiliate}/supervisor', 'AffiliateController@setSupervisor')->name('admin.affiliates.supervisor');
-   Route::post('/{affiliate}/meeting', 'AffiliateController@scheduleMeeting')->name('admin.affiliates.meeting');
+   Route::get('/{affiliate?}', 'AffiliateController@show')->name('admin.affiliates.show');
+   Route::get('/{affiliate?}/toggle', 'AffiliateController@toggleStatus')->name('admin.affiliates.toggle-status');
+   Route::post('/{affiliate?}/verify', 'AffiliateController@verify')->name('admin.affiliates.verify');
+   Route::post('/{affiliate?}/update', 'AffiliateController@update')->name('admin.affiliates.update');
+   Route::post('/{affiliate?}/supervisor', 'AffiliateController@setSupervisor')->name('admin.affiliates.supervisor');
+   Route::post('/{affiliate?}/meeting', 'AffiliateController@scheduleMeeting')->name('admin.affiliates.meeting');
    Route::post('/configure/settings/{affiliate}', 'AffiliateSettingsController@configureSettings')->name('admin.affiliate.settings');
 
 });
@@ -313,10 +313,10 @@ Route::group(['prefix'=>'targets', 'middleware'=>'auth:admin'], function() {
 
    Route::get('/', 'TargetController@index')->name('admin.affiliates.targets');
    Route::get('/data', 'TargetController@getTargets');
-   Route::get('/data/{target}', 'TargetController@getTargetMetrics');
+   Route::get('/data/{target?}', 'TargetController@getTargetMetrics');
    Route::post('/store', 'TargetController@createTarget')->name('admin.affiliate.target-store');
-   Route::put('/update/{target}', 'TargetController@update')->name('admin.affiliate.target-update');
-   Route::delete('/destroy/{target}', 'TargetController@destroy')->name('admin.affiliate.target-destroy');
+   Route::put('/update/{target?}', 'TargetController@update')->name('admin.affiliate.target-update');
+   Route::delete('/destroy/{target?}', 'TargetController@destroy')->name('admin.affiliate.target-destroy');
 });
 
 Route::group(['prefix' => 'withdrawal-requests', 'middleware' => 'auth:admin'], function() {
@@ -342,21 +342,21 @@ Route::group(['prefix' => 'staff'], function() {
    Route::get('/invites', 'StaffController@invites')->name('admin.staff.invites');
    Route::post('/invites', 'StaffController@invite');
    Route::get('/invite/delete/{id}', 'StaffController@deleteInvite')->name('admin.staff.invites.delete');
-   Route::get('/view/{reference}', 'StaffController@view')->name('admin.staff.view');
-   Route::get('/toggle/{reference}', 'StaffController@toggle')->name('admin.staff.toggle');
-   Route::get('/delete/{reference}', 'StaffController@delete')->name('admin.staff.delete');
+   Route::get('/view/{reference?}', 'StaffController@view')->name('admin.staff.view');
+   Route::get('/toggle/{reference?}', 'StaffController@toggle')->name('admin.staff.toggle');
+   Route::get('/delete/{reference?}', 'StaffController@delete')->name('admin.staff.delete');
    Route::post('roles/{staff}', 'StaffController@updateRoles')->name('admin.staff.roles');
    Route::post('update/{staff}', 'StaffController@update')->name('admin.staff.update');
 });
 Route::group(['prefix'=>'settlement'],function(){
    Route::get('/pending','Settlement\SettlementController@pending')->name('admin.settlement.pending');
    Route::get('/confirmed','Settlement\SettlementController@confirmed')->name('admin.settlement.confirmed');
-   Route::get('/view/{reference}','Settlement\SettlementController@view')->name('admin.settlement.view');
-   Route::get('/confirm/{reference}','Settlement\SettlementController@confirm')->name('admin.settlement.confirm');
-   Route::post('/decline/{reference}','Settlement\SettlementController@decline')->name('admin.settlement.decline');
-   Route::post('/unconfirm/{reference}','Settlement\SettlementController@unconfirm')->name('admin.settlement.unconfirm');
-   Route::get('/invoice/{reference}','Settlement\SettlementController@settlementInvoice')->name('settlement.invoice.view');
-   Route::get('preview/{reference}','Settlement\SettlementController@previewDoc')->name('admin.settlement.preview');
+   Route::get('/view/{reference?}','Settlement\SettlementController@view')->name('admin.settlement.view');
+   Route::get('/confirm/{reference?}','Settlement\SettlementController@confirm')->name('admin.settlement.confirm');
+   Route::post('/decline/{reference?}','Settlement\SettlementController@decline')->name('admin.settlement.decline');
+   Route::post('/unconfirm/{reference?}','Settlement\SettlementController@unconfirm')->name('admin.settlement.unconfirm');
+   Route::get('/invoice/{reference?}','Settlement\SettlementController@settlementInvoice')->name('settlement.invoice.view');
+   Route::get('preview/{reference?}','Settlement\SettlementController@previewDoc')->name('admin.settlement.preview');
    Route::post('payment/loan/{reference}','Settlement\SettlementController@pay')->name('admin.pay.settlement');
     Route::get('payment/callback','Settlement\SettlementController@handleSettlementPaymentCallback')->name('admin.settlement.payment_callback');
 });
@@ -364,7 +364,7 @@ Route::group(['prefix'=>'loan_transaction'],function(){
    Route::post('/add/{reference}','LoanTransactionController@add')->name('admin.loan.transaction.add');
 });
 Route::group(['prefix' => 'repayments'],function(){
-   Route::get('/payfromwallet/data/{reference}', 'Repayments\LoanRepaymentController@getPayFromWalletData');
+   Route::get('/payfromwallet/data/{reference?}', 'Repayments\LoanRepaymentController@getPayFromWalletData');
    Route::post('/plan/pay-wallet/{planID}', 'Repayments\LoanRepaymentController@payFromWallet');
    Route::get('/','Repayments\LoanRepaymentController@index')->name('admin.show.repayments');
    Route::post('/confirm/{id}','Repayments\LoanRepaymentController@confirm')->name('admin.repayment.confirm');
@@ -383,7 +383,7 @@ Route::group(['prefix' => 'repayments'],function(){
    
 });
 Route::group(['prefix'=> 'manage-penalty'], function(){
-   Route::get('/details/{reference}', 'PenaltyManagementController@getPenaltyDetails');
+   Route::get('/details/{reference?}', 'PenaltyManagementController@getPenaltyDetails');
    Route::post('/cancel/entry/{id}', 'PenaltyManagementController@cancelEntry');
    Route::post('/save/entry', 'PenaltyManagementController@saveEntry');
    Route::post('/dissolve/{loan}', 'PenaltyManagementController@dissolvePenalty')->name('admin.dissolve-penalty');
@@ -410,7 +410,7 @@ Route::group(['prefix'=>'reports'],function(){
    Route::get('/primary/employers','ReportController@getPrimaryEmployers')->name('admin.report.primary.employers');
    Route::get('/affiliates','ReportController@getAffiliates')->name('admin.report.affiliates');
    Route::get('/investors','ReportController@getInvestors')->name('admin.report.investors');
-   Route::get('/{name}','ReportController@getStatistics')->name('admin.report.statistics');
+   Route::get('/{name?}','ReportController@getStatistics')->name('admin.report.statistics');
    Route::post('/send/repayment/notification','ReportController@sendNotification')->name('admin.report.notify');
    Route::post('download/activeLoanDownload', 'ReportController@downloadActiveLoan')->name('admin.download.activeLoan');
 
@@ -433,7 +433,7 @@ Route::group(['prefix'=>'refunds'], function(){
    Route::get('/logs', 'RefundController@log')->name('admin.refund.logs');
    Route::get('/pending', 'RefundController@pendingRefund')->name('admin.refund.pending');
    Route::post('/store', 'RefundController@store')->name('admin.create.refund');
-   Route::patch('/update/{id}/{status}/', 'RefundController@update')->name('admin.update.refund');
+   Route::patch('/update/{id?}/{status?}/', 'RefundController@update')->name('admin.update.refund');
 });
 
 
@@ -446,8 +446,8 @@ Route::group(['prefix'=>'paystack'], function() {
    Route::post('/sync', 'PaystackCustomerSyncController@sync')->name('admin.paystack.sync');
 });
 
-Route::post('/investor/assign/commission/{investor}', 'InvestorController@assignCommissionReceiver')->name('admin.investors.assign-commission');
-Route::post('/investor/unassign/commission/{investor}', 'InvestorController@unAssignCommissionReceiver')->name('admin.investors.unassign-commission');
+Route::post('/investor/assign/commission/{investor?}', 'InvestorController@assignCommissionReceiver')->name('admin.investors.assign-commission');
+Route::post('/investor/unassign/commission/{investor?}', 'InvestorController@unAssignCommissionReceiver')->name('admin.investors.unassign-commission');
 
 Route::get('/wallet-fund/commission/data', 'AccountFundController@allNeededDataWalletFund');
 
@@ -479,10 +479,10 @@ Route::group(
                Route::post('/update', 'LoanRequestController@updateLoanRequest')->name('staff.loan-requests.update');
                Route::post('loan-request/approve', 'LoanRequestController@approveLoanRequest')->name('staff.loan-requests.approve');
                Route::post('prepare/{loanRequest}', 'LoanRequestDisbursementController@prepareLoan')->name('staff.loan-requests.prepare-loan');
-               Route::get('loan-request/decline/{reference}', 'LoanRequestController@declineLoanRequest')->name('staff.loan-requests.decline');
-               Route::get('loan-request/refer/{reference}', 'LoanRequestController@referLoanRequest')->name('staff.loan-requests.refer');
-               Route::post('loan-request/assign/{reference}', 'LoanRequestController@assignLoanRequest')->name('staff.loan-requests.assign');
-               Route::post('loan-request/unassign/{reference}', 'LoanRequestController@unassignLoanRequest')->name('staff.loan-requests.unassign');
+               Route::get('loan-request/decline/{reference?}', 'LoanRequestController@declineLoanRequest')->name('staff.loan-requests.decline');
+               Route::get('loan-request/refer/{reference?}', 'LoanRequestController@referLoanRequest')->name('staff.loan-requests.refer');
+               Route::post('loan-request/assign/{reference?}', 'LoanRequestController@assignLoanRequest')->name('staff.loan-requests.assign');
+               Route::post('loan-request/unassign/{reference?}', 'LoanRequestController@unassignLoanRequest')->name('staff.loan-requests.unassign');
            });
          }
        );

@@ -414,12 +414,12 @@ Route::group(['prefix' => 'ucnull'], function () {
             Route::get('/wallet/bal', 'UserController@getWalletBal')->name('admin.users.wallet.bal');
             
             Route::post('/salary', 'UserController@getSalaryInfo');
-            Route::get('/view/{user}', 'UserController@view')->name('admin.users.view');
+            Route::get('/view/{user?}', 'UserController@view')->name('admin.users.view');
             Route::post('/topup-wallet', 'UserController@topUpWallet')->name('admin.users.topup_wallet');
 
             Route::post('/update-user-info', 'UserController@updateUserInfo')->name('admin.users.updateInfo');
 
-            Route::get('/das-eligibility/{user}', 'UserController@viewSalaryInfo')->name('admin.users.das');
+            Route::get('/das-eligibility/{user?}', 'UserController@viewSalaryInfo')->name('admin.users.das');
             Route::get('/toggle/{user_id}', 'UserController@toggle')->name('admin.users.toggle');
             Route::get('/upgrade/{reference}', 'UserController@upgrade')->name('admin.users.upgrade');
             Route::post('/loanpermission', 'UserController@enableSalaryNow')->name('admin.enable.salaryloan');
