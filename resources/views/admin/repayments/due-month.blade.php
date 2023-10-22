@@ -92,7 +92,7 @@
                                         <td>
                                             {{optional($staff)->name ?? 'No staff'}}
                                         </td>
-                                        <td>{{$plan->payday-}}</td>
+                                        <td>{{$plan->payday}}</td>
                                         <td>
                                             @if($plan->status)
                                                 <a class="badge badge-success" href="#">Paid - {{ $plan->collection_mode }}</a>
