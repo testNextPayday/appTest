@@ -65,7 +65,7 @@ Route::group(['middleware' => 'affiliate-status'], function() {
     Route::get('loans/eligible-top-up','LoanController@eligibleTopUp')->name('affiliates.loans.eligible');
     Route::get('loans/active', 'LoanController@activeLoans')->name('affiliates.loans.active');
     Route::get('loans/fulfilled','LoanController@fulfilledLoans')->name('affiliates.loans.fulfilled');
-    Route::get('loans/{loan}', 'LoanController@view')->name('affiliates.loans.view');
+    Route::get('loans/{loan?}', 'LoanController@view')->name('affiliates.loans.view');
     Route::get('loans/mandates/authority-form/{loan}/{type?}', 'MandateController@getAuthorityForm')->name('affiliates.loans.authorityForm');
     Route::post('loans/mandates/authority-form/{loan}', 'MandateController@uploadAuthorityForm')->name('affiliates.loans.authorityForm.upload');
     

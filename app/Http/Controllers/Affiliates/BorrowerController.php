@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Affiliates;
 
-use DB, Log;
 use Carbon\Carbon;
 
 use App\Models\User;

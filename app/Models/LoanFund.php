@@ -102,19 +102,21 @@ class LoanFund extends Model
     public function outstandingPayments()
     {
         $outstanding['principal'] = 0;
-        $outstanding['interest'] = 0; 
-        $loan = $this->loanRequest->loan; 
-       
-        $plans = $loan->repaymentPlans->where('paid_out', 0);
-       
-        foreach($plans as $plan){
-            $fundFraction = ($this->amount/$loan->amount);
-          
-            $investor_principal =  $plan->principal * $fundFraction;
-           
-            $investor_interest = $fundFraction * $plan->interest;
-            $outstanding['principal'] += $investor_principal;
-            $outstanding['interest'] += $investor_interest;
+        $outstanding['interest'] = 0;
+        $loan = $this->loanRequest->loan;
+
+        $plans = $loan ?->repaymentPlans->where('paid_out', 0);
+
+        if ($plans){
+            foreach ($plans as $plan) {
+                $fundFraction = ($this->amount / $loan->amount);
+
+                $investor_principal = $plan->principal * $fundFraction;
+
+                $investor_interest = $fundFraction * $plan->interest;
+                $outstanding['principal'] += $investor_principal;
+                $outstanding['interest'] += $investor_interest;
+            }
         }
 
         return $outstanding;

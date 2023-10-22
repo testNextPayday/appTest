@@ -23,7 +23,7 @@
         <div class="col-md-4 grid-margin stretch-card">
             <div class="card text-center">
                 <div class="card-body">
-                    <p>{{ strtoupper($meeting->when->format('d-m-Y h:i A')) }}</p>
+                    <p>{{ $meeting->when }}</p>
                     <h4>
                         {{ $meeting->venue }}
                     </h4>

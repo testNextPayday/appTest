@@ -56,7 +56,7 @@
                                     
 
                                     <p>Loan Due Date:<strong>
-                                         {{$loan->loanRequest->loan->due_date}}
+                                         {{$loan?->loanRequest?->loan?->due_date}}
                                     </strong></p>
                                 </div>
                             </div>

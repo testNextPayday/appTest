@@ -211,7 +211,7 @@
                                                         <label for="account_number">Account Number</label>
                                                         <input type="number" class="form-control{{ $errors->has('account_number') ? 'is-invalid' : '' }}"
                                                             id="account_number" placeholder="Enter your account number" maxlength="11" name="account_number"
-                                                            value="{{ old('account_number') ? old('account_number') : $affiliate->bank ? $affiliate->bank->account_number : ''}}">
+                                                            value="{{ old('account_number') ?? ($affiliate->bank ? $affiliate->bank->account_number : '') }}">
                                                     </div>
                                                     
                                                     <button type="submit" class="btn btn-success mr-2 pull-right">Update Bank Details</button>

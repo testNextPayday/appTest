@@ -32,23 +32,24 @@
                                 <?php
                                     $requester = $request->requester;
                                     $url = "#";
-                                    
-                                    switch(get_class($requester)) {
-                                        case "App\Models\User":
-                                            $url = route('admin.users.view', ['user' => $requester->reference]);
-                                            break;
-                                        case "App\Models\Investor":
-                                            $url = route('admin.investors.view', ['investor' => $requester->reference]);
-                                            break;
-                                        case "App\Models\Affiliate":
-                                            $url = route('admin.affiliates.show', ['affiliate' => $requester->reference]);
-                                            break;
-                                    }
+                                    $getClass = $request->requester ? get_class($requester) : "App\Models\User";
+                                        switch($getClass) {
+                                            case "App\Models\User":
+                                                $url = route('admin.users.view', ['user' => $requester?->reference]);
+                                                break;
+                                            case "App\Models\Investor":
+                                                $url = route('admin.investors.view', ['investor' => $requester?->reference]);
+                                                break;
+                                            case "App\Models\Affiliate":
+                                                $url = route('admin.affiliates.show', ['affiliate' => $requester?->reference]);
+                                                break;
+                                        }
+
                                 ?>
                                 <tr>
                                     <td>{{ $request->reference}}</td>
                                     <td> <a  href="{{ $url }}">
-                                        {{ $requester->name}}
+                                        {{ $requester?->name}}
                                         </a></td>
                                    
                                     <td>₦ {{number_format($request->amount, 2)}}</td>

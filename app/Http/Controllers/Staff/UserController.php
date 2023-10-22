@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Staff;
 
-use Auth, DB, Log;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\BankDetail;

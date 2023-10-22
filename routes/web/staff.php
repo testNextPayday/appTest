@@ -79,9 +79,9 @@ Route::group(['middleware' => 'auth:staff'], function() {
 
     Route::group(['prefix' => 'funds', 'middleware' => 'staff.roles:investors'], function() {
         Route::get('/', 'LoanFundController@index')->name('staff.funds.index'); 
-        Route::get('/view/{loan_id}', 'LoanFundController@viewFund')->name('staff.funds.view');
+        Route::get('/view/{loan_id?}', 'LoanFundController@viewFund')->name('staff.funds.view');
         Route::get('/acquired', 'LoanFundController@acquired')->name('staff.funds.acquired');
-        Route::get('/acquired/view/{id}', 'LoanFundController@viewAcquiredLoan')->name('staff.funds.acquired.view');
+        Route::get('/acquired/view/{id?}', 'LoanFundController@viewAcquiredLoan')->name('staff.funds.acquired.view');
         Route::post('/transfer/place', 'LoanFundController@placeOnTransfer')->name('staff.funds.transfer');
     });
 
@@ -91,8 +91,8 @@ Route::group(['middleware' => 'auth:staff'], function() {
     
     Route::group(['prefix' => 'loan-requests', 'middleware' => 'staff.roles:borrowers'], function() {
         Route::get('/', 'LoanRequestController@index')->name('staff.loan-requests.index');  
-        Route::get('/view/{reference}', 'LoanRequestController@view')->name('staff.loan-requests.view'); 
-        Route::get('/cancel/{reference}', 'LoanRequestController@cancel')->name('staff.loan-requests.cancel'); 
+        Route::get('/view/{reference?}', 'LoanRequestController@view')->name('staff.loan-requests.view');
+        Route::get('/cancel/{reference?}', 'LoanRequestController@cancel')->name('staff.loan-requests.cancel');
         Route::get('/create', 'LoanRequestController@create')->name('staff.loan-requests.create');
         Route::get('/users', 'LoanRequestController@getBorrowers')->name('staff.loan-requests.users');
         Route::get('/getBorrowers', 'LoanRequestController@getBorrowers')->name('staff.loan-requests.borrowers');
@@ -100,9 +100,9 @@ Route::group(['middleware' => 'auth:staff'], function() {
         Route::get('/store/pay', 'LoanRequestController@handleApplicationPaymentResponse')->name('staff.loan-requests.store.pay');
         Route::post('/store', 'LoanRequestController@store')->name('staff.loan-requests.store');
         
-        Route::get('/mandate/check/{loanRequest}', 'LoanRequestController@checkLoanRequestMandateStatus')->name('staff.loan-request.mandate.check');
+        Route::get('/mandate/check/{loanRequest?}', 'LoanRequestController@checkLoanRequestMandateStatus')->name('staff.loan-request.mandate.check');
         // Route::get('/accept-loan/{reference}', 'LoanRequestController@acceptLoan')->name('staff.loan-requests.accept');
-        Route::get('/accept-funds/{loanRequest}', 'LoanRequestController@accept')->name('staff.loan-requests.accept-funds');
+        Route::get('/accept-funds/{loanRequest?}', 'LoanRequestController@accept')->name('staff.loan-requests.accept-funds');
         
         Route::get('/max-amount/{reference?}/{duration?}/{employment?}', 'LoanRequestController@checkMaxRequestAmount')->name('staff.loan-requests.checkmax');
         Route::get('/emi-amount/{duration?}/{employment?}/{amount?}', 'LoanRequestController@checkMonthlyRepayment')->name('staff.loan-requests.checkemi');
@@ -111,8 +111,8 @@ Route::group(['middleware' => 'auth:staff'], function() {
 
 
     Route::group(['prefix'=>'loan-requests','middleware'=>'staff.roles:loan_request_setup'],function(){
-        Route::post('prepare/{loanRequest}', 'LoanRequestDisbursementController@prepareLoan')->name('staff.loan-requests.prepare-loan');
-        Route::get('/das-eligibility/{user}', 'UserController@viewSalaryInfo')->name('staff.users.das');
+        Route::post('prepare/{loanRequest?}', 'LoanRequestDisbursementController@prepareLoan')->name('staff.loan-requests.prepare-loan');
+        Route::get('/das-eligibility/{user?}', 'UserController@viewSalaryInfo')->name('staff.users.das');
         Route::get('/pending-setup', 'LoanRequestController@pendingSetup')->name('staff.loan-requests.pending-setup');
     });
 
@@ -133,10 +133,10 @@ Route::group(['middleware' => 'auth:staff'], function() {
 
         Route::get('/all','SettlementController@index')->name('staff.show.settlements');
         Route::get('/add','SettlementController@new')->name('staff.add.settlements');
-        Route::get('/view/{reference}','SettlementController@view')->name('staff.settlement.view');
+        Route::get('/view/{reference?}','SettlementController@view')->name('staff.settlement.view');
         Route::post('/upload','SettlementController@uploadSettlement')->name('staff.upload.settlement');
-        Route::get('settlement/preview/{reference}','SettlementController@previewDoc')->name('staff.settlement.preview');
-        Route::post('/settlement/payment/loan/{reference}','SettlementController@pay')->name('staff.pay.settlement');
+        Route::get('settlement/preview/{reference?}','SettlementController@previewDoc')->name('staff.settlement.preview');
+        Route::post('/settlement/payment/loan/{reference?}','SettlementController@pay')->name('staff.pay.settlement');
         Route::get('/settlement/payment/callback','SettlementController@handleSettlementPaymentCallback')->name('staff.settlement.payment_callback');
         Route::get('/confirm/{reference}','Settlement\SettlementController@confirm')->name('staff.settlement.confirm');
    Route::post('/decline/{reference}','Settlement\SettlementController@decline')->name('staff.settlement.decline');
