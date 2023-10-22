@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Users;
 
-use Auth, DB;
-use Paystack;
+
+use Illuminate\Support\Facades\DB;
+
 
 use Carbon\Carbon;
-use App\Models\Fee;
 use App\Models\User;
 use GuzzleHttp\Client;
 use App\Models\Employer;
@@ -43,6 +43,8 @@ use App\Services\UpfrontInterest\UpfrontInterestService;
 use App\Notifications\Users\LoanRequestPlacedNotification;
 use App\Notifications\Users\LoanRequestCancelledNotification;
 use App\Notifications\Users\LoanRequestApprovalRequestNotification;
+use Unicodeveloper\Paystack\Paystack;
+
 
 class LoanRequestController extends Controller
 {

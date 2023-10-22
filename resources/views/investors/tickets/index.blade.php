@@ -54,7 +54,7 @@
                                         
                                         <td class="text-center">
                                             <div class="small text-muted">
-                                                {{$ticket->updated_at)}}
+                                                {{$ticket->updated_at}}
                                             </div>
                                         </td>
                                         <td>
