@@ -21,6 +21,19 @@
             <a class="btn btn-primary btn-lg waves-effect text-white" href="{{route('users.loan-requests.create')}}" style="border-radius: 20px;"> 
              <span style="font-size: 0.9rem;"> <i class="icon-cursor text-white"></i> Get Loan</span>
             </a>
+
+
+            @if (!Auth::user()->virtualAccount)
+      <form action="{{ route('create_virtual_account') }}" method="post">
+        @csrf
+       
+        <button class="btn btn-md btn-success text-light ml-2 btn-lg waves-effect rounded-pill"> &nbsp;
+          <small><i class="fa fa-money"></i>
+            Create Virtual Account</button></small>
+    </form>
+     @endif
+
+     
           </div>
         </li>
       </ol>
@@ -106,6 +119,21 @@
                 </div>
               </div>
             </div>
+
+            @if (Auth::user()->virtualAccount)
+            <div class="col-sm-6 col-lg-6">
+              <div class="card text-white bg-success">
+                <div class="card-header">Virtual Account</div>
+                <div class="card-body">
+                  A/c No: {{ Auth::user()->virtualAccount->number }} <hr class="bg-light">
+                  Bank:{{Auth::user()->virtualAccount->bank}} <hr class="bg-light">
+                  A/c Name: {{ Auth::user()->virtualAccount->name }}
+                </div>
+              </div>
+            </div>
+           @endif
+
+           
           </div>
         </div>
       </div>

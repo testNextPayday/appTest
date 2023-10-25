@@ -33,6 +33,10 @@ class User extends Authenticatable
     protected $casts = [
         'settings' => 'array'
     ];
+
+    public function virtualAccount() {
+        return $this->hasOne(VirtualAccount::class);
+    }
     
     protected $refPrefix = 'NPU-';
 
