@@ -112,19 +112,19 @@ Route::group(['prefix'=>'promissory-notes'], function() {
 
    Route::post('/bank/store', 'PromissoryController@investorBankStore')->name('admin.promissory-notes.bank-store');
 
-   Route::get('/view/{promissory_note}', 'PromissoryController@view')->name('admin.promissory-notes.view');
+   Route::get('/view/{promissory_note?}', 'PromissoryController@view')->name('admin.promissory-notes.view');
 
-   Route::post('/approve/{promissory_note}', 'PromissoryController@approve')->name('admin.promissory-notes.approve');
+   Route::post('/approve/{promissory_note?}', 'PromissoryController@approve')->name('admin.promissory-notes.approve');
 
-   Route::post('/liquidate/{promissory_note}', 'PromissoryController@liquidate')->name('admin.promissory-notes.liquidate');
+   Route::post('/liquidate/{promissory_note?}', 'PromissoryController@liquidate')->name('admin.promissory-notes.liquidate');
 
-   Route::post('/rollover/{promissory_note}', 'PromissoryController@rollover')->name('admin.promissory-notes.rollover');
+   Route::post('/rollover/{promissory_note?}', 'PromissoryController@rollover')->name('admin.promissory-notes.rollover');
 
-   Route::post('/withdraw/{promissory_note}', 'PromissoryController@withdraw')->name('admin.promissory-notes.withdraw');
+   Route::post('/withdraw/{promissory_note?}', 'PromissoryController@withdraw')->name('admin.promissory-notes.withdraw');
 
-   Route::post('/update/{promissory_note}', 'PromissoryController@update')->name('admin.promissory-notes.update');
+   Route::post('/update/{promissory_note?}', 'PromissoryController@update')->name('admin.promissory-notes.update');
 
-   Route::post('/delete/{promissory_note}', 'PromissoryController@delete')->name('admin.promissory-notes.delete');
+   Route::post('/delete/{promissory_note?}', 'PromissoryController@delete')->name('admin.promissory-notes.delete');
 
    Route::group(['prefix'=> 'settings'], function() {
       Route::get('/', 'PromissoryNoteSettingController@index')->name('admin.promissory-settings.index');
