@@ -396,7 +396,7 @@ Route::group(['prefix' => 'meetings'], function() {
    Route::post('/', 'MeetingController@store');
    Route::get('/delete/{meeting}', 'MeetingController@delete')->name('admin.meetings.delete');
    Route::get('/{meeting}', 'MeetingController@show')->name('admin.meetings.show');
-   Route::post('/{meeting}', 'MeetingController@update')->name('admin.meetings.update');
+   Route::post('/{meeting?}', 'MeetingController@update')->name('admin.meetings.update');
 });
 
 Route::group(['prefix'=> 'penalty-settings'], function() {
