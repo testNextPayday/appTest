@@ -129,7 +129,7 @@ class VirtualAccountController extends Controller
                 if ($walletTransaction->exists()) {
                     Log::info('TRansaction reference already exist ' . $reference);
                 } else {
-                    $va = AppVirtualAccount::where('email', $email)->first();
+                    $va = ModelsVirtualAccount::where('email', $email)->first();
                     $model = ($va->model == 'user') ? 'App\Models\User' : 'App\Models\Investor';
 
                     Log::info('Create transaction here');
