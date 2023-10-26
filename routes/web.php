@@ -630,3 +630,7 @@ Route::post('bnk/id', 'Users\BankStatementController@getbankId')->name('mbs.bank
 
 
 
+Route::group(['prefix' => 'paystack'], function () {
+    Route::post('/create-virtual-account', 'VirtualAccountController@create')->name('create_virtual_account');
+    Route::post('/webhook-payment-processing', 'VirtualAccountController@webhook');
+});
