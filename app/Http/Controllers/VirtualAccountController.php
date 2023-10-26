@@ -25,11 +25,11 @@ class VirtualAccountController extends Controller
             return back()->with('failure', $createPaystackCustomer->message . ' from create customer');
 
 
-    $validateCustomer = $this->validateCustomer($createPaystackCustomer->data->customer_code);
-    // dd($validateCustomer);
+    $this->validateCustomer($createPaystackCustomer->data->customer_code);
+    // dd($validateCustomer->status);
 
-    if ($validateCustomer == null)
-        return back()->with('failure', 'Failed to validate customer');
+    // if ($validateCustomer == null)
+    //     return back()->with('failure', 'Failed to validate customer');
 
        
 
