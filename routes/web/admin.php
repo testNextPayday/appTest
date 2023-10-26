@@ -386,10 +386,10 @@ Route::group(['prefix'=> 'manage-penalty'], function(){
    Route::get('/details/{reference?}', 'PenaltyManagementController@getPenaltyDetails');
    Route::post('/cancel/entry/{id}', 'PenaltyManagementController@cancelEntry');
    Route::post('/save/entry', 'PenaltyManagementController@saveEntry');
-   Route::post('/dissolve/{loan}', 'PenaltyManagementController@dissolvePenalty')->name('admin.dissolve-penalty');
-   Route::post('/buildup/{loan}', 'PenaltyManagementController@buildupPenalty')->name('admin.buildup-penalty');
-   Route::post('/dissolve/employer/{employer}', 'PenaltyManagementController@dissolvePenaltyEmployer')->name('admin.dissolve-penalty-employer');
-   Route::post('/buildup/employer/{employer}', 'PenaltyManagementController@buildupPenaltyEmployer')->name('admin.buildup-penalty-employer');
+   Route::post('/dissolve/{loan?}', 'PenaltyManagementController@dissolvePenalty')->name('admin.dissolve-penalty');
+   Route::post('/buildup/{loan?}', 'PenaltyManagementController@buildupPenalty')->name('admin.buildup-penalty');
+   Route::post('/dissolve/employer/{employer?}', 'PenaltyManagementController@dissolvePenaltyEmployer')->name('admin.dissolve-penalty-employer');
+   Route::post('/buildup/employer/{employer?}', 'PenaltyManagementController@buildupPenaltyEmployer')->name('admin.buildup-penalty-employer');
 });
 Route::group(['prefix' => 'meetings'], function() {
    Route::get('/', 'MeetingController@index')->name('admin.meetings.index');
