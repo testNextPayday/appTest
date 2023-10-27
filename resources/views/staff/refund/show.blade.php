@@ -24,7 +24,7 @@
                         @forelse($refunds as $index => $refund)
                             <tr>
                                 <td>{{$index+1}}</td>
-                                <td><a target="_blank" href="{{route('staff.accounts.view', ['reference'=>$refund->getUserInfo->reference])}}">{{$refund->getUSerInfo->name}}</a></td>
+                                <td><a target="_blank" href="{{route('staff.accounts.view', [$refund->getUserInfo->reference])}}">{{$refund->getUSerInfo->name}}</a></td>
                                 <td>{{$refund->loanInfo->reference}}</td>
                                 <td>₦ {{number_format($refund->amount)}}</td>
                                 <td>
