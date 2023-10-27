@@ -110,7 +110,7 @@ class PaystackService
      * @param  boolean $query
      * @return $this
      */
-    protected function setHttpResponse($relativeUrl, $requestMethod, $body, $query=false)
+    public function setHttpResponse($relativeUrl, $requestMethod, $body, $query=false)
     {
         if (is_null($requestMethod)) {
 
