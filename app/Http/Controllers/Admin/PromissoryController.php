@@ -13,6 +13,7 @@ use App\Models\PromissoryNoteSetting;
 use Illuminate\Support\Facades\Cache;
 use App\Services\CacheManager\CacheConstants;
 use App\Services\Investor\PromissoryNoteService;
+use Illuminate\Support\Facades\Http;
 
 class PromissoryController extends Controller
 {
@@ -147,11 +148,15 @@ class PromissoryController extends Controller
      */
     public function investorBank(Request $request)
     {
+        
+       $getBanks =  Http::get('https://api.paystack.co/bank');
+       $banks = json_decode($getBanks);
+
         $investors = Investor::promissoryNote()->get();
 
         $investorCollections = InvestorBank::collection($investors);
 
-        return view('admin.promissory-notes.banks', ['investors'=> $investorCollections]);
+        return view('admin.promissory-notes.banks', ['investors'=> $investorCollections, 'banks'=>$banks->data]);
     }
 
 

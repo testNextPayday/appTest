@@ -47,8 +47,8 @@
                                 <div class="form-group">
                                     <label class="form-control-label">Select Bank</label>
                                     <select name="bank_code" class="form-control" >
-                                        @foreach(config('remita.banks') as $index=>$bank)  
-                                            <option value="{{$index}}">{{$bank}}</option>
+                                        @foreach($banks as $bank)  
+                                        <option value="{{$bank->code}}">{{$bank->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
