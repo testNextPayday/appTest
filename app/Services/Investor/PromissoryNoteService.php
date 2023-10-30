@@ -17,6 +17,7 @@ use App\Models\InvestmentCertificate;
 use App\Unicredit\Collection\Utilities;
 use App\Events\PromissoryNoteCreatedEvent;
 use App\Services\Investor\PromissoryNoteSettingsUpdate;
+use Illuminate\Support\Facades\Http;
 
 class PromissoryNoteService
 
@@ -623,11 +624,23 @@ class PromissoryNoteService
      */
     public function createBankDetails($investor, $data)
     {
-        $banks = config('remita.banks');
+        $getBanks =  Http::get('https://api.paystack.co/bank');
+        $banks = json_decode($getBanks);
+
 
         $code = $data['bank_code'];
 
-        $bank = $banks[$code];
+        $bank = null;
+
+
+
+        foreach ($banks->data as $getBank) {
+            if ($getBank->code == $code) {
+                $bank = $getBank->name;
+            }
+        }
+        
+
 
         $accountNumber = $data['account_number'];
 

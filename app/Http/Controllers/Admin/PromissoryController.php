@@ -149,8 +149,9 @@ class PromissoryController extends Controller
     public function investorBank(Request $request)
     {
         
-       $getBanks =  Http::get('https://api.paystack.co/bank');
+        $getBanks =  Http::get('https://api.paystack.co/bank');
        $banks = json_decode($getBanks);
+
 
         $investors = Investor::promissoryNote()->get();
 
@@ -329,7 +330,7 @@ class PromissoryController extends Controller
         try {
 
             $this->validate($request, [
-                'bank_code'=> 'required|max:3|string|size:3',
+                'bank_code'=> 'required',
                 'account_number'=> 'required|size:10'
             ]);
 
@@ -338,6 +339,7 @@ class PromissoryController extends Controller
             $data = $request->only(['account_number', 'bank_code']);
 
             $response = $this->promissoryService->createBankDetails($investor, $data);
+
 
             if ($response) {
 
