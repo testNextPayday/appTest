@@ -630,6 +630,26 @@ Route::post('bnk/id', 'Users\BankStatementController@getbankId')->name('mbs.bank
 
 
 
+Route::get('/loan-recova/{bvn}', 'ApiController@loanRecova');
+
+Route::group(['prefix' => 'recova-loans'], function () {
+
+
+    Route::get('/loan-reference/{reference}', 'LoanController@viewLoan');
+
+
+    Route::get('/mandates/authority-form/{loan}/{type?}', 'MandateController@getAuthorityForm')->name('users.loans.authorityForm');
+    Route::post('/mandates/authority-form/{loan}', 'MandateController@uploadAuthorityForm')->name('users.loans.authorityForm.upload');
+
+    Route::get('/mandates/activation/{loan}', 'MandateActivationController@requestAuthorization');
+    Route::post('/mandates/activation/{loan}', 'MandateActivationController@activate');
+});
+
+
+
+
+
+
 Route::group(['prefix' => 'paystack'], function () {
     Route::post('/create-virtual-account', 'VirtualAccountController@create')->name('create_virtual_account');
     Route::post('/webhook-payment-processing', 'VirtualAccountController@webhook');
