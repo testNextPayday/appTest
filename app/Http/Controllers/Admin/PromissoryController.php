@@ -169,6 +169,7 @@ class PromissoryController extends Controller
      */
     public function liquidate(PromissoryNote $promissoryNote)
     {
+
         try{
             
             DB::beginTransaction();
