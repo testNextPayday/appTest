@@ -35,7 +35,7 @@
                             {{ csrf_field() }}
                             <input type="hidden" value="{{$loan->reference}}" name="loan_referenced" />
                             <input type="hidden" value="true" name="is_top_up">
-                            @php($users = collect([$loan->user->load('employments.employer')]))
+                            @php($users = collect([$loan?->user?->load('employments.employer')]))
                             <max-request-amount :url="'{{route('affiliates.loan-requests.checkmax')}}'" :emi-url="'{{route('affiliates.loan-requests.checkemi')}}'" :users="{{$users}}" :user="{{$loan->user}}"></max-request-amount>
 
                             <!-- <div class="checkbox mb-2 mt-2">
