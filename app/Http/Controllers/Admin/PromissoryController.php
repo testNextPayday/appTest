@@ -13,6 +13,7 @@ use App\Models\PromissoryNoteSetting;
 use Illuminate\Support\Facades\Cache;
 use App\Services\CacheManager\CacheConstants;
 use App\Services\Investor\PromissoryNoteService;
+use Illuminate\Support\Facades\Http;
 
 class PromissoryController extends Controller
 {
@@ -147,11 +148,16 @@ class PromissoryController extends Controller
      */
     public function investorBank(Request $request)
     {
+        
+        $getBanks =  Http::get('https://api.paystack.co/bank');
+       $banks = json_decode($getBanks);
+
+
         $investors = Investor::promissoryNote()->get();
 
         $investorCollections = InvestorBank::collection($investors);
 
-        return view('admin.promissory-notes.banks', ['investors'=> $investorCollections]);
+        return view('admin.promissory-notes.banks', ['investors'=> $investorCollections, 'banks'=>$banks->data]);
     }
 
 
@@ -163,6 +169,7 @@ class PromissoryController extends Controller
      */
     public function liquidate(PromissoryNote $promissoryNote)
     {
+
         try{
             
             DB::beginTransaction();
@@ -324,7 +331,7 @@ class PromissoryController extends Controller
         try {
 
             $this->validate($request, [
-                'bank_code'=> 'required|max:3|string|size:3',
+                'bank_code'=> 'required',
                 'account_number'=> 'required|size:10'
             ]);
 
@@ -333,6 +340,7 @@ class PromissoryController extends Controller
             $data = $request->only(['account_number', 'bank_code']);
 
             $response = $this->promissoryService->createBankDetails($investor, $data);
+
 
             if ($response) {
 

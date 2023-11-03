@@ -2,6 +2,7 @@
 
 use App\Models\Investor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,3 +82,23 @@ Route::group(['prefix'=>'/v1/npd'], function () {
 
 
 Route::get('/employers/primary/json-data', 'ApiController@jsonData');
+
+
+// QORE RECOVA APIs
+Route::group(['prefix' => 'recova-loans'], function () {
+    Route::get('/loan-reference/{reference}', 'Admin\LoanController@viewLoan');
+    Route::get('/credit-history/{bvn}', 'Admin\LoanController@creditHistory');
+    Route::post('/loan-balance-update', 'Admin\LoanController@loanBalanceUpdate');
+});
+
+
+// QORE LAS APIs
+Route::group(['prefix' => 'las'], function () {
+Route::post('/sms-alert-endpoint', 'Admin\LasController@smsAlertEndpoint');
+Route::post('/loan-balance-update', 'Admin\LoanController@loanBalanceUpdate');
+Route::post('/disbursal', 'Admin\LoanController@disbursal');
+
+    
+
+});
+

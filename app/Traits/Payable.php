@@ -2,6 +2,7 @@
 namespace App\Traits;
 
 use App\Models\BankDetail;
+use Illuminate\Support\Facades\Http;
 
 trait Payable 
 {
@@ -25,6 +26,13 @@ trait Payable
             
         ]);
 
+    }
+
+    public function banks(){
+        $getBanks =  Http::get('https://api.paystack.co/bank');
+        $banks = json_decode($getBanks);
+
+        return $banks->data;
     }
 }
 ?>

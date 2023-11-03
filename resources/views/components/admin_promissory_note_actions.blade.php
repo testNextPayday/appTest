@@ -9,7 +9,7 @@
 
     @if ($promissoryNote->monthsLeft > 0)
 
-        <form  method="POST" style="display:inline;" action="{{route('admin.promissory-notes.liquidate', ['promissory-note'=> $promissoryNote->reference])}}">
+        <form  method="POST" style="display:inline;" action="{{route('admin.promissory-notes.liquidate', $promissoryNote->reference)}}">
             @csrf
             <button type="submit" class="btn btn-info btn-sm">
                 <i class="fa fa-link"></i>
@@ -18,7 +18,7 @@
         </form>
     @else 
 
-        <form method="POST" style="display:inline;" action="{{route('admin.promissory-notes.withdraw', ['promissory-note'=> $promissoryNote->reference])}}">
+        <form method="POST" style="display:inline;" action="{{route('admin.promissory-notes.withdraw', $promissoryNote->reference)}}">
             @csrf
             <button type="submit" class="btn btn-danger btn-sm">
                 <i class="fa fa-link"></i>
@@ -26,7 +26,7 @@
             </button>
         </form>
 
-        <form method="POST" style="display:inline;"  action="{{route('admin.promissory-notes.rollover', ['promissory-note'=> $promissoryNote->reference])}}">
+        <form method="POST" style="display:inline;"  action="{{route('admin.promissory-notes.rollover', $promissoryNote->reference)}}">
             @csrf
             <button type="submit" class="btn btn-success btn-sm">
                 <i class="fa fa-link"></i>

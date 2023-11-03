@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Loan;
+use App\Models\RecovaCollections;
 use App\Models\User;
 use App\Models\LoanFund;
 use App\Traits\LoanPenaltyMethods;
@@ -24,6 +25,7 @@ use App\Unicredit\Utils\FulfillingService;
 use App\Services\AutoCollectionSetupService;
 use App\Unicredit\Contracts\Models\ILoanRepository;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 class LoanController extends Controller
 {
@@ -55,7 +57,169 @@ class LoanController extends Controller
         return redirect()->back()
             ->with('failure', 'Sweep parameters could not be updated. Please try again');
     }
+
+    public function loanBalanceUpdate( Request $request)
+    {
     
+        $val =  Validator::make($request->all(), [
+
+        'loanReference' => 'required|string',
+        'debitedAmount' => 'required',
+        'recoveryFee' => 'required',
+
+        'settlementAmount' => 'required',
+        'transactionReference' => 'required|string',
+        'narration' => 'required|string',
+        'institutionCode' => 'required|string',
+        
+        ]);
+
+        if ($val->fails()) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => $val->errors()
+            ]);
+        }
+
+        RecovaCollections::create([
+            'loan_reference' => $request->loanReference,
+            'debited_amount' => $request->debitedAmount,
+            'recovery_fee' => $request->recoveryFee,
+    
+            'settlement_amount' => $request->settlementAmount,
+            'transaction_reference' => $request->transactionReference,
+            'narration' => $request->narration,
+            'institution_code' => $request->institutionCode,
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Loan balance updated successfully',
+        ]);
+
+
+    }
+    
+    
+    public function creditHistory($bvn) {
+        $user = User::where('bvn', $bvn)->firstOrFail();
+
+        $loans = Loan::with('user', 'repaymentPlans')->where('user_id', $user->id)
+            ->where('status', '1')
+            // ->where('is_penalized', 0)
+            ->get();
+
+        return response()->json([
+           'customerId' => $user->id,
+           'openedLoanAccounts' => Loan::where('user_id', $user->id)->where('status', '1')->count(),
+           'closedLoanAccounts' => Loan::where('user_id', $user->id)->where('status', '2')->count(),
+            'PerformingLoanAccounts' => Loan::where('user_id', $user->id)->where('status', '1')->count(),
+            'nonPerformingLoanAccounts' => Loan::where('user_id', $user->id)->where('status', '3')->count(),
+            'LoansWrittenOff' => Loan::where('user_id', $user->id)->count(),
+            'loansWrittenOffAmount' => Loan::where('user_id', $user->id)->sum('amount'),
+            'details' => Loan::where('user_id', $user->id)->get()
+        
+        
+        ]);
+    }
+
+    public function viewLoan($reference)
+    {
+
+
+
+        $loan = Loan::whereReference($reference)->with('user', 'repaymentPlans')->first();
+
+        // dd(LoanPenaltyMethods::class->getWalletTransactionsForPenaltySum());
+        // return LoanWalletTransactions::whereIsPenalty(true)->sum('amount');
+
+
+       $excessBalance = TotalPenaltiesController::total($loan);
+
+       $excesspenalties = [0];
+       $lastP = abs($loan->user->masked_loan_wallet); 
+      
+        if(!$loan)
+            $loan =  Loan::withTrashed()->wherereference($reference)->first();
+        /////////////////////////////Penalty that has passed loan duration ///////////////////////////////////////////////////////////////////
+
+        
+       
+        if ($loan->is_penalized == 1) {
+
+           
+            $durationAfterExpiration = Carbon::parse($loan->created_at)->diffInMonths(now())  - $loan->duration;
+    
+            $loan_request = LoanRequest::where('id', $loan->request_id)->latest()->first();
+    
+            $penalty = PenaltySetting::where('entity_id', $loan_request->employment->employer->id)
+                                ->first();
+
+            $loanPenalty = PenaltySetting::where('entity_id', $loan->id);
+            if ($loanPenalty->exists()) {
+                $penalty = $loanPenalty->latest()->first();
+                $penaltyPercent = $loanPenalty->latest()->first()->value/100;
+            }else{
+               
+                $penaltyPercent = $penalty->value/100;
+            }
+
+            if ($penalty->excess_penalty_status == 1) {
+                # code...
+                while($durationAfterExpiration > 0){
+                    $currentPenalty = $lastP + ($lastP * $penaltyPercent);
+                    $lastP = $currentPenalty;
+                    $durationAfterExpiration--;
+                    array_push($excesspenalties, $lastP);        
+                }
+            }
+
+    
+        }
+
+        if (array_last($excesspenalties) > 0) {
+            $maturity_penalty = '-'.array_last($excesspenalties); 
+        }else{
+            $maturity_penalty = $loan->user->masked_loan_wallet; 
+        }
+
+        // dd($maturity_penalty);
+
+
+
+
+        $previousdebits = RecovaCollections::where('loan_reference', $reference)->sum('debited_amount');
+        $recoveryFee = RecovaCollections::where('loan_reference', $reference)->sum('recovery_fee');
+        // return response()->json([
+        //     $previousdebits
+        // ]);
+
+        
+
+        
+
+        
+        //////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////
+
+        $dueAmount = abs($maturity_penalty) + $recoveryFee - $previousdebits;
+        
+        if(!$loan)
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Loan does not exist'
+            ]);
+        
+        
+            return response()->json([
+
+                // 'loan', 
+                // 'excessBalance', 
+                // 'excesspenalties', 
+                'loanReference' => $reference,
+                'amountDue' => $dueAmount,
+        ]);
+    }
     public function view($reference)
     {
 

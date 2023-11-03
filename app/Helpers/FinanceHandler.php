@@ -56,6 +56,7 @@ class FinanceHandler {
     
     protected function credit($account, $column)
     {
+
         $update = $account->update([$column => $account->$column + $this->amount]);
         $this->log($account, 1, $column);
         return $update;
