@@ -177,8 +177,8 @@ class LoanController extends Controller
     
         }
 
-        if (array_last($excesspenalties) > 0) {
-            $maturity_penalty = '-'.array_last($excesspenalties); 
+        if (end($excesspenalties) > 0) {
+            $maturity_penalty = '-'.end($excesspenalties); 
         }else{
             $maturity_penalty = $loan->user->masked_loan_wallet; 
         }
