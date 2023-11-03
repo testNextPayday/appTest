@@ -107,10 +107,10 @@
         <div class="card-body">
           <h4 class="card-title bold">CUSTOMER DATA</h4>
           <p>Information about the borrower</p>
-          @php($user = $loan->user)
+          @php($user = $loan?->user)
           <div class="">
-            <p>Name: <strong>{{ $user->name }}</strong></p>
-            <p>ID: <strong>{{ $user->reference }}</strong></p>
+            <p>Name: <strong>{{ $user?->name }}</strong></p>
+            <p>ID: <strong>{{ $user?->reference }}</strong></p>
             <p>
               <a class="badge badge-primary" href="{{route('affiliates.borrowers.show', ['user' => $user->reference])}}">More Details...</a>
             </p>
@@ -134,7 +134,7 @@
             @endif
 
             @if($loan->status == 2)
-                <a class="btn btn-primary btn-sm" href="{{route('view.loan.fulfillment-doc',['reference'=>$loan->reference])}}" target="_blank">Loan Fulfillment Doc</a>      
+                <a class="btn btn-primary btn-sm" href="{{route('view.loan.fulfillment-doc',['reference'=>$loan?->reference])}}" target="_blank">Loan Fulfillment Doc</a>
             @endif
           </div>
           <br />

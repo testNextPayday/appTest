@@ -40,7 +40,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{route('affiliates.loans.view', ['reference' => $loan->reference])}}"
+                                            <a href="{{route('affiliates.loans.view', $loan->reference)}}"
                                                 class="btn btn-outline-primary">View
                                             </a>
                                         </td>

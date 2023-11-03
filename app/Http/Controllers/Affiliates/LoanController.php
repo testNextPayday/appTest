@@ -26,7 +26,6 @@ class LoanController extends Controller
     {
         $affiliate = auth('affiliate')->user();
          //$users = User::with(['employments'])->get();
-        
         if (!$loan) {
             return redirect()->back()->with('failure', 'Loan not found');    
         }
