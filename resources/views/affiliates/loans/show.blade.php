@@ -112,7 +112,7 @@
             <p>Name: <strong>{{ $user->name }}</strong></p>
             <p>ID: <strong>{{ $user->reference }}</strong></p>
             <p>
-              <a class="badge badge-primary" href="{{route('affiliates.borrowers.show',$user->reference)}}">More Details...</a>
+              <a class="badge badge-primary" href="{{route('affiliates.borrowers.show', $user->reference)}}">More Details...</a>
             </p>
           </div>
           <br />

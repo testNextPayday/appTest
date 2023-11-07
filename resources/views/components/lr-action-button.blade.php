@@ -5,13 +5,13 @@
     @if($loanRequest->percentage_left <= 0 || (Carbon\Carbon::now()->gt($loanRequest->expected_withdrawal_date) && $loanRequest->amountRealized > 0))
         <a class="btn btn-outline-success btn-sm"
             onclick="return confirm('Are you sure?');"
-            href="{{route($prefix . '.loan-requests.accept-funds', => $loanRequest->reference)}}">
+            href="{{route($prefix . '.loan-requests.accept-funds', $loanRequest->reference)}}">
             Accept Funds
         </a>
 
         <a onclick="return confirm('Are you sure you want to reject this loan?');" 
             class="btn btn-outline-danger btn-sm"
-            href="{{route($prefix . '.loan-requests.cancel', => $loanRequest->reference)}}">
+            href="{{route($prefix . '.loan-requests.cancel', $loanRequest->reference)}}">
             Reject Funds
         </a>
     @else
@@ -22,7 +22,7 @@
         @endif
         <a onclick="return confirm('Are you sure you want to cancel this request?');" 
             class="btn btn-outline-danger btn-sm"
-            href="{{route($prefix . '.loan-requests.cancel', => $loanRequest->reference)}}">
+            href="{{route($prefix . '.loan-requests.cancel',  $loanRequest->reference)}}">
             Cancel Request
         </a>
     @endif
@@ -45,10 +45,10 @@
     @php
         if (auth('affiliate')->check()) {
            
-            $url = route('affiliates.loan-requests.resubmit', =>$loanRequest->reference);
+            $url = route('affiliates.loan-requests.resubmit', $loanRequest->reference);
         }elseif(auth()->check()) {
             
-            $url = route('users.loan-requests.resubmit', =>$loanRequest->reference);
+            $url = route('users.loan-requests.resubmit', $loanRequest->reference);
         }else {
             $url = '#';
         }
