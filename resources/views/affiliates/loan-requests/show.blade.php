@@ -134,7 +134,7 @@
                                             </div>
                                         </div>
 
-                                        @php($user = $employment->user)
+                                        @php($user = $loanRequest->user)
                                         
                                         <div class="table-responsive ">
                                             <table class="table table-borderless w-100 mt-4 ">

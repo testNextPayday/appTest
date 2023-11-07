@@ -86,6 +86,10 @@ class LoanRequestController extends Controller
      */
     public function show(LoanRequest $loanRequest)
     {
+
+
+        // dd($loanRequest->user);
+
         // TODO Ensure this lr actually belongs to affiliate
         
         return view('affiliates.loan-requests.show', 
