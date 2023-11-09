@@ -152,7 +152,7 @@ class LoanController extends Controller
     
             $loan_request = LoanRequest::where('id', $loan->request_id)->latest()->first();
     
-            if(PenaltySetting::where('entity_id', $loan_request->employment->employer)->exists()){
+            if(PenaltySetting::where('entity_id', $loan_request->employment)->exists()){
                 $penalty = PenaltySetting::where('entity_id', $loan_request->employment->employer->id)
                                 ->first();
             }            
