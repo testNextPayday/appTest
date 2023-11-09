@@ -14,5 +14,7 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         "/remita/notify/repayment",
         "oauth/magic",
+        "paystack/webhook-payment-processing"
+
     ];
 }
