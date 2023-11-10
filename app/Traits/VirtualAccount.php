@@ -22,6 +22,7 @@ trait VirtualAccount
             "last_name" => $name[1],
             "phone" => '234' . $user['phone'],
         ];
+        
 
 
         $fields_string = http_build_query($fields);
@@ -34,7 +35,7 @@ trait VirtualAccount
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            "Authorization: Bearer " . env('PAYSTACK_PUBLIC_KEY'),
+            "Authorization: Bearer " . env('PAYSTACK_SECRET_KEY'),
             "Cache-Control: no-cache",
         )
         );
