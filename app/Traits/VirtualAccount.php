@@ -119,8 +119,8 @@ trait VirtualAccount
             "account_number" => $bankDetail->account_number, // "0123456789",
             "bvn" => Auth::user()->bvn , //"20012345677",
             "bank_code" => $bankDetail->bank_code, //"007",
-            "first_name" => $name[1],
-            "last_name" => $name[0]
+            "first_name" => $name[0],
+            "last_name" => $name[1]
 
         ];
 
