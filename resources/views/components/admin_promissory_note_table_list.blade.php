@@ -28,7 +28,7 @@
                     @endcomponent
                 </td>
                 <td>{{$note->payment_type}}</td>
-                <td>{{$note->maturity_date}}</td>
+                <td>{{Carbon\Carbon::parse($note->maturity_date)->modify('-1 months')->format('d-m-Y')}}</td>
                 <td>{{$note->start_date}}</td>
                 <td>
                     <a class="btn btn-primary btn-sm btn-block" target="_blank" href="{{$note->certificateUrl}}"> View </a>
