@@ -158,7 +158,7 @@ class VirtualAccountController extends Controller
                     $user->wallet += $getAmount;
                     $user->save();
 
-                    $message = "Your Nextpayday account has been credited with N". number_format($getAmount, 2). "Balance: N". number_format($user->wallet, 2);
+                    $message = "Your Nextpayday account has been credited with N". number_format($getAmount, 2). ". Balance: N". number_format($user->wallet, 2);
                     OTPSms::send($this->readyNumber($user->phone), $message);
                     exit();
                 }
