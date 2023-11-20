@@ -10,7 +10,7 @@ Forgot Password
           <div class="card p-4">
             <div class="card-body">
               <div class="col-xs-12 col-sm-12 text-center">
-                <img class="img-responsive" style="width:15em;" src="{{asset('logo_pack/logo/colored/128.png')}}"/>
+                {{-- <img class="img-responsive" style="width:15em;" src="{{asset('logo_pack/logo/colored/128.png')}}"/> --}}
               </div>
               <br/>
               <h3 class="text-muted strong text-center">Reset Password</h3>
