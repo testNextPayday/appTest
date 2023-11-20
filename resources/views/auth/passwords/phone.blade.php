@@ -23,7 +23,7 @@ Forgot Password
             <div>
             <h2>Sign up</h2>
             <p>Don't have an account yet? Sign up to get started!</p>
-            <a href="https://nextpayday.ng/register" class="btn btn-primary active mt-3">Sign up here</a>
+            <a href="https://nextpayday.co/signup" class="btn btn-primary active mt-3">Sign up here</a>
             </div>
         </div>
         </div>

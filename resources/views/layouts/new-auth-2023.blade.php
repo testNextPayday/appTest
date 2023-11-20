@@ -36,7 +36,7 @@
         <div class="header-menu header-menu-2 bg_white" id="sticky">
             <nav class="navbar navbar-expand-lg ">
                 <div class="container">
-                    <a class="navbar-brand sticky_logo" href="home.html">
+                    <a class="navbar-brand sticky_logo" href="https://nextpayday.co">
                         <img class="main" src="{{ asset('new_auth_assets/img/logo/logo-1.png') }}" alt="logo">
                         <img class="sticky" src="{{ asset('new_auth_assets/img/logo/logo-1.png') }}" alt="logo">
                     </a>
@@ -59,13 +59,13 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav menu ms-auto">
                             <li class="nav-item dropdown submenu ">
-                                <a class="nav-link" href="home.html">Home</a>
+                                <a class="nav-link" href="https://nextpayday.co">Home</a>
                             </li>
                             <li class="nav-item dropdown submenu">
-                                <a class="nav-link" href="about.html">About Us</a>
+                                <a class="nav-link" href="https://nextpayday.co/about">About Us</a>
                             </li>
                             <li class="nav-item dropdown submenu">
-                                <a class="nav-link" href="faq.html">FAQS</a>
+                                <a class="nav-link" href="https://nextpayday.co/faqs">FAQS</a>
                             </li>
                             <li class="nav-item dropdown submenu">
                                 <a class="nav-link" href="https://medium.com/@nextpayday" target="_blank">Blog</a>
@@ -100,34 +100,7 @@
                     </div>
                     <div class="col-lg-6 offset-lg-1">
                         <div class="contact-form-widget">
-                            {{-- <form action="#login" method="POST">
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        <label for="f-name">Phone Number</label>
-                                        <input type="text" id="f-name" name="name" class="form-control"
-                                            placeholder="Enter Phone number" required>
-                                    </div>
-                                    <div class="col-md-10 mt-20">
-                                        <label for="form-sub">Password</label>
-                                        <input type="password" id="form-sub" name="password" class="form-control"
-                                            placeholder="Enter password" required>
-                                    </div>
-                                    <div class="col-12 mt-3">
-                                        <p class="policy-text">Forgot Password?
-                                            <a class="option-text" href="forgot-password.html"><span>Reset it</span></a>
-                                        </p>
-                                    </div>
-                                    <div class="col-10 mt-30">
-                                        <button type="submit" class="theme-btn theme-btn-lg w-100">Login</button>
-                                    </div>
-                                    <div class="col-12 mt-3">
-                                        <p class="policy-text">Don't have an account?
-                                            <a class="option-text" href="signup.html"><span>Create an Account</span></a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </form> --}}
-
+                           
                             @yield('auth_content')
                         </div>
                     </div>
@@ -144,7 +117,7 @@ style="background-image: url(img/footer/footer-bg-2.png);">
             <div class="col-lg-4 col-sm-6 text-center text-sm-start">
                 <div class="footer-widget mb-30 wow fadeInLeft">
                     <div class="footer-text">
-                        <p><a href="home.html" class="p-0 m-0"><img src="{{ asset('new_auth_assets/img/logo/logofooter.png') }}" alt="logo"></a>
+                        <p><a href="https://nextpayday.co" class="p-0 m-0"><img src="{{ asset('new_auth_assets/img/logo/logofooter.png') }}" alt="logo"></a>
                         </p>
                         <br>
                         <p><a href="https://goo.gl/maps/en9G8hxHYjtGWGY96" target="_blank">11A Igbodo Street, Old GRA, Port Harcourt</a>
@@ -172,8 +145,8 @@ style="background-image: url(img/footer/footer-bg-2.png);">
                     </div>
                     <div class="footer-link">
                         <ul>
-                            <li><a href="login.html#">Borrowers</a></li>
-                            <li><a href="investor.html">Investors</a></li>
+                            <li><a href="{{ route('login') }}">Borrowers</a></li>
+                        <li><a href="https://nextpayday.co/investor">Investors</a></li>
                             <li><a href="https://app.nextpayday.co/affiliates/login" target="_blank">Affiliates</a></li>
                         </ul>
                     </div>
@@ -186,9 +159,9 @@ style="background-image: url(img/footer/footer-bg-2.png);">
                     </div>
                     <div class="footer-link">
                         <ul>
-                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="https://nextpayday.co/about">About Us</a></li>
                             <li><a href="https://medium.com/@nextpayday" target="_blank">Blog</a></li>
-                            <li><a href="faq.html">FAQS</a></li>
+                            <li><a href="https://nextpayday.co/faqs">FAQS</a></li>
                         </ul>
                     </div>
                 </div>
@@ -323,7 +296,7 @@ style="background-image: url(img/footer/footer-bg-2.png);">
                 <div class="modal-body">
                     <h4>PRIVACY POLICY</h4>
                         <p>At Next Payday we treat your personal information as private and confidential. We are dedicated to protecting your privacy and providing you with the highest level of security at any point of interaction with us. This Privacy Policy describes what personal information we collect, what we do with it and how we protect it. This policy (together with our Terms and Conditions) sets out the basis on which any personal data we collect from you, or that you provide to us, will be processed by us.
-                            <br>Please read the following carefully to understand our views and practices regarding your personal data and how we will treat it. By continuing to visit our website <a href="home.html" target="_blank"><b>https://www.nextpayday.co</b></a>, you accept and consent to the practices described in this policy.
+                            <br>Please read the following carefully to understand our views and practices regarding your personal data and how we will treat it. By continuing to visit our website <a href="https://nextpayday.co" target="_blank"><b>https://www.nextpayday.co</b></a>, you accept and consent to the practices described in this policy.
                         </p>
                         <br>
                         <p><strong>1. Information We Collect</strong>
