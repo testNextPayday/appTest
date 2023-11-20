@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Facades\OTPSms;
 use App\Models\Investor;
 use App\Models\User;
 use App\Models\VirtualAccount as ModelsVirtualAccount;
@@ -63,7 +64,10 @@ class VirtualAccountController extends Controller
         return back()->with('success', 'Virtual account created successfully');
 
     }
-
+    public function readyNumber($number)
+    {
+        return "234" . substr(str_replace(" ", "", trim($number)), -10);
+    }
 
     public function webhook()
     {
@@ -153,6 +157,9 @@ class VirtualAccountController extends Controller
 
                     $user->wallet += $getAmount;
                     $user->save();
+
+                    $message = "Your Nextpayday account has been credited with N". number_format($getAmount, 2). "Balance: N". number_format($user->wallet, 2);
+                    OTPSms::send($this->readyNumber($user->phone), $message);
                     exit();
                 }
             }
