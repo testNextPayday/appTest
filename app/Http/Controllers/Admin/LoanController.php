@@ -155,16 +155,14 @@ class LoanController extends Controller
             if(PenaltySetting::where('entity_id', $loan_request->employment)->exists()){
                 $penalty = PenaltySetting::where('entity_id', $loan_request->employment->employer->id)
                                 ->first();
-            }            
-            
 
-            $loanPenalty = PenaltySetting::where('entity_id', $loan->id);
+                                $loanPenalty = PenaltySetting::where('entity_id', $loan->id);
             if ($loanPenalty->exists()) {
                 $penalty = $loanPenalty->latest()->first();
                 $penaltyPercent = $loanPenalty->latest()->first()->value/100;
             }else{
                
-                $penaltyPercent = $penalty->value/100;
+                $penaltyPercent = 0;
             }
 
             if ($penalty->excess_penalty_status == 1) {
@@ -176,9 +174,16 @@ class LoanController extends Controller
                     array_push($excesspenalties, $lastP);        
                 }
             }
+            }
+            
+            // dd($penalty);
+            
+
+            
 
     
         }
+        
 
         if (end($excesspenalties) > 0) {
             $maturity_penalty = '-'.end($excesspenalties); 
@@ -207,13 +212,15 @@ class LoanController extends Controller
 
         $dueAmount = abs($maturity_penalty) + $recoveryFee - $previousdebits;
         
-        if(!$loan)
+        if(!$loan){
             return response()->json([
                 'status' => 'failed',
                 'message' => 'Loan does not exist'
             ]);
         
         
+            
+        }else{
             return response()->json([
 
                 // 'loan', 
@@ -222,6 +229,8 @@ class LoanController extends Controller
                 'loanReference' => $reference,
                 'amountDue' => $dueAmount,
         ]);
+        }
+            
     }
     public function view($reference)
     {
