@@ -37,6 +37,15 @@
                 <a class="nav-link" href="{{route('users.refund.index')}}">
                     <i class="icon-credit-card"></i>My Refunds</a>
             </li>
+
+            <li class="nav-title">
+                Saving
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{route('users.savings.index')}}">
+                <i class="icon-credit-card"></i>My Savings</a>
+            </li>
             
             <li class="nav-title">
                 Transactions

@@ -182,6 +182,14 @@ Route::group(['middleware' => ['auth', 'unverified.email'], 'namespace' => 'User
     }
     );
 
+
+    Route::group(['prefix'=>'savings'], function(){
+
+        Route::view('/index', 'users.savings.index')->name('users.savings.index');
+        // Route::post('/request', 'RefundController@store')->name('users.refund.request');
+    }
+    );
+
     Route::group(['prefix'=>'plans'], function(){
 
         Route::post('/update/payment', 'RepaymentController@updatePlans')->name('users.update-repaymentplans');

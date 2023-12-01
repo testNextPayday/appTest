@@ -32,11 +32,8 @@ class WithdrawalRequestController extends Controller
             'amount' => 'required'  
         ];
 
-        // dd(Auth::id());
-
         $activeAloan =  Loan::where('user_id', Auth::id())->where('status', 1)->count();
 
-        // dd($loan);
         if($activeAloan > 0)
         return redirect()->back()->with('failure', 'You cannot place a withdrawal at this moment because you are on active loan');    
         
