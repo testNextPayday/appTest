@@ -25,7 +25,6 @@
     
     <div class="row">
         <div class="col-sm-12">
-              
                 <manage-employer-form
                     :states="{{ json_encode(config('unicredit.states')) }}"
                     :collection-plans="{{ json_encode(config('settings.collection_methods')) }}"

@@ -245,7 +245,15 @@ class EmployerController extends Controller
             'is_primary' => 'required',
             'vat_fee'=>'nullable|numeric',
             'loan_vat_fee'=>'nullable|numeric',
-            'interest_vat_fee'=>'nullable|numeric'
+            'interest_vat_fee'=>'nullable|numeric',
+            'weekly_rate_3' => 'required|numeric',
+            'weekly_rate_6' => 'required|numeric',
+            'weekly_rate_12' => 'required|numeric',
+            'weekly_fees_3' => 'required|numeric',
+            'weekly_fees_6' => 'required|numeric',
+            'weekly_fees_12' => 'required|numeric',
+            'max_weekly_tenure' => 'required',
+            'has_weekly_repayment' => 'required|numeric'
         ];
     }
 

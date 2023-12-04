@@ -11,7 +11,7 @@
         buttons: [
             'copy', 'csv', 'excel', 'pdf'
         ],
-      "iDisplayLength": 10,
+      "iDisplayLength": 14,
       "language": {
         search: ""
       }

@@ -41,6 +41,7 @@ use App\Unicredit\Contracts\Models\ILoanRepository;
 use App\Services\BankStatement\BankStatementService;
 use App\Services\BankStatement\IBankStatementService;
 use App\Repositories\Models\Redis\AffiliateLoanRepository;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -52,6 +53,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+        Paginator::useBootstrap();
     
         if (env('APP_DEBUG')) {
            

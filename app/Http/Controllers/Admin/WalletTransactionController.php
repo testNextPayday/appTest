@@ -10,6 +10,13 @@ use App\Services\WalletTransaction\CancelTransactionService;
 
 class WalletTransactionController extends Controller
 {
+
+    public function index()
+    {
+        $transactions = WalletTransaction::with('owner')->latest()->paginate(300);
+        return view('admin.wallet.index', compact('transactions'));
+    }
+
     //
     
     /**

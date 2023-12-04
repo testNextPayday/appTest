@@ -6,8 +6,7 @@
       </div>
 
       <div v-else>
-
-        <div class="card">
+        <div class="card" v-if="step == 1">
           <div class="card-header">
             <strong>Loan</strong>
             <small>Request</small>        
@@ -58,9 +57,17 @@
               </template>
 
               <template v-if="(loandocs.bank_statement == true && bankstatementcleared == true) || (loandocs.bank_statement == false)">
+
+                  <div class="form-group" v-if="employment.employer.has_weekly_repayment">
+                    <label for="company">Loan Period</label>
+                    <select class="form-control" id="loan_period" name="loan_period" @change="onPeriodChange" required>
+                      <option value="monthly">Monthly</option>
+                      <option value="weekly">Weekly</option>
+                    </select>
+                  </div>
                     
                   <div class="form-group">
-                      <label for="duration" style="display:block">Loan Duration (Months) <span class="pull-right">Max: <strong>{{max_duration}}</strong></span></label>
+                      <label for="duration" style="display:block">Loan Duration ({{ selected_period == 'monthly' ? 'Monthly' : 'Weekly' }}) <span class="pull-right">Max: <strong>{{max_duration}}</strong></span></label>
                       <input type="number" class="form-control" name="duration" @blur="confirmAmount" v-on:keyup="confirmAmount" v-model="duration" placeholder="How long do you want this loan for" required>
                   </div>
 
@@ -122,7 +129,7 @@
                   </div>
                       
                   <hr/>
-                    <p>Monthly Repayment: <strong>{{emi}}</strong></p>
+                    <p>{{ selected_period == 'monthly' ? 'Monthly' : 'Weekly' }} Repayment: <strong>{{emi}}</strong></p>
                     <small style="color:cadetblue">Loan charged @ {{interest_percentage}}%</small>
                   <hr/>
 
@@ -174,16 +181,52 @@
 
                   <!-- <label class="text-danger">Please ensure your card will not expire before proceeding</label> -->
                       
-                  <div class="mb-2 float-right mr-3">
+                  <!-- <div class="mb-2 float-right mr-3">
                     <button type="submit" class="btn btn-primary" @click.prevent="payWithPaystack" id="booking-form"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                  </div> -->
+
+                  <div class="mb-2 float-right mr-3">
+                    <button type="submit" class="btn btn-primary" @click.prevent="next" id="booking-form"><i class="fa fa-arrow-right"></i> Next</button>
                   </div>
 
               </template>
             </div>
-
-    
         </div>
 
+        <div class="card" v-else>
+          <div class="card-header">
+            <strong>Guarantor's Information</strong>
+          </div>
+
+
+          <div class="card-body">
+            <div class="form-group">
+                <label for="firstname" style="display:block"><strong>First Name</strong></label>
+                <input type="text" class="form-control" name="firstname" placeholder="Enter Guarantor's First Name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="lastname" style="display:block"><strong>Last Name</strong></label>
+              <input type="text" class="form-control" name="lastname" v-model="guarantor_details.lastname" placeholder="Enter Guarantor's Last Name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="phone_number" style="display:block"><strong>Phone Number</strong></label>
+              <input type="text" class="form-control" name="phone_number" v-model="guarantor_details.phone" placeholder="Enter Guarantor's Phone Number" required>
+            </div>
+
+            <div class="form-group">
+              <label for="email" style="display:block"><strong>Email</strong></label>
+              <input type="text" class="form-control" name="email" v-model="guarantor_details.email" placeholder="Enter Guarantor's Email Address" required>
+            </div>
+
+            <div class="mb-2 d-flex justify-content-between">
+              <button type="submit" class="btn btn-primary" @click.prevent="back" id="booking-form"><i class="fa fa-arrow-left"></i> Back</button>
+              <button type="submit" class="btn btn-primary" @click.prevent="payWithPaystack" id="booking-form"><i class="fa fa-dot-circle-o"></i> Submit</button>
+            </div>
+          </div>
+
+        </div>
       </div>
       
     </div>
@@ -202,6 +245,7 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
         
         data() {
             return {
+              step: 1,
                 formData:{
                   comment: '',
                   code: ''
@@ -232,7 +276,22 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
                 nextProcess : 1,
                 upfront_status : 0,
                 bankstatementcleared : false,
-                old_data : {}                               
+                old_data : {},
+                selected_period: "monthly",
+                guarantor_details: {
+                  firstname: "",
+                  lastname: "",
+                  phone: "",
+                  email: ""
+                },
+                loan_period: {
+                  monthly: {
+                    max_duration: 3
+                  },
+                  weekly: {
+                    max_duration: 9
+                  }
+                }                          
             };
         },
 
@@ -258,6 +317,20 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
             await axios.get(`/bank-statement/check/retrieval/method/${this.user}`).then((res)=> {
               this.enableMono = res.data.status;
             });
+          },
+
+          back() {
+            if (this.step < 2) {
+              return;
+            }
+            this.step = this.step - 1 ;
+          },
+
+          next() {
+            if (this.step > 1) {
+              return;
+            }
+            this.step = this.step + 1 ;
           },
         
           payWithPaystack(){
@@ -340,6 +413,11 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
               });
           },
 
+          onPeriodChange(e){
+            this.selected_period = e.target.value
+            console.log(e.target.value)
+          },
+
           calculateMaxAmount() {
               let employment = this.employments.find((employment) => employment.id === this.employment_id);
               
@@ -378,7 +456,7 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
                     this.charge = charge;  
                     this.upfront_status = 0; 
                 }                    
-            },
+          },
 
           newLoan(requestAmount) {
             let percentage = this.success_fee/100;
@@ -465,7 +543,6 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
         
         computed: {
             employment() {
-              
                 return this.employments.find((employment) => employment.id === this.employment_id);
             },
             
@@ -477,13 +554,11 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
 
                 if (employment) {
                     if (this.duration <= 3) {
-                        feePercentage = employment.employer.fees_3;
-                        
+                        feePercentage = (this.selected_period == 'monthly') ? employment.employer.fees_3 : employment.employer.weekly_fees_3;
                     } else if(this.duration > 3 && this.duration <= 6) {
-                       
-                        feePercentage = employment.employer.fees_6;
+                        feePercentage = (this.selected_period == 'monthly') ? employment.employer.fees_6 : employment.employer.weekly_fees_6;
                     } else {
-                        feePercentage = employment.employer.fees_12;
+                        feePercentage = (this.selected_period == 'monthly') ? employment.employer.fees_12 : employment.employer.weekly_fees_12;
                     }
                 }
                 
@@ -504,13 +579,11 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
                 let feePercentage = 0;
                 if (employment) {
                     if (this.duration <= 3) {
-                        feePercentage = employment.employer.fees_3;
-                        
+                        feePercentage = (this.selected_period == 'monthly') ? employment.employer.fees_3 : employment.employer.weekly_fees_3;
                     } else if(this.duration > 3 && this.duration <= 6) {
-                       
-                        feePercentage = employment.employer.fees_6;
+                        feePercentage = (this.selected_period == 'monthly') ? employment.employer.fees_6 : employment.employer.weekly_fees_6;
                     } else {
-                        feePercentage = employment.employer.fees_12;
+                        feePercentage = (this.selected_period == 'monthly') ? employment.employer.fees_12 : employment.employer.weekly_fees_12;
                     }
                 }                
                 feePercentage = parseFloat(feePercentage);               
@@ -549,7 +622,7 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
                 let max_duration = "Loading";
                 
                 if (employment) {
-                     return employment.employer.max_tenure;
+                     return (this.selected_period == 'monthly') ? employment.employer.max_tenure : employment.employer.max_weekly_tenure;
                 }
                 return max_duration;
             },
@@ -563,7 +636,7 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
                 let employment = this.employments.find((employment) => employment.id === current);
                 
                 if(employment) {
-                    this.interest_percentage = employment.employer.rate_3 || 10;
+                    this.interest_percentage = ((this.selected_period == 'monthly') ? employment.employer.rate_3 : employment.employer.weekly_fees_3) || 10;
                    // this.max_amount = this.calculateMaxAmount();
                 }
             },
@@ -572,25 +645,33 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
 
                 if (val == 2) {
 
-                    $('.bootstrap-select').show();
+                    // $('.bootstrap-select').show();
                 }else {
 
-                    $('.bootstrap-select').hide();
+                    // $('.bootstrap-select').hide();
                 }
             },
             
             duration: function(current) {
                 let employment = this.employments.find((employment) => employment.id === this.employment_id);
                 if (current <= 3) {
-                    this.interest_percentage = employment.employer.rate_3;
-                } else if(current > 3 && current <= 6) {
-                    this.interest_percentage = employment.employer.rate_6;
-                } else {
-                    this.interest_percentage = employment.employer.rate_12;
-                }
+                    this.interest_percentage = (this.selected_period == 'monthly') ? employment.employer.rate_3 : employment.employer.weekly_rate_3;
+                  } else if(current > 3 && current <= 6) {
+                    this.interest_percentage = (this.selected_period == 'monthly') ? employment.employer.rate_6 : employment.employer.weekly_rate_6;
+                  } else {
+                    this.interest_percentage = (this.selected_period == 'monthly') ? employment.employer.rate_12 : employment.employer.weekly_rate_12;
+                  }
+
+                // if (current <= 3) {
+                //     this.interest_percentage = employment.employer.rate_3;
+                // } else if(current > 3 && current <= 6) {
+                //     this.interest_percentage = employment.employer.rate_6;
+                // } else {
+                //     this.interest_percentage = employment.employer.rate_12;
+                // }
                 
-                if (current > employment.employer.max_tenure) {
-                    this.duration = employment.employer.max_tenure;
+                if (current > ((this.selected_period == 'monthly') ? employment.employer.max_tenure : employment.employer.max_weekly_tenure)) {
+                    this.duration = ((this.selected_period == 'monthly') ? employment.employer.max_tenure : employment.employer.max_weekly_tenure);
                 }
             },
 

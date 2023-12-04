@@ -5,6 +5,14 @@ Route::post('/auth/broadcasting', function(Illuminate\Http\Request $request) {
     return Broadcast::auth($request);
 })->middleware('auth:admin');
 
+Route::group(['prefix'=>'wallet'], function () {
+   
+   Route::get(
+      '/reports', 'WalletTransactionController@index'
+   )->name('admin.wallet.reports');
+
+});
+
 Route::group(['prefix'=>'managed-loans-sweeps'], function () {
    
    Route::get(

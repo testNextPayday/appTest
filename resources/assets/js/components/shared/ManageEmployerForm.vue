@@ -12,7 +12,7 @@
                     </div>
                     
                     <div class="form-group col-sm-4">
-                        <label class="control-label" for="max_tenure"><strong>Max Tenure</strong></label>
+                        <label class="control-label" for="max_tenure"><strong>Max Monthly Tenure </strong></label>
                         <input type="number" name="max_tenure" id="max_tenure"
                             v-model="employer.max_tenure"
                             class="form-control" required >
@@ -37,7 +37,6 @@
                         <input type="text" name="rate_12" id="rate_12" v-model="employer.rate_12"
                                 class="form-control" required >
                     </div>
-                        
                 </div>
                             
                 <div class="row">
@@ -59,6 +58,64 @@
                             class="form-control" required >
                     </div>
                 </div>
+
+                <fieldset class="form-group border p-3">
+                    <legend class="w-auto px-2">Weekly Repayment</legend>
+                    <div class="row">
+                        <div class="row col-sm-12">
+                            <div class="form-group col-sm-4">
+                                <label class="control-label" for="max_weekly_tenure"><strong>Max Weekly Tenure</strong></label>
+                                <input type="number" name="max_weekly_tenure" id="max_weekly_tenure"
+                                    v-model="employer.max_weekly_tenure"
+                                    class="form-control" required >
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label" for="has_weekly_repayment"><strong>Allow Weekly Repayment</strong></label>
+                                <input type="checkbox" name="has_weekly_repayment" id="has_weekly_repayment" class="form-control" 
+                                v-model="employer.has_weekly_repayment"
+                                >
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label class="control-label" for="weekly_rate_3"><strong>3 Weeks Rate</strong></label>
+                            <input type="text" name="weekly_rate_3" id="weekly_rate_3" v-model="employer.weekly_rate_3"
+                                class="form-control" required >
+                        </div>
+                            
+                        <div class="form-group col-sm-4">
+                            <label class="control-label" for="weekly_rate_6"><strong>6 Weeks Rate</strong></label>
+                            <input type="text" name="weekly_rate_6" id="weekly_rate_6" v-model="employer.weekly_rate_6"
+                                class="form-control" required >
+                        </div>
+                            
+                        <div class="form-group col-sm-4">
+                            <label class="control-label" for="weekly_rate_12"><strong>12 Weeks Rate</strong></label>
+                            <input type="text" name="weekly_rate_12" id="weekly_rate_12" v-model="employer.weekly_rate_12"
+                                    class="form-control" required >
+                        </div>
+                    </div>
+                                
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <label class="control-label" for="weekly_fees_6"><strong>3 Weeks Fees</strong></label>
+                            <input type="text" name="weekly_fees_6" id="weekly_fees_6" v-model="employer.weekly_fees_3"
+                                class="form-control" required >
+                        </div>
+                            
+                        <div class="form-group col-sm-4">
+                            <label class="control-label" for="weekly_fees_6"><strong>6 Weeks Fees</strong></label>
+                            <input type="text" name="weekly_fees_6" id="weekly_fees_6" v-model="employer.weekly_fees_6"
+                                class="form-control" required >
+                        </div>
+                        
+                        <div class="form-group col-sm-4">
+                            <label class="control-label" for="weekly_fees_12"><strong>12 Weeks Fee</strong></label>
+                            <input type="text" name="weekly_fees_12" id="weekly_fees_12" v-model="employer.weekly_fees_12"
+                                class="form-control" required >
+                        </div>
+                    </div>
+                </fieldset>
                             
                 <div class="row">
                     <div class="form-group col-sm-4">

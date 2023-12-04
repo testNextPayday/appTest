@@ -19,6 +19,13 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.wallet.reports') }}">
+                <i class="menu-icon icon-credit-card"></i>
+                <span class="menu-title">Wallet Reports <span class="badge badge-danger feature-badge">New </span> </span>
+               
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#loans" aria-expanded="false" aria-controls="loans">
                 <i class="menu-icon icon-diamond"></i>
                 <span class="menu-title">Loans</span>
