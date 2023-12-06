@@ -112,6 +112,26 @@
         </li>
 
         <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#savings" aria-expanded="false" aria-controls="savings">
+                <i class="menu-icon icon-diamond"></i>
+                <span class="menu-title">Savings</span>
+            </a>
+            <div class="collapse" id="savings">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.savings.settings')}}">Settings</a>
+                    </li>
+                    {{-- <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.okra.records')}}">
+                            Savings
+                        </a>
+                    </li> --}}
+                    
+                </ul>
+            </div>
+        </li>
+
+        <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#okra" aria-expanded="false" aria-controls="okra">
                 <i class="menu-icon icon-diamond"></i>
                 <span class="menu-title">Okra Collections</span>

@@ -182,11 +182,12 @@ Route::group(['middleware' => ['auth', 'unverified.email'], 'namespace' => 'User
     }
     );
 
-
+    // SAVINGS
     Route::group(['prefix'=>'savings'], function(){
 
-        Route::view('/index', 'users.savings.index')->name('users.savings.index');
-        // Route::post('/request', 'RefundController@store')->name('users.refund.request');
+        Route::get('/', 'SavingsController@index')->name('users.savings.index');
+        Route::get('/{id}', 'SavingsController@view')->name('users.savings.view');
+        Route::post('/store', 'SavingsController@store')->name('users.savings.store');
     }
     );
 

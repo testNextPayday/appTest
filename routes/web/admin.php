@@ -466,7 +466,11 @@ Route::post('/investor/pay/commission', 'AccountFundController@payFundCommission
 Route::post('employments/{employment}', 'EmploymentController@update')->name('admin.employments.update');
 
 
-
+Route::group(['prefix'=>'savings'], function() {
+   Route::get('/', 'SavingsController@index')->name('admin.savings.index');
+   Route::get('/settings', 'SavingsController@settings')->name('admin.savings.settings');
+   Route::post('/settings/update', 'SavingsController@update')->name('admin.savings.update');
+});
 
 
 // The goal is to move staff admin routes here to avoid duplicate controllers
