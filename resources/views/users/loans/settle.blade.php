@@ -48,7 +48,9 @@
             <div>
                 <p><b>INSTRUCTIONS:</b> You can pay online above or use the bank details below to pay in the bank <br>
                 and upload <span style="color:red">proof of payment i.e teller or screenshot in less than 24hrs</span> after viewing<br>
-                this settlement report since charges are accrued daily</p>
+                this settlement report since charges are accrued daily.
+                <br>
+                            There will be no refund after settlement.</p>
                 <table class="table table-bordered" style="width:60%">
                     <tbody>
                         <tr>

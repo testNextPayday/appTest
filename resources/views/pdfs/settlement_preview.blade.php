@@ -196,25 +196,27 @@
                         <p><b>INSTRUCTIONS:</b> You can pay online above or use the bank details below to pay in the
                             bank <br>
                             Payment should be made within 24hrs after viewing
-                            this settlement report since charges are accrued daily</p>
+                            this settlement report since charges are accrued daily <br>
+                            There will be no refund after settlement.
+                            </p>
                         <table class="table table-bordered" style="width:70%">
                             <tbody>
                                 <tr>
-                                    <td>Bank Name:</td>
-                                    <td>Wema Bank</td>
-                                </tr>
-                                <tr>
-                                    <td>Account Number</td>
-                                    <td>0123666554</td>
-                                </tr>
-                                <tr>
-                                    <td>Account Name</td>
-                                    <td>Nextpayday</td>
-                                </tr>
-                                <tr>
-                                    <td>Purpose</td>
-                                    <td>Pre-liquidation of Nextpayday Loan</td>
-                                </tr>
+                            <td>Bank Name:</td>
+                            <td>Stanbic IBTC Bank</td>
+                        </tr>
+                        <tr>
+                            <td>Account Number</td>
+                            <td>0051208788</td>
+                        </tr>
+                        <tr>
+                            <td>Account Name</td>
+                            <td>Nextpayday</td>
+                        </tr>
+                        <tr>
+                            <td>Purpose</td>
+                            <td>Pre-liquidation of Nextpayday Loan</td>
+                        </tr>
                             </tbody>
                         </table>
                     </div>
