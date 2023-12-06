@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('user_id');
             $table->integer('savings_id');
             $table->string('amount');
-            $table->double('description')->nullable();
+            $table->string('description')->nullable();
             $table->string('type')->default('credit');
             $table->string('status')->default('success');
             $table->timestamps();

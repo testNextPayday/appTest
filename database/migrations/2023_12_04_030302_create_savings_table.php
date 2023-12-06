@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('name');
             $table->double('amount')->default(0);
             $table->double('target_amount')->default(0);
-            $table->integer('interest')->default(0);
+            $table->double('interest')->default(0);
             $table->integer('duration')->default(0);
-            $table->integer('target_duration')->default(0);
+            $table->timestamp('pay_back_date');
             $table->integer('credited_times')->default(0);
             $table->integer('status')->default(1);
             $table->timestamp('terminated_at')->nullable();

@@ -163,7 +163,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="">Target duration (in months)</label>
+                                                <label for="">Pay back date</label>
                                                     <input type="date" name="payback_date" class="form-control"
                                                         placeholder="Target duration ">
                                                 </div>

@@ -52,9 +52,9 @@
                                         <tr>
                                             <th>SN</th>
                                             <th>Amount</th>
-                                            <th class="text-center">Interest</th>
-                                            <th class="text-center">Date</th>
+                                            <th class="text-center">Dec</th>
                                             <th class="">Status</th>
+                                            <th class="">Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -63,23 +63,26 @@
                                           <td class="text-center">
                                               {{$loop->iteration}}
                                           </td>
+                                          
                                           <td>
-                                              <div>{{$transaction->reference}}</div>
+                                              <div class="{{$transaction->type == 'credit' ? 'text-success' : 'text-danger'}}">₦ {{ number_format($transaction->amount, 2) }}</div>
                                           </td>
-                                          <td>
-                                              <div>₦ {{$transaction->amount}}</div>
-                                          </td>
-                                          <td class="text-center">
-                                              <div class="small text-muted">
-                                                  {{$transaction->direction == 1 ? 'Incoming' : 'Outgoing'}}
-                                              </div>
-                                          </td>
+                                          
                                           <td class="text-center">
                                               <div class="small text-muted">
                                                   {{$transaction->description}}
                                               </div>
                                           </td>
-                                          <td>{{ $transaction->created_at->diffForHumans()}}</td>
+                                          <td>
+                                            <div>
+                                                @if($transaction->status == 'success')
+                                                    <span class="badge badge-success">{{ $transaction->status }}</span>
+                                                @else
+                                                    <span class="badge badge-danger">{{ $transaction->status }}</span>
+                                                @endif
+                                            </div>
+                                            </td>
+                                      <td>{{ $transaction->created_at->format('d M, Y')}}</td>
                                       </tr>
                                       @empty
                                       <tr>

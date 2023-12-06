@@ -53,11 +53,11 @@
                     <tbody>
                         <tr>
                             <td>Bank Name:</td>
-                            <td>Wema Bank</td>
+                            <td>Stanbic IBTC Bank</td>
                         </tr>
                         <tr>
                             <td>Account Number</td>
-                            <td>0123666554</td>
+                            <td>0051208788</td>
                         </tr>
                         <tr>
                             <td>Account Name</td>

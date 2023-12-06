@@ -7,6 +7,7 @@ use App\Models\Admin;
 use App\Models\Savings;
 use App\Models\SavingsSettings;
 use App\Models\SavingsTransaction;
+use Carbon\Carbon;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,47 +30,56 @@ class SavingsController extends Controller
 
     public function store(Request $r)
     {
-        // if(Savings::where('user_id', Auth::id())->where('status', 1)->count() > 0){
-        //     return back()->with('failure', 'You can only have one active savings plan');
-        // }
 
-        // dd($this->settings()->minimum_savings);
-        $newdate = now()->addMonths($this->settings()->minimum_duration);
+        $user = Auth::user();
+        if(Savings::where('user_id', $user->id)->where('status', 1)->count() > 0){
+            return back()->with('failure', 'You can only have one active savings plan');
+        }
 
-        // dd($newdate);
-        // dd(now()->diffInMonths($newdate));
-        $min_duration = now()->diffInMonths($newdate);
-
-        
+        if($user->wallet < $this->settings()->minimum_savings){
+            return back()->with('failure', 'You must have a minimum of '.$this->settings()->minimum_savings . ' in your wallet before creating a savings plan');
+        }
 
         $r->validate([
             'name' => 'required',
             'target_amount' => 'required|integer|min:'.$this->settings()->minimum_savings,
-        'payback_date' => 'required|date_format:Y-m-d|:'.now()->diffInMonths($newdate),
-            // 'target_duration' => 'required|date_format:Y-m-d|after:today',
+            'payback_date' => 'required|date_format:Y-m-d',
         ]);
 
-        $paybackDate = $r->payback_date;
+        $paybackDate = Carbon::parse($r->payback_date);
+        // dd($paybackDate);
 
-        dd($paybackDate);
+        // dd(now()->diffInMonths($paybackDate));
+        $duration = (now()->diffInMonths($paybackDate) + 1);
 
-        // if (condition) {
-        //     # code...
-        // }
+        if ($duration < $this->settings()->minimum_duration) {
+            return back()->with('failure', 'Minimum savings duration is '.$this->settings()->minimum_duration.' months');
+        }
 
+        $amount = $user->wallet;
 
-
-
-        $store = Savings::create([
-            'user_id' => Auth::id(),
-            'name' => $r->name,
+        $savings = Savings::create([
+            'user_id' => $user->id,
+            'name' => $r->name, 
+            'amount' => $user->wallet,
+            'duration' => $duration,
             'target_amount' => $r->target_amount,
-            'target_duration' => $r->target_duration,
+            'pay_back_date' => $r->payback_date,
         ]);
 
-        
+        $user->wallet = 0;
+        $user->save();
 
-        if ($store) {
+        SavingsTransaction::create([
+            'user_id' => $user->id,
+            'savings_id' => $savings->id,
+            'amount' => $amount,
+            'description' => 'Savings funding',
+            'type' => 'credit',
+            'status' => 'success'
+        ]);
+
+        if ($savings) {
             return back()->with('success', 'Savings plan created successfully');
         } else {
             return back()->with('failure', 'An error occurred. Please try again');
