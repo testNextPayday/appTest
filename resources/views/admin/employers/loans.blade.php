@@ -7,7 +7,7 @@
         <div class="col-12 d-flex align-items-center justify-content-between">
             <h4 class="page-title">{{ $employer->name }}'s Employees Loans</h4>
             <a class="btn btn-sm btn-primary"
-                href="{{ route('admin.employers.view', ['employer_id' => encrypt($employer->id)]) }}">
+                href="{{ route('admin.employers.view',  encrypt($employer->id)) }}">
                 <i class="fa fa-arrow-left"></i> {{ $employer->name }}
             </a>
         </div>
