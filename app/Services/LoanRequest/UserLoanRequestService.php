@@ -14,7 +14,7 @@ use App\Unicredit\Collection\Utilities;
 use App\Services\TransactionVerificationService;
 use App\Notifications\Users\LoanRequestPlacedNotification;
 use App\Notifications\Users\LoanRequestApprovalRequestNotification;
-
+use App\Services\Lydia\LydiaService;
 
 class UserLoanRequestService
 {
@@ -80,7 +80,6 @@ class UserLoanRequestService
         //update loan request emi
         
         $loanRequest->update(['emi' => $loanRequest->emi()]);
-        
         if ($placer) {
             $loanRequest->update(
                 [
@@ -89,6 +88,7 @@ class UserLoanRequestService
                 ]
             );
         }
+        $loanRequest->refresh();
         return $loanRequest;
     }
 
@@ -158,7 +158,13 @@ class UserLoanRequestService
             'is_top_up'=> $request->is_top_up == "true" ? 1 : 0,
             'placer_type'=> '0', // default value
             'upfront_interest' => $upfront_interest,
-            'affiliate_repayment_type' => $affiliate_type
+            'affiliate_repayment_type' => $affiliate_type,
+            'loan_period' => $request->loan_period,
+            "guarantor_first_name" => $request->guarantor_first_name,
+            "guarantor_last_name" => $request->guarantor_last_name,
+            "guarantor_phone" => $request->guarantor_phone,
+            "guarantor_email" => $request->guarantor_email,
+            "guarantor_bvn" => $request->guarantor_bvn,
         ];
 
         // When Mono is enabled

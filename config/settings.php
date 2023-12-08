@@ -9,6 +9,7 @@ return [
             '100' => 'Remita',
             '101' => 'Okra',
             '102' => 'Mono',
+            '103' => 'Lydia',
         ],
         
         'das' => [

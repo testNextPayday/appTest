@@ -304,9 +304,10 @@ class EmployerController extends Controller
             $capitalize = $request->capitalize;
             $upgrade = $request->upgrade; 
             $affiliate_payment_method = $request->repayment;   
-            $upfront_interest = $request->upfrontinterest;            
+            $upfront_interest = $request->upfrontinterest;   
+            $enable_guarantor = $request->enable_guarantor;            
             Employer::where('id', $employer->id)->update(["loanRequestDocs" => $loanDocs, "loanRequestSettings" => $loansettings,
-             "is_capitalized"=>$capitalize,"upgrade_enabled"=>$upgrade, "affiliate_payment_method" => $affiliate_payment_method, "upfront_interest"=>$upfront_interest]);
+             "is_capitalized"=>$capitalize,"upgrade_enabled"=>$upgrade, "affiliate_payment_method" => $affiliate_payment_method, "upfront_interest"=>$upfront_interest, "enable_guarantor" => $enable_guarantor]);
             return response()->json(["success"=>"Requirements updated"]);
         }catch (\Exception $e) {
             return response()->json(['failure'=>$e->getMessage()], 422);

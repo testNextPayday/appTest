@@ -36,6 +36,11 @@
 					<input type="checkbox" name="affiliate_payment_method" id="affiliate_payment_method" class="form-control" v-model="affillaiteRepaymentOn">
 				</div>
 
+				<div class="form-group">
+					<label>Enable Guarantor </label>
+					<input type="checkbox" name="enable_guarantor" id="enable_guarantor" class="form-control" v-model="enableguarantor">
+				</div>
+
     			<!-- <div class="form-group">
     				<label for="payslip"></label>
     				<input type="checkbox" name="payslip" id="payslip" class="form-control" v-model="loandocs.payslip">
@@ -54,7 +59,7 @@
 <script>
 import { utilitiesMixin } from "../../mixins";
 export default {
-	props:['loandocs', 'loansettings', 'user_id', 'capitalize', 'upgrade', 'repayment', 'upfrontinterest'],
+	props:['loandocs', 'loansettings', 'user_id', 'capitalize', 'upgrade', 'repayment', 'upfrontinterest', 'enableguarantor'],
 
 	mixins:[utilitiesMixin],
 
@@ -65,6 +70,7 @@ export default {
 			upgradeOn : this.upgrade,
 			upfrontInterestOn : this.upfrontinterest,
 			affillaiteRepaymentOn : this.repayment,
+			enableguarantor: this.enableguarantor,
             buttonClass: {
                 fa: true,
                 "fa-check-circle-o": true,
@@ -83,7 +89,8 @@ export default {
 				 capitalize: this.capitalizeOn,
 				 upgrade: this.upgradeOn,
 				 upfrontinterest: this.upfrontInterestOn,
-				 repayment: this.affillaiteRepaymentOn
+				 repayment: this.affillaiteRepaymentOn,
+				 enable_guarantor: this.enableguarantor
 				})
             .then(response => {
 				// console.log(response);
