@@ -620,6 +620,17 @@ Route::group(['prefix'=> 'users/mono'], function() {
     Route::get('/checkMonoStatus', 'Users\MonoController@checkMonoStatus')->name('mono.check.status');
     Route::post('/verifyIfBankMatch', 'Users\MonoController@verifyBank')->name('mono.verify.bank');
 });
+
+//LYDIA API REQUEST
+Route::group(['prefix'=> 'users/lydia'], function() {
+    Route::post('/create', 'Users\LydiaCollectionController@create')->name('lydia.create');
+    // Route::post('/authentication', 'Users\MonoController@authHttpRequest')->name('mono.auth');
+    // Route::post('/getaccount', 'Users\MonoController@getAccount')->name('mono.getaccount');
+    // Route::get('/statement', 'Users\MonoController@getStatement')->name('mono.statement');
+    // Route::get('/checkMonoStatus', 'Users\MonoController@checkMonoStatus')->name('mono.check.status');
+    // Route::post('/verifyIfBankMatch', 'Users\MonoController@verifyBank')->name('mono.verify.bank');
+});
+
 Route::post('/investors/promissory-notes/fund/payday/mono-fund', 'Investors\PaydayNoteSignupController@monoDirectPay')->name('promissory-note.mono.directpay');
 Route::get('/investors/promissory-notes/monostatus', 'Investors\PaydayNoteSignupController@monoStatus')->name('promissory-note.monostatus');
 Route::get('/investors/promissory-notes/verify-monostatus', 'Investors\PaydayNoteSignupController@verifyMonoStatus')->name('promissory-note.verifystatus');

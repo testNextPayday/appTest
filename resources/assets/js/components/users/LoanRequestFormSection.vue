@@ -6,19 +6,20 @@
       </div>
 
       <div v-else>
-        <div class="card" v-if="step == 1">
-          <div class="card-header">
-            <strong>Loan</strong>
-            <small>Request</small>        
-            <span class="pull-right">Verification Fee: <b>₦ {{ application_fee2 < 1 ? application_fee : application_fee2}} </b></span>
-          </div>
+        <div :class="step == 1 ? 'd-block' : 'd-none'">
+          <div class="card">
+            <div class="card-header">
+              <strong>Loan</strong>
+              <small>Request</small>        
+              <span class="pull-right">Verification Fee: <b>₦ {{ application_fee2 < 1 ? application_fee : application_fee2}} </b></span>
+            </div>
             <div class="card-body" >
               <div class="form-group" v-if="request">
-               
+                
                 <incomplete-loan-request-form :request="request"></incomplete-loan-request-form>
-
+  
               </div>
-
+  
               <div class="form-group">
                   <label for="company">Select Employment</label>
                   <select class="form-control selectpicker" id="employment" name="employment_id" v-model="employment_id" data-live-search="true" @change="onChangeEmployer" required>
@@ -27,38 +28,39 @@
                       </option>
                   </select>
               </div>
-
-
+  
+  
               <template v-if="(loandocs.bank_statement == true && bankstatementcleared == false)">                
-                    <!-- If enable mono is turned on use mono-->
+                    <!-- If enable mono is turned on use mono -->
                     <template>
                       <div id="statementButton">
                         <p>Click one of the Following to Retrieve Bank Statement</p>                        
                         <div class="d-flex justify-content-between">
                           <button @click.prevent='mbscall' type="button" class="btn btn-success"> MBS </button>
-                          <button @click.prevent='monocall' type="button"  class="btn btn-info"> Mono </button>                        
+                          <button @click.prevent='monocall' type="button"  class="btn btn-info" v-if="this.employment.employer.collection_plan == '102'"> Mono </button>
+                          <!-- <button @click.prevent='lydiacall' type="button"  class="btn btn-info" v-if="this.employment.employer.collection_plan == '103'"> Lydia </button>                         -->
                         </div>
                       </div>
                     </template>
-
+  
                     <template v-if="enableMono">
                         <mono-statement :reference="user" :monokey="monokey" @cleared="showStatementMethod"></mono-statement>
                     </template>
-
+  
                     <template v-if="enableMbs">
                         <my-bank-statement :user="user.reference" @cleared="showStatementMethod"></my-bank-statement>
                     </template>
-
+  
               </template>
-
+  
               <!-- When retrieving statement from old request just show statement -->
               <template v-if="statement">
                 <div class="alert alert-success"> <a :href="statement" target="_blank"><i class="fa fa-file-pdf-o"></i></a>  Statement has been retrieved proceed to book loan  </div>
               </template>
-
-              <template v-if="(loandocs.bank_statement == true && bankstatementcleared == true) || (loandocs.bank_statement == false)">
-
-                  <div class="form-group" v-if="employment.employer.has_weekly_repayment">
+  
+              <template v-if="(loandocs.bank_statement == true && bankstatementcleared == true) || (loandocs.bank_statement == false) || lidya_success == true">
+  
+                  <div class="form-group mt-4" v-if="employment.employer.has_weekly_repayment">
                     <label for="company">Loan Period</label>
                     <select class="form-control" id="loan_period" name="loan_period" @change="onPeriodChange" required>
                       <option value="monthly">Monthly</option>
@@ -70,23 +72,23 @@
                       <label for="duration" style="display:block">Loan Duration ({{ selected_period == 'monthly' ? 'Monthly' : 'Weekly' }}) <span class="pull-right">Max: <strong>{{max_duration}}</strong></span></label>
                       <input type="number" class="form-control" name="duration" @blur="confirmAmount" v-on:keyup="confirmAmount" v-model="duration" placeholder="How long do you want this loan for" required>
                   </div>
-
+  
                   <div class="form-group" style="display:none;">
                       <label for="interest_percentage">Interest Percentage <small><em>(This is determined by your selected employer)</em></small></label>
                       <input min="1" max="100" type="number" v-model="interest_percentage" id="interest_percentage" class="form-control"
                           name="interest_percentage" placeholder="How many percent return?" readonly required>
                   </div>
-
+  
                   <div class="form-group">
                       <label for="company" style="display:block">Amount Needed <span class="pull-right">Max: <b>{{max_amount}}</b></span></label>
                       <input type="number" class="form-control" id="amount" v-model="amount" name="amount" required
                           placeholder="Enter an amount in Naira" @blur="confirmAmount" v-on:keyup="confirmAmount" @change="confirmAmount">
                   </div>
-
+  
                   <input type="hidden" name="newAmount" v-model="newAmount">
-
+  
                   <input type="hidden" name="charge" v-model="charge">
-
+  
                   <div>
                       <p class="mb-2 mt-2" style="font-size:0.9rem;">
                           <i class="icon-check text-success"></i> Gross loan
@@ -95,7 +97,7 @@
                           </span>
                       </p>      
                   </div>
-
+  
                   <div class="">
                       <p class="mb-2 mt-2" style="font-size:0.9rem;">
                           <i class="icon-check text-success"></i> Loan fee
@@ -104,7 +106,7 @@
                           </span>
                       </p>
                   </div>
-
+  
                   <div class="">
                       <p class="mb-3 mt-2" style="font-size:0.9rem;">
                         <i class="icon-check text-success"></i> Disbursal amount
@@ -113,14 +115,14 @@
                         </span> 
                       </p>
                   </div>
-
+  
                   <div class="row mb-2" v-if="shouldCapitalize">
                     <div class="col">
                       <div class="float-right font-weight-bold">
                         <label class="active">
                           <input type="radio" value="1" v-model="setoff" required @change="confirmAmount"> Set-off
                         </label>
-
+  
                         <label class="">
                           <input type="radio" value="0" v-model="setoff" required @change="confirmAmount"> Capitalize 
                         </label>
@@ -132,12 +134,12 @@
                     <p>{{ selected_period == 'monthly' ? 'Monthly' : 'Weekly' }} Repayment: <strong>{{emi}}</strong></p>
                     <small style="color:cadetblue">Loan charged @ {{interest_percentage}}%</small>
                   <hr/>
-
+  
                   <!-- <hr/>
                     <p>Total Repayment Fee: <strong>{{total_repayment_fee}}</strong></p>
                     <small style="color:cadetblue">Loan charged @ {{interest_percentage}}%</small>
                   <hr/> -->
-
+  
                   <!-- <div class="form-group">
                     <label for="referrer"> 
                       <b>Pick a Referrer &nbsp;&nbsp; </b>
@@ -155,16 +157,16 @@
                     <label for="aff_code" style="display:block">Affiliate Code <small><i>(Not Required)</i></small></label>
                     <input type="text" class="form-control" name="code" v-model="formData.code" >
                   </div>
-
+  
                   <div class="form-group" v-else-if="referralMethod == 2">
                     <label for="reference">Enter Borrower Phone</label>
                     <input type="text" class="form-control" name="code" v-model="formData.code" >
                   </div>
-
+  
                   <div v-else>
                       <label>No affiliate method selected</label>
                   </div>
-
+  
                   <!-- <div class="row">
                     <div class="form-group col-sm-12">
                       <label for="textarea-input">Purpose of Loan</label>
@@ -172,60 +174,66 @@
                       </textarea>
                     </div>  
                   </div> -->
-
+  
                   <div class="checkbox">
                     <label for="checkbox2">
                       <input type="checkbox" id="checkbox2" name="accept_insurance" required> I agree to the <a href="http://nextpayday.ng/terms/loan/" target="_blank">terms and conditions</a> of Nextpayday.
                     </label>
                   </div>
-
+  
                   <!-- <label class="text-danger">Please ensure your card will not expire before proceeding</label> -->
                       
-                  <!-- <div class="mb-2 float-right mr-3">
+                  <div class="mb-2 float-right mr-3" v-if="!employment.employer.enable_guarantor">
                     <button type="submit" class="btn btn-primary" @click.prevent="payWithPaystack" id="booking-form"><i class="fa fa-dot-circle-o"></i> Submit</button>
-                  </div> -->
-
-                  <div class="mb-2 float-right mr-3">
+                  </div>
+  
+                  <div class="mb-2 float-right mr-3" v-else>
                     <button type="submit" class="btn btn-primary" @click.prevent="next" id="booking-form"><i class="fa fa-arrow-right"></i> Next</button>
                   </div>
-
+  
               </template>
             </div>
+          </div>
         </div>
 
-        <div class="card" v-else>
-          <div class="card-header">
-            <strong>Guarantor's Information</strong>
+        <div :class="step == 2 ? 'd-block' : 'd-none'">
+          <div class="card">
+            <div class="card-header">
+              <strong>Guarantor's Information</strong>
+            </div>
+            <div class="card-body">
+
+              <div class="form-group">
+                  <label for="firstname"><strong>First Name</strong></label>
+                  <input type="text" class="form-control" name="firstname" v-model="guarantor_details.firstname" placeholder="Enter Guarantor's First Name" required>
+              </div>
+  
+              <div class="form-group">
+                <label for="lastname"><strong>Last Name</strong></label>
+                <input type="text" class="form-control" name="lastname" v-model="guarantor_details.lastname" placeholder="Enter Guarantor's Last Name" required>
+              </div>
+  
+              <div class="form-group">
+                <label for="phone_number"><strong>Phone Number</strong></label>
+                <input type="text" class="form-control" name="phone_number" v-model="guarantor_details.phone" placeholder="Enter Guarantor's Phone Number" required>
+              </div>
+  
+              <div class="form-group">
+                <label for="email"><strong>Email</strong></label>
+                <input type="text" class="form-control" name="email" v-model="guarantor_details.email" placeholder="Enter Guarantor's Email Address" required>
+              </div>
+
+              <div class="form-group">
+                <label for="email"><strong>BVN</strong></label>
+                <input type="text" class="form-control" name="bvn" v-model="guarantor_details.bvn" placeholder="Enter Guarantor's BVN" required>
+              </div>
+  
+              <div class="mb-2 d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary" @click.prevent="back" id="booking-form"><i class="fa fa-arrow-left"></i> Back</button>
+                <button type="submit" class="btn btn-primary" @click.prevent="payWithPaystack" id="booking-form"><i class="fa fa-dot-circle-o"></i> Submit</button>
+              </div>
+            </div>
           </div>
-
-
-          <div class="card-body">
-            <div class="form-group">
-                <label for="firstname" style="display:block"><strong>First Name</strong></label>
-                <input type="text" class="form-control" name="firstname" placeholder="Enter Guarantor's First Name" required>
-            </div>
-
-            <div class="form-group">
-              <label for="lastname" style="display:block"><strong>Last Name</strong></label>
-              <input type="text" class="form-control" name="lastname" v-model="guarantor_details.lastname" placeholder="Enter Guarantor's Last Name" required>
-            </div>
-
-            <div class="form-group">
-              <label for="phone_number" style="display:block"><strong>Phone Number</strong></label>
-              <input type="text" class="form-control" name="phone_number" v-model="guarantor_details.phone" placeholder="Enter Guarantor's Phone Number" required>
-            </div>
-
-            <div class="form-group">
-              <label for="email" style="display:block"><strong>Email</strong></label>
-              <input type="text" class="form-control" name="email" v-model="guarantor_details.email" placeholder="Enter Guarantor's Email Address" required>
-            </div>
-
-            <div class="mb-2 d-flex justify-content-between">
-              <button type="submit" class="btn btn-primary" @click.prevent="back" id="booking-form"><i class="fa fa-arrow-left"></i> Back</button>
-              <button type="submit" class="btn btn-primary" @click.prevent="payWithPaystack" id="booking-form"><i class="fa fa-dot-circle-o"></i> Submit</button>
-            </div>
-          </div>
-
         </div>
       </div>
       
@@ -278,20 +286,14 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
                 bankstatementcleared : false,
                 old_data : {},
                 selected_period: "monthly",
+                lidya_success: false, 
                 guarantor_details: {
                   firstname: "",
                   lastname: "",
                   phone: "",
-                  email: ""
-                },
-                loan_period: {
-                  monthly: {
-                    max_duration: 3
-                  },
-                  weekly: {
-                    max_duration: 9
-                  }
-                }                          
+                  email: "",
+                  bvn: ""
+                }                      
             };
         },
 
@@ -334,6 +336,11 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
           },
         
           payWithPaystack(){
+
+              if (this.step == 2 && (this.guarantor_details.firstname == "" || this.guarantor_details.bvn == "" || this.guarantor_details.email == "" || this.guarantor_details.lastname == "" || this.guarantor_details.phone == "")) {
+                swal("Error", `Please complete the Guarantor's form`, "error");
+                return;
+              }
 
               let name = this.user.name.split(',');
 
@@ -394,14 +401,20 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
               formData.append('is_top_up', this.topup);
               formData.append('bankstatementcleared', this.bankstatementcleared);
               formData.append('application_fee', this.application_fee2);
-              
+              formData.append('loan_period',this.selected_period);
               formData.append('upfront_status', this.upfront_status);
               formData.append('enableMono', this.enableMono);
+              formData.append('guarantor_first_name',this.guarantor_details.firstname);
+              formData.append('guarantor_last_name',this.guarantor_details.lastname);
+              formData.append('guarantor_phone',this.guarantor_details.phone);
+              formData.append('guarantor_email',this.guarantor_details.email);
+              formData.append('guarantor_bvn',this.guarantor_details.bvn);
               axios.post(`/loan-requests/store`, formData).then(res => {
+                // console.log(res.data.message)
                   vm.uploading = false;
                   swal({
                     title: "Good job!",
-                    text: "You loan request was successfully sent and awaiting approval, please check notification page for next step.",
+                    text: res.data.message,
                     icon: "success",
                     button: "OK",
                   }).then(res => {                  
@@ -415,14 +428,14 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
 
           onPeriodChange(e){
             this.selected_period = e.target.value
-            console.log(e.target.value)
+            console.log(this.user)
           },
 
           calculateMaxAmount() {
               let employment = this.employments.find((employment) => employment.id === this.employment_id);
               
               if (employment)
-                  return employment.net_pay * this.duration / 3;
+                  return (employment.net_pay + this.user.wallet) * this.duration / 3;
                   
               return "Loading...";
           },
@@ -525,12 +538,9 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
 
           paystack_charge: function(amount){
             let charge = (1.5 / 100) * amount;
-
             if (amount > 2500) {
-
                 charge += 100;
             }
-
             return this.round(charge, 2);
           },
 
@@ -538,6 +548,19 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
             this.statement = bankstatement;
             this.bankstatementcleared = true;
           },
+
+          async lydiacall() {
+            this.loading = true;
+            await axios.post(`/users/lydia/create`, null).then((res)=> {
+                if (res.data.status) {
+                  this.lidya_success = true;
+                  this.alertSuccess(res.data.message)
+                }
+            }).catch((e)=> {
+                this.alertError(e.response.data.message);        
+            })
+             this.loading = false;
+        },
             
         },
         
@@ -547,9 +570,7 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
             },
             
             emi() {
-                
                 let employment = this.employments.find((employment) => employment.id === this.employment_id);
-                
                 let feePercentage = 0;
 
                 if (employment) {
@@ -574,7 +595,6 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
             },
 
             total_repayment_fee() {
-                
                 let employment = this.employments.find((employment) => employment.id === this.employment_id);                
                 let feePercentage = 0;
                 if (employment) {
@@ -605,12 +625,12 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
                   if(employment.employer.upgrade_enabled == 0){
                      this.loanLimit = employment.employer.loan_limit;
                      this.success_fee = employment.employer.success_fee;
-                     max_amount = employment.net_pay * this.duration / 3;
+                     max_amount = (employment.net_pay + this.user.wallet) * this.duration / 3;
                   }
                   if(employment.employer.upgrade_enabled == 1){
                     this.loanLimit = employment.employer.loan_limit;
                     this.success_fee = employment.employer.success_fee;                     
-                    max_amount = (this.user.salary_percentage/100) * employment.net_pay * this.duration / 3;
+                    max_amount = (this.user.salary_percentage/100) * (employment.net_pay + this.user.wallet) * this.duration / 3;
                   }
                 }
                 return max_amount === "Loading" ? max_amount : this.round(max_amount, 2);
@@ -626,15 +646,11 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
                 }
                 return max_duration;
             },
-
-           
-        
         },
         
         watch: {
             employment_id: function(current) {
                 let employment = this.employments.find((employment) => employment.id === current);
-                
                 if(employment) {
                     this.interest_percentage = ((this.selected_period == 'monthly') ? employment.employer.rate_3 : employment.employer.weekly_fees_3) || 10;
                    // this.max_amount = this.calculateMaxAmount();
@@ -642,13 +658,10 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
             },
 
              referralMethod : function(val) {
-
                 if (val == 2) {
-
-                    // $('.bootstrap-select').show();
+                    $('.bootstrap-select').show();
                 }else {
-
-                    // $('.bootstrap-select').hide();
+                    $('.bootstrap-select').hide();
                 }
             },
             
@@ -675,7 +688,6 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
                 }
             },
 
-             
         },
         
     };

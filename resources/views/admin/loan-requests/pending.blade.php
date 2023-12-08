@@ -19,6 +19,7 @@
                                     <th>User</th>
                                     <th>Amount</th>
                                     <th>Interest %</th>
+                                    <th>Loan Period</th>
                                     <th>Request Date</th>
                                     <th>Status</th>
                                     <th>Manage</th>
@@ -31,6 +32,7 @@
                                         <td>{{$loanRequest->user ? $loanRequest->user->name : '########'}}</td>
                                         <td>₦ {{ number_format($loanRequest->amount, 2) }}</td>
                                         <td>{{ $loanRequest->interest_percentage }}%</td>
+                                        <td>{{ $loanRequest->loan_period }}</td>
                                     
                                         <td>{{$loanRequest->created_at->format('Y-m-d')}}</td>
                                         <td>

@@ -43,6 +43,8 @@ use App\Services\UpfrontInterest\UpfrontInterestService;
 use App\Notifications\Users\LoanRequestPlacedNotification;
 use App\Notifications\Users\LoanRequestCancelledNotification;
 use App\Notifications\Users\LoanRequestApprovalRequestNotification;
+use App\Services\Lydia\LydiaService;
+use Exception;
 use Unicodeveloper\Paystack\Paystack;
 
 
@@ -52,11 +54,13 @@ class LoanRequestController extends Controller
 
     protected $imageService;
     protected $refundService;
+    protected $lydiaService;
     
-    public function __construct(ImageService $service, RefundTransactionService $refundService) 
+    public function __construct(ImageService $service, RefundTransactionService $refundService, LydiaService $lydiaService) 
     {
         $this->imageService = $service;
         $this->refundService = $refundService;
+        $this->lydiaService = $lydiaService;
     }
 
     public function index()
@@ -140,6 +144,21 @@ class LoanRequestController extends Controller
             // generate user loan request data
             $loanRequest = UserLoanRequestService::createLoanRequest($request);
 
+            // Create Lidya Mandate
+            if ($loanRequest->employment->employer->collection_plan == 103) {
+                $user = Auth::user();
+                $this->lydiaService->createMandate([
+                    'amount' => $loanRequest->amount,
+                    'frequency' => 'monthly',
+                    'start_date' => Carbon::now()->addDay()->format('Y-m-d'),
+                    'duration' => 7,
+                    'bvn' => $user->bvn,
+                    'name' => $user->name,
+                    'phone_number' => $user->phone,
+                    'email' => $user->email
+                ]);
+            }
+
             UserLoanRequestService::handleLoanRequestFee($request->application_fee, $loanRequest);
             //Log::info(json_encode($verifyResponse));            
             
@@ -152,7 +171,13 @@ class LoanRequestController extends Controller
             
             DB::commit();            
             //UserLoanRequestService::sendNotifications($loanRequest);
-            return response()->json('Success');
+
+            if ($loanRequest->employment->employer->collection_plan == 103) {
+                return response()->json(['status'=>true, 'message'=> 'You loan request was successfully sent and awaiting approval, please check your mail to complete Lydia setup.'], 200);
+            }else {
+                return response()->json(['status'=>true, 'message'=> 'You loan request was successfully sent and awaiting approval, please check notification page for next step.'], 200);
+                // return response()->json('Success');
+            }
 
         }catch(\Exception $e){
             DB::rollback();
@@ -320,7 +345,8 @@ class LoanRequestController extends Controller
             'duration' => 'required|integer|min:1',
             //'comment' => 'required',
             // 'expected_withdrawal_date' => 'required|date',
-            'employment_id' => 'required'
+            'employment_id' => 'required',
+            'loan_period' => 'string'
         ];   
     }
     

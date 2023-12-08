@@ -11,6 +11,8 @@ class Constants
     const DDM_OKRA = "101";
 
     const DDM_MONO = "102";
+
+    const DDM_LYDIA = "103";
     
     const DAS_REMITA = "200";
     

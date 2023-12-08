@@ -193,8 +193,14 @@
     <br>
     <documents-required :user_id={{Request::segment(4)}} :settings="{{$requireDocs}}" ></documents-required>
     <br>
-    <loanrequest-docs :user_id={{Request::segment(4)}} :loandocs="{{$loanRequestDocs}}" :loansettings="{{$loansettings}}" :capitalize="{{$employer->is_capitalized}}" 
-    :upgrade="{{$employer->upgrade_enabled}}" :upfrontinterest="{{$employer->upfront_interest}}" :repayment="{{$employer->affiliate_payment_method}}">    
+    <loanrequest-docs :user_id={{Request::segment(4)}} :loandocs="{{$loanRequestDocs}}" 
+    :loansettings="{{$loansettings}}" 
+    :capitalize="{{$employer->is_capitalized}}" 
+    :upgrade="{{$employer->upgrade_enabled}}" 
+    :upfrontinterest="{{$employer->upfront_interest}}" 
+    :repayment="{{$employer->affiliate_payment_method}}"
+    :enableguarantor={{ $employer->enable_guarantor }}
+    >    
     </loanrequest-docs>
     <br>
     <penalty-settings :setting="{{json_encode($employer->penaltySetting ?? new stdClass)}}" :entity_type="'Employer'" :entity_id="{{$employer->id}}"></penalty-settings>
