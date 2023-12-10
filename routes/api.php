@@ -26,12 +26,12 @@ Route::get('get/investor/statistic/{id}', 'ApiController@getInvestor');
 
 Route::get('/repayments/borrowers', 'SearchBulkRepaymentController@searchBorrowers');
 
-Route::group(['prefix'=>'admin','namespace'=>'Admin'], function () {
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::get('/search/borrower/loans', 'SearchController@search')->name('admin.search.borrower.loan');
     Route::get('/all/borrower/loans', 'SearchController@getAllBorrower')->name('admin.all.borrower.loan');
 });
 
-Route::group(['prefix'=>'/v1/npd'], function () {
+Route::group(['prefix' => '/v1/npd'], function () {
     Route::post('/register', 'Auth\SignUpController@register')->name('api.register');
     Route::post('/register/salary-now', 'Auth\SignUpController@register')->name('api.register.salary-now');
     Route::post('/check/email', 'Auth\SignUpController@checkEmail')->name('api.checkEmail');
@@ -44,7 +44,7 @@ Route::group(['prefix'=>'/v1/npd'], function () {
     Route::post('/password/create', 'Auth\ApiPasswordResetController@createPassword')->name('api.create.password');
 
     Route::post('/login', 'Auth\SignInController@login')->name('api.login');
-    
+
     // investors group
     Route::group(['prefix' => 'investors', 'namespace' => 'Investors'], function () {
         Route::get('/banks', 'AuthApiController@banks');
@@ -63,19 +63,19 @@ Route::group(['prefix'=>'/v1/npd'], function () {
             '/password/create', 'Auth\ApiPasswordResetController@createPassword'
         )->name('api.investor.create.password');
 
-        Route::group(['middleware'=>'auth:api'], function () {
+        Route::group(['middleware' => 'auth:api'], function () {
             Route::post('/logout', 'AuthApiController@logout')->name('api.investor.logout');
         });
     });
 
-    Route::group(['middleware'=>'auth:api'], function () {
+    Route::group(['middleware' => 'auth:api'], function () {
         Route::post('/logout', 'Auth\SignInController@logout')->name('api.logout');
     });
 
     Route::any('{url?}/{sub_url?}', function () {
         return response()->json([
-            'status'    => false,
-            'message'   => 'Invalid URL.',
+            'status' => false,
+            'message' => 'Invalid URL.',
         ], 404);
     })->name('api.404.fallback');
 });
@@ -94,11 +94,11 @@ Route::group(['prefix' => 'recova-loans'], function () {
 
 // QORE LAS APIs
 Route::group(['prefix' => 'las'], function () {
-Route::post('/sms-alert-endpoint', 'Admin\LasController@smsAlertEndpoint');
-Route::post('/loan-balance-update', 'Admin\LoanController@loanBalanceUpdate');
-Route::post('/disbursal', 'Admin\LoanController@disbursal');
-
-    
+    Route::post('/sms-alert-endpoint', 'Admin\LasController@smsAlertEndpoint');
+    Route::post('/loan-balance-update', 'Admin\LoanController@loanBalanceUpdate');
+    Route::post('/disbursal', 'Admin\LoanController@disbursal');
+    Route::post('/mandate-creation', 'Admin\LasController@mandateCreation');
 
 });
+
 

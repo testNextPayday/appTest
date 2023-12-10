@@ -84,10 +84,10 @@ class LoanRequest extends Model
     /**
      * Returns the personnel that placed this loan request
      */
-    public function placer()
-    {
-        return $this->morphTo('placer');
-    }    
+    // public function placer()
+    // {
+    //     return $this->morphTo('placer');
+    // }    
     
     /**
      * Confirms a loan request was placed by a supplied personnel

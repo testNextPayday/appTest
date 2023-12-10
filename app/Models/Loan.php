@@ -277,10 +277,10 @@ class Loan extends Model
      * Returns the user who collected this loan on behalf of the owner
      * 
      */
-    public function collector()
-    {
-        return $this->morphTo();
-    }
+    // public function collector()
+    // {
+    //     return $this->morphTo();
+    // }
 
     /**
      * Confirms a loan was collected by a supplied personnel
