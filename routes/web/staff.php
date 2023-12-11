@@ -266,6 +266,12 @@ Route::group(['middleware' => 'auth:staff'], function() {
      Route::get('/get-all-affiliates', 'LoanRequestController@getAffiliates');
 
 
+     Route::group(['prefix'=> 'withdrawal-requests', 'middleware'=> 'staff.roles:withdrawal_approval'], function(){
+        Route::get('/pending', 'WithdrawalRequestController@pending')->name('staff.withdrawals.pending');
+        Route::get('/approved', 'WithdrawalRequestController@approved')->name('staff.withdrawals.approved');
+        Route::get('/declined', 'WithdrawalRequestController@declined')->name('staff.withdrawals.declined');
+        Route::get('/approve/{request_id}', 'WithdrawalRequestController@approve')->name('staff.withdrawals.approve');
+    });
 
     
 });
