@@ -25,7 +25,7 @@
                                        
                                        
                                         <td>
-                                            <a href="{{route('admin.settlement.view', ['reference' => $settlement->reference])}}"
+                                            <a href="{{route('admin.settlement.view', $settlement->reference)}}"
                                                 class="btn btn-outline-primary">View</a>
                                             
                                         </td>
