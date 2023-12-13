@@ -91,6 +91,7 @@ class LydiaService
             'frequency' => $mandateData['frequency'],
             'description' => 'Loan Request',
             'start_date' => $mandateData['start_date'],
+            'duration' => $mandateData['duration'],
             'payer_data' => [
                 'bvn' => $mandateData['bvn'],
                 'name' => $mandateData['name'],
@@ -109,6 +110,7 @@ class LydiaService
                 $body = $response->getBody()->getContents();
                 $body = json_decode($body, true);
                 if ($body[0] and $body[0]['error']) {
+                    dd($body);
                     throw new \Exception('Lidya Error: ' . $body[0]['error']);
                 }else{
                     throw new \Exception($e->getMessage());

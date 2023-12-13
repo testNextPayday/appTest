@@ -151,7 +151,7 @@ class LoanRequestController extends Controller
                     'amount' => $loanRequest->amount,
                     'frequency' => 'monthly',
                     'start_date' => Carbon::now()->addDay()->format('Y-m-d'),
-                    'duration' => 7,
+                    'duration' => $loanRequest->loan_period == 'weekly' ? 7 : 30,
                     'bvn' => $user->bvn,
                     'name' => $user->name,
                     'phone_number' => $user->phone,
