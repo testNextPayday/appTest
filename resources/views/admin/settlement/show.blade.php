@@ -118,7 +118,7 @@
                     @elseif($settlement->status == 2)
                     <button disabled class="btn btn-primary">Confirmed</button>
                     @else
-                    <a class="btn btn-xs btn-warning" onclick=" return confirm('Going ahead means this customer has successfully settled his/her loan and payment confirmed.This action is not reversible. Do you wish to proceed?');" href="{{ route('admin.settlement.confirm', ['reference' => $settlement->reference]) }}">
+                    <a class="btn btn-xs btn-warning" onclick=" return confirm('Going ahead means this customer has successfully settled his/her loan and payment confirmed.This action is not reversible. Do you wish to proceed?');" href="{{ route('admin.settlement.confirm', $settlement->reference) }}">
                         Confirm Settlement
                     </a>
                     <button class="btn btn-xs btn-danger" disabled >
