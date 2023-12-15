@@ -91,7 +91,7 @@
 
                 <div class="">
                     <p class="mb-2 mt-2" style="font-size:0.9rem;">
-                        <i class="icon-check text-success"></i> Upfront - Interest:
+                        <i class="icon-check text-success"></i> Interest:
                         <span>
                             ₦{{interestMgt == 0 ? '0' : interestMgt.toLocaleString('en', {maximumFractionDigits: 2}) }} 
                         </span>

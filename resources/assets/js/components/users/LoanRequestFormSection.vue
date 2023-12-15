@@ -97,6 +97,15 @@
                           </span>
                       </p>      
                   </div>
+
+                  <div class="" v-if="employment.employer.upfront_interest == 1">
+                      <p class="mb-2 mt-2" style="font-size:0.9rem;">
+                          <i class="icon-check text-success"></i> Interest:
+                          <span>
+                              ₦{{interestMgt == 0 ? '0' : interestMgt.toLocaleString('en', {maximumFractionDigits: 2}) }} 
+                          </span>
+                      </p>
+                  </div>
   
                   <div class="">
                       <p class="mb-2 mt-2" style="font-size:0.9rem;">
@@ -287,6 +296,7 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
                 old_data : {},
                 selected_period: "monthly",
                 lidya_success: false, 
+                interestMgt: 0,
                 guarantor_details: {
                   firstname: "",
                   lastname: "",
@@ -409,6 +419,8 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
               formData.append('guarantor_phone',this.guarantor_details.phone);
               formData.append('guarantor_email',this.guarantor_details.email);
               formData.append('guarantor_bvn',this.guarantor_details.bvn);
+              formData.append('upfront_charge', this.upfront_interest);
+
               axios.post(`/loan-requests/store`, formData).then(res => {
                 // console.log(res.data.message)
                   vm.uploading = false;
@@ -469,6 +481,45 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
                     this.charge = charge;  
                     this.upfront_status = 0; 
                 }                    
+          },
+
+          upfront_interest() {            
+              let employment = this.employments.find((employment) => employment.id === this.employment_id);
+              
+              let duration = this.duration;
+              let begin_bal = this.amount;
+              let rate = this.interest_percentage/100;
+              let monthly_payments = this.pmt(begin_bal, rate, duration);
+
+              let mgt = this.amount * this.mgt_fee/100;
+              let total_mgt_fee = mgt * this.duration;                      
+              let loan_fee = this.charge;        
+              let interestSum = 0;
+              if (employment) {                        
+                if(employment.employer.upfront_interest == 1) {                          
+                  while (duration > 0) {                            
+                    begin_bal = typeof(end_balance) == 'undefined' ? begin_bal : end_balance;                            
+                    let interest = this.interest_percentage/100 * begin_bal;                            
+                    let principalPart = monthly_payments - interest;
+                    let end_balance = begin_bal - principalPart;
+                    duration = duration - 1;
+                    interestSum += interest;                             
+                  }                          
+                }
+              } 
+
+              this.interest_sum = interestSum;
+              
+              this.total_mgt_fee = this.round(total_mgt_fee,2);
+              let interestMgt = interestSum + total_mgt_fee;
+              this.interestMgt = interestMgt;
+              
+              let upfront_interest = interestSum + loan_fee + total_mgt_fee;
+
+
+              this.upfront_charge = this.round(upfront_interest, 2);                   
+              return isNaN(upfront_interest) ? 'Loading...' : this.round(upfront_interest,2);
+              //return typeof upfront_interest === 'float' && !isNaN(upfront_interest)  ? parseFloat(upfront_interest).toFixed(2) : 'Loading...';               
           },
 
           newLoan(requestAmount) {

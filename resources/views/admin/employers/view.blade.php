@@ -199,7 +199,7 @@
     :upgrade="{{$employer->upgrade_enabled}}" 
     :upfrontinterest="{{$employer->upfront_interest}}" 
     :repayment="{{$employer->affiliate_payment_method}}"
-    :enableguarantor={{ $employer->enable_guarantor }}
+    :enableguarantor="{{ $employer->enable_guarantor }}"
     >    
     </loanrequest-docs>
     <br>
