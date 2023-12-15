@@ -81,7 +81,7 @@ class LydiaService
         try {
             $this->response = $this->client->post($relativeUrl, ['json'=>$data, 'cookies' => $this->cookieJar]); 
         } catch (\Throwable $th) {
-            dd($th);   
+            // dd($this->response);   
         }
     }
 
