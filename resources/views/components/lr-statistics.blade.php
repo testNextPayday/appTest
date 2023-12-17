@@ -41,7 +41,7 @@
                             </div>
                         </div>
                         <small class="text-gray">
-                            Months
+                            {{ $loanRequest->loan_period == 'weekly' ? 'Weeks' : 'Months' }}
                         </small>
                     </div>
                     <div class="d-inline-block">
@@ -84,7 +84,7 @@
     <div class="col-md-4 grid-margin">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title mb-0">Monthly Repayment</h4>
+                <h4 class="card-title mb-0">{{ $loanRequest->loan_period }} Repayment</h4>
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="d-inline-block pt-3">
                         <div class="d-flex">
@@ -248,7 +248,7 @@
     <div class="col-md-4 grid-margin">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title mb-0">Upfront Interest Charged</h4>
+                    <h4 class="card-title mb-0">Interest Charged</h4>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-inline-block pt-3">
                             <div class="d-flex">
