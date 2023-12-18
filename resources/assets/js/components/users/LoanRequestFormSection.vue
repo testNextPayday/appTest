@@ -97,8 +97,6 @@
                           </span>
                       </p>      
                   </div>
-<<<<<<< HEAD
-=======
 
                   <div class="" v-if="employment.employer.upfront_interest == 1">
                       <p class="mb-2 mt-2" style="font-size:0.9rem;">
@@ -108,7 +106,6 @@
                           </span>
                       </p>
                   </div>
->>>>>>> a26fe0420e90c7391491f5759b409dfeaaa2c34b
   
                   <div class="">
                       <p class="mb-2 mt-2" style="font-size:0.9rem;">
@@ -299,10 +296,7 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
                 old_data : {},
                 selected_period: "monthly",
                 lidya_success: false, 
-<<<<<<< HEAD
-=======
                 interestMgt: 0,
->>>>>>> a26fe0420e90c7391491f5759b409dfeaaa2c34b
                 guarantor_details: {
                   firstname: "",
                   lastname: "",
@@ -425,11 +419,8 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
               formData.append('guarantor_phone',this.guarantor_details.phone);
               formData.append('guarantor_email',this.guarantor_details.email);
               formData.append('guarantor_bvn',this.guarantor_details.bvn);
-<<<<<<< HEAD
-=======
               formData.append('upfront_charge', this.upfront_interest);
 
->>>>>>> a26fe0420e90c7391491f5759b409dfeaaa2c34b
               axios.post(`/loan-requests/store`, formData).then(res => {
                 // console.log(res.data.message)
                   vm.uploading = false;
@@ -448,13 +439,8 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
           },
 
           onPeriodChange(e){
-<<<<<<< HEAD
-            this.selected_period = e.target.value
-            console.log(this.user)
-=======
             this.selected_period = e.target.value;
             this.confirmAmount()
->>>>>>> a26fe0420e90c7391491f5759b409dfeaaa2c34b
           },
 
           calculateMaxAmount() {
@@ -628,10 +614,6 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
             },
             
             emi() {
-<<<<<<< HEAD
-                let employment = this.employments.find((employment) => employment.id === this.employment_id);
-                let feePercentage = 0;
-=======
                 // let employment = this.employments.find((employment) => employment.id === this.employment_id);
                 // let feePercentage = 0;
                 // if (employment) {
@@ -650,7 +632,6 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
                 // console.log("fee: ",fee)
                 // emi += fee;
                 // return typeof emi === 'number' && !isNaN(emi) && isFinite(emi) ? this.round(emi, 2) : 'Loading...';
->>>>>>> a26fe0420e90c7391491f5759b409dfeaaa2c34b
 
                 let emi = this.grossLoan/ this.duration;
                 return typeof emi === 'number' && !isNaN(emi) && isFinite(emi) ? this.round(emi, 2) : 'Loading...';

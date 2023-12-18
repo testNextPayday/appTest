@@ -145,21 +145,6 @@ class LoanRequestController extends Controller
             $loanRequest = UserLoanRequestService::createLoanRequest($request);
 
             // Create Lidya Mandate
-<<<<<<< HEAD
-            if ($loanRequest->employment->employer->collection_plan == 103) {
-                $user = Auth::user();
-                $this->lydiaService->createMandate([
-                    'amount' => $loanRequest->amount,
-                    'frequency' => 'monthly',
-                    'start_date' => Carbon::now()->addDay()->format('Y-m-d'),
-                    'duration' => 7,
-                    'bvn' => $user->bvn,
-                    'name' => $user->name,
-                    'phone_number' => $user->phone,
-                    'email' => $user->email
-                ]);
-            }
-=======
             // if ($loanRequest->employment->employer->collection_plan == 103) {
             //     $user = Auth::user();
             //     $this->lydiaService->createMandate([
@@ -173,7 +158,6 @@ class LoanRequestController extends Controller
             //         'email' => $user->email
             //     ]);
             // }
->>>>>>> a26fe0420e90c7391491f5759b409dfeaaa2c34b
 
             UserLoanRequestService::handleLoanRequestFee($request->application_fee, $loanRequest);
             //Log::info(json_encode($verifyResponse));            
@@ -188,14 +172,6 @@ class LoanRequestController extends Controller
             DB::commit();            
             //UserLoanRequestService::sendNotifications($loanRequest);
 
-<<<<<<< HEAD
-            if ($loanRequest->employment->employer->collection_plan == 103) {
-                return response()->json(['status'=>true, 'message'=> 'You loan request was successfully sent and awaiting approval, please check your mail to complete Lydia setup.'], 200);
-            }else {
-                return response()->json(['status'=>true, 'message'=> 'You loan request was successfully sent and awaiting approval, please check notification page for next step.'], 200);
-                // return response()->json('Success');
-            }
-=======
             // if ($loanRequest->employment->employer->collection_plan == 103) {
             //     return response()->json(['status'=>true, 'message'=> 'You loan request was successfully sent and awaiting approval, please check your mail to complete Lydia setup.'], 200);
             // }else {
@@ -203,7 +179,6 @@ class LoanRequestController extends Controller
             // }
 
             return response()->json(['status'=>true, 'message'=> 'You loan request was successfully sent and awaiting approval, please check notification page for next step.'], 200);
->>>>>>> a26fe0420e90c7391491f5759b409dfeaaa2c34b
 
         }catch(\Exception $e){
             DB::rollback();
