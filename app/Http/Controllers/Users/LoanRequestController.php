@@ -54,13 +54,11 @@ class LoanRequestController extends Controller
 
     protected $imageService;
     protected $refundService;
-    protected $lydiaService;
     
-    public function __construct(ImageService $service, RefundTransactionService $refundService, LydiaService $lydiaService) 
+    public function __construct(ImageService $service, RefundTransactionService $refundService) 
     {
         $this->imageService = $service;
         $this->refundService = $refundService;
-        $this->lydiaService = $lydiaService;
     }
 
     public function index()
