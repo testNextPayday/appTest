@@ -91,7 +91,7 @@
 
                 <div class="">
                     <p class="mb-2 mt-2" style="font-size:0.9rem;">
-                        <i class="icon-check text-success"></i> Upfront Interest:
+                        <i class="icon-check text-success"></i> Interest:
                         <span>
                             ₦{{interestMgt == 0 ? '0' : interestMgt.toLocaleString('en', {maximumFractionDigits: 2}) }} 
                         </span>
@@ -362,7 +362,6 @@
           },
           
           confirmAmount() {
-            
               if (this.amount > this.max_amount) {
                   this.alertError(`You can't take more than your salary can handle for this duration ₦ ${this.max_amount.toLocaleString()}`);
                   this.amount = this.round(this.max_amount, 2) 
@@ -374,9 +373,12 @@
               }
               
                 let charge = this.newLoan(this.amount).charge;    
+                console.log(charge)
                 let capGrossLoan = parseFloat(this.amount) + parseFloat(this.upfront_interest);
                 let setoffDisbursal = parseFloat(this.amount) - charge - this.interestMgt;
                 let employer = this.employment.employer;
+
+                console.log(charge, employer.upfront_interest, capGrossLoan, this.interestMgt)   
 
                 if(employer && employer.upfront_interest){
                     if(this.setoff != 1){
@@ -489,42 +491,42 @@
 
           
             upfront_interest() {                
-                      let employment = this.employments.find((employment) => employment.id === this.employment_id);
-                      
-                      let duration = this.duration;
-                      let begin_bal = this.amount;
-                      let rate = this.interest_percentage/100;
-                      let monthly_payments = this.pmt(begin_bal, rate, duration);
+                let employment = this.employments.find((employment) => employment.id === this.employment_id);
+                
+                let duration = this.duration;
+                let begin_bal = this.amount;
+                let rate = this.interest_percentage/100;
+                let monthly_payments = this.pmt(begin_bal, rate, duration);
+                let mgt = this.amount * this.mgt_fee/100;
+                let total_mgt_fee = mgt * this.duration;                      
+                let loan_fee = this.charge;        
+                let interestSum = 0;
+                if (employment) {                        
+                  if(employment.employer.upfront_interest == 1) {                          
+                    while (duration > 0) {                            
+                      begin_bal = typeof(end_balance) == 'undefined' ? begin_bal : end_balance;                            
+                      let interest = this.interest_percentage/100 * begin_bal;                            
+                      let principalPart = monthly_payments - interest;
+                      let end_balance = begin_bal - principalPart;
+                      duration = duration - 1;
+                      interestSum += interest;                             
+                    }                          
+                  }
+                } 
 
-                      let mgt = this.amount * this.mgt_fee/100;
-                      let total_mgt_fee = mgt * this.duration;                      
-                      let loan_fee = this.charge;        
-                      let interestSum = 0;
-                      if (employment) {                        
-                        if(employment.employer.upfront_interest == 1) {                          
-                          while (duration > 0) {                            
-                            begin_bal = typeof(end_balance) == 'undefined' ? begin_bal : end_balance;                            
-                            let interest = this.interest_percentage/100 * begin_bal;                            
-                            let principalPart = monthly_payments - interest;
-                            let end_balance = begin_bal - principalPart;
-                            duration = duration - 1;
-                            interestSum += interest;                             
-                          }                          
-                        }
-                      } 
+                this.interest_sum = interestSum;
+                
+                this.total_mgt_fee = this.round(total_mgt_fee,2);
+                let interestMgt = interestSum + total_mgt_fee;
+                this.interestMgt = interestMgt;
 
-                      this.interest_sum = interestSum;
-                      
-                      this.total_mgt_fee = this.round(total_mgt_fee,2);
-                      let interestMgt = interestSum + total_mgt_fee;
-                      this.interestMgt = interestMgt;
-                     
-                      let upfront_interest = interestSum + loan_fee + total_mgt_fee;
+                console.log(this.interestMgt)
+                
+                let upfront_interest = interestSum + loan_fee + total_mgt_fee;
 
-
-                      this.upfront_charge = this.round(upfront_interest, 2);                   
-                      return isNaN(upfront_interest) ? 'Loading...' : this.round(upfront_interest,2);
-                      //return typeof upfront_interest === 'float' && !isNaN(upfront_interest)  ? parseFloat(upfront_interest).toFixed(2) : 'Loading...';               
+                this.upfront_charge = this.round(upfront_interest, 2);                   
+                return isNaN(upfront_interest) ? 'Loading...' : this.round(upfront_interest,2);
+                //return typeof upfront_interest === 'float' && !isNaN(upfront_interest)  ? parseFloat(upfront_interest).toFixed(2) : 'Loading...';               
             },
             
             max_amount() {

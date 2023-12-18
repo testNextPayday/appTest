@@ -45,7 +45,16 @@
                   // Get the last incomplete requests
                   $incompleteRequest = Auth::user()->incompleteRequests->last();
               ?>
-              @if(!$employment->employer || !$employment->employer->upfront_interest)                
+              <form method="POST" onmousemove="formButton()" enctype="multipart/form-data">
+                {{ csrf_field() }}
+                  <loan-request-form-section 
+                      :employments="{{Auth::user()->employments()->with('employer')->get()}}" :loan_fee="{{$loanApplicationFee}}" 
+                      :application_fee="{{$pay_charge}}" :users="{{json_encode($users)}}" :user="{{Auth::user()}}" :payurl="'{{config('paystack.publicKey')}}'" :monokey="'{{config('monostatement.clientPublic')}}'" :affiliatecode="'{{optional($referrer)->reference}}'"
+                      :request="{{json_encode($incompleteRequest)}}">
+                  </loan-request-form-section>
+                  {{-- <!-- <user-referral :code="'{{optional($referrer)->reference}}'" :users="{{json_encode($users)}}"></user-referral> --> --}}
+              </form>
+              {{-- @if(!$employment->employer || !$employment->employer->upfront_interest)                
                 <form method="POST" onmousemove="formButton()" enctype="multipart/form-data">
                       {{ csrf_field() }}
                     <loan-request-form-section 
@@ -65,7 +74,7 @@
                     </salary-now-loan-request-form-section>
                     <!-- <user-referral :code="'{{optional($referrer)->reference}}'" :users="{{json_encode($users)}}"></user-referral> -->
                 </form>
-              @endif
+              @endif --}}
             </div>
           </div>
        </div>

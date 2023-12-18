@@ -78,7 +78,15 @@ class LydiaService
             'username' => $this->getUsername(),
             'password' => $this->getPassword()
         ];
+<<<<<<< HEAD
         $this->response = $this->client->post($relativeUrl, ['json'=>$data, 'cookies' => $this->cookieJar]); 
+=======
+        try {
+            $this->response = $this->client->post($relativeUrl, ['json'=>$data, 'cookies' => $this->cookieJar]); 
+        } catch (\Throwable $th) {
+            // dd($this->response);   
+        }
+>>>>>>> a26fe0420e90c7391491f5759b409dfeaaa2c34b
     }
 
     public function createMandate($mandateData = []) {
@@ -91,6 +99,10 @@ class LydiaService
             'frequency' => $mandateData['frequency'],
             'description' => 'Loan Request',
             'start_date' => $mandateData['start_date'],
+<<<<<<< HEAD
+=======
+            'duration' => $mandateData['duration'],
+>>>>>>> a26fe0420e90c7391491f5759b409dfeaaa2c34b
             'payer_data' => [
                 'bvn' => $mandateData['bvn'],
                 'name' => $mandateData['name'],
@@ -109,6 +121,10 @@ class LydiaService
                 $body = $response->getBody()->getContents();
                 $body = json_decode($body, true);
                 if ($body[0] and $body[0]['error']) {
+<<<<<<< HEAD
+=======
+                    dd($body);
+>>>>>>> a26fe0420e90c7391491f5759b409dfeaaa2c34b
                     throw new \Exception('Lidya Error: ' . $body[0]['error']);
                 }else{
                     throw new \Exception($e->getMessage());

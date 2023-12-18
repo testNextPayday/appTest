@@ -97,10 +97,22 @@
                           </span>
                       </p>      
                   </div>
+<<<<<<< HEAD
+=======
+
+                  <div class="" v-if="employment.employer.upfront_interest == 1">
+                      <p class="mb-2 mt-2" style="font-size:0.9rem;">
+                          <i class="icon-check text-success"></i> Interest:
+                          <span>
+                              ₦{{interestMgt == 0 ? '0' : interestMgt.toLocaleString('en', {maximumFractionDigits: 2}) }} 
+                          </span>
+                      </p>
+                  </div>
+>>>>>>> a26fe0420e90c7391491f5759b409dfeaaa2c34b
   
                   <div class="">
                       <p class="mb-2 mt-2" style="font-size:0.9rem;">
-                          <i class="icon-check text-success"></i> Loan fee
+                          <i class="icon-check text-success"></i> Loan fee:
                           <span>
                               ₦{{charge == 0 ? '0' : charge.toLocaleString('en', {maximumFractionDigits: 2}) }} 
                           </span>
@@ -109,7 +121,7 @@
   
                   <div class="">
                       <p class="mb-3 mt-2" style="font-size:0.9rem;">
-                        <i class="icon-check text-success"></i> Disbursal amount
+                        <i class="icon-check text-success"></i> Disbursal amount:
                         <span>
                           ₦{{disbursal == 0 ? '0' : disbursal.toLocaleString('en', {maximumFractionDigits: 2}) }}
                         </span> 
@@ -287,6 +299,10 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
                 old_data : {},
                 selected_period: "monthly",
                 lidya_success: false, 
+<<<<<<< HEAD
+=======
+                interestMgt: 0,
+>>>>>>> a26fe0420e90c7391491f5759b409dfeaaa2c34b
                 guarantor_details: {
                   firstname: "",
                   lastname: "",
@@ -409,6 +425,11 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
               formData.append('guarantor_phone',this.guarantor_details.phone);
               formData.append('guarantor_email',this.guarantor_details.email);
               formData.append('guarantor_bvn',this.guarantor_details.bvn);
+<<<<<<< HEAD
+=======
+              formData.append('upfront_charge', this.upfront_interest);
+
+>>>>>>> a26fe0420e90c7391491f5759b409dfeaaa2c34b
               axios.post(`/loan-requests/store`, formData).then(res => {
                 // console.log(res.data.message)
                   vm.uploading = false;
@@ -427,8 +448,13 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
           },
 
           onPeriodChange(e){
+<<<<<<< HEAD
             this.selected_period = e.target.value
             console.log(this.user)
+=======
+            this.selected_period = e.target.value;
+            this.confirmAmount()
+>>>>>>> a26fe0420e90c7391491f5759b409dfeaaa2c34b
           },
 
           calculateMaxAmount() {
@@ -440,36 +466,68 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
               return "Loading...";
           },
           
-          confirmAmount() {
-              if (this.amount > this.max_amount) {
-                  this.alertError(`You can't take more than your salary can handle for this duration ₦ ${this.max_amount.toLocaleString()}`);
-                  this.amount = this.round(this.max_amount, 2) 
-              }
+          // confirmAmount() {
+          //     if (this.amount > this.max_amount) {
+          //         this.alertError(`You can't take more than your salary can handle for this duration ₦ ${this.max_amount.toLocaleString()}`);
+          //         this.amount = this.round(this.max_amount, 2) 
+          //     }
 
-              if (this.loanLimit != 0 && this.amount > this.loanLimit){
-                this.alertError(`You can't take more than ₦ ${this.loanLimit.toLocaleString()}`);
-                this.amount = this.round(this.loanLimit, 2)
-              }
+          //     if (this.loanLimit != 0 && this.amount > this.loanLimit){
+          //       this.alertError(`You can't take more than ₦ ${this.loanLimit.toLocaleString()}`);
+          //       this.amount = this.round(this.loanLimit, 2)
+          //     }
               
-              let charge = this.newLoan(this.amount).charge;
+          //     let charge = this.newLoan(this.amount).charge;
 
-                let employer = this.employment.employer;
-                let loanamount = this.newLoan(this.amount).loanAmount;
-                if(employer){
-                    if(this.setoff != 1){
-                      this.grossLoan = loanamount;
-                      this.newAmount = loanamount;
-                      this.disbursal = loanamount - charge;
-                    }
-                    if (this.setoff == 1) {
-                      this.grossLoan = loanamount - charge;
-                      this.newAmount = loanamount - charge;
-                      this.disbursal = this.amount - charge;
-                    }
-                    this.charge = charge;  
-                    this.upfront_status = 0; 
-                }                    
-          },
+          //       let employer = this.employment.employer;
+          //       let loanamount = this.newLoan(this.amount).loanAmount;
+          //       if(employer){
+          //           if(this.setoff != 1){
+          //             this.grossLoan = loanamount;
+          //             this.newAmount = loanamount;
+          //             this.disbursal = loanamount - charge;
+          //           }
+          //           if (this.setoff == 1) {
+          //             this.grossLoan = loanamount - charge;
+          //             this.newAmount = loanamount - charge;
+          //             this.disbursal = this.amount - charge;
+          //           }
+          //           this.charge = charge;  
+          //           this.upfront_status = 0; 
+          //       }                    
+          // },
+
+          confirmAmount() {
+            if (this.amount > this.max_amount) {
+                this.alertError(`You can't take more than your salary can handle for this duration ₦ ${this.max_amount.toLocaleString()}`);
+                this.amount = this.round(this.max_amount, 2);
+            }
+
+            if (this.loanLimit != 0 && this.amount > this.loanLimit){
+              this.alertError(`You can't take more than ₦ ${this.loanLimit.toLocaleString()}`);
+              this.amount = this.round(this.loanLimit, 2)
+            }
+            
+            let charge = this.newLoan(this.amount).charge; 
+            let capGrossLoan = parseFloat(this.amount) + parseFloat(this.upfront_interest);
+            let setoffDisbursal = parseFloat(this.amount) - charge - this.interestMgt;
+            let employer = this.employment.employer;
+
+            if(employer && employer.upfront_interest){
+                if(this.setoff != 1){
+                  this.grossLoan = this.round(capGrossLoan, 2);
+                  this.newAmount = this.round(capGrossLoan, 2);
+                  this.disbursal = this.round(this.amount, 2);
+                }
+                if(this.setoff == 1) {
+                  this.grossLoan = this.round(this.amount,2);
+                  this.newAmount = this.round(this.amount,2);
+                  this.disbursal = this.round(setoffDisbursal ,2);                      
+                }
+                this.charge = charge;
+                this.upfront_status = 1;                    
+            }                 
+        },
 
           newLoan(requestAmount) {
             let percentage = this.success_fee/100;
@@ -570,27 +628,31 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
             },
             
             emi() {
+<<<<<<< HEAD
                 let employment = this.employments.find((employment) => employment.id === this.employment_id);
                 let feePercentage = 0;
+=======
+                // let employment = this.employments.find((employment) => employment.id === this.employment_id);
+                // let feePercentage = 0;
+                // if (employment) {
+                //     if (this.duration <= 3) {
+                //         feePercentage = (this.selected_period == 'monthly') ? employment.employer.fees_3 : employment.employer.weekly_fees_3;
+                //     } else if(this.duration > 3 && this.duration <= 6) {
+                //         feePercentage = (this.selected_period == 'monthly') ? employment.employer.fees_6 : employment.employer.weekly_fees_6;
+                //     } else {
+                //         feePercentage = (this.selected_period == 'monthly') ? employment.employer.fees_12 : employment.employer.weekly_fees_12;
+                //     }
+                // }
+                // feePercentage = parseFloat(feePercentage);
+                // let rate = this.interest_percentage/100;
+                // let emi = this.pmt(this.newAmount,rate, this.duration);
+                // let fee = ((feePercentage/100) * this.newAmount);
+                // console.log("fee: ",fee)
+                // emi += fee;
+                // return typeof emi === 'number' && !isNaN(emi) && isFinite(emi) ? this.round(emi, 2) : 'Loading...';
+>>>>>>> a26fe0420e90c7391491f5759b409dfeaaa2c34b
 
-                if (employment) {
-                    if (this.duration <= 3) {
-                        feePercentage = (this.selected_period == 'monthly') ? employment.employer.fees_3 : employment.employer.weekly_fees_3;
-                    } else if(this.duration > 3 && this.duration <= 6) {
-                        feePercentage = (this.selected_period == 'monthly') ? employment.employer.fees_6 : employment.employer.weekly_fees_6;
-                    } else {
-                        feePercentage = (this.selected_period == 'monthly') ? employment.employer.fees_12 : employment.employer.weekly_fees_12;
-                    }
-                }
-                
-                feePercentage = parseFloat(feePercentage);
-               
-                let rate = this.interest_percentage/100;
-                let emi = this.pmt(this.newAmount,rate, this.duration);
-                let fee = ((feePercentage/100) * this.newAmount);
-               
-                emi += fee;
-                
+                let emi = this.grossLoan/ this.duration;
                 return typeof emi === 'number' && !isNaN(emi) && isFinite(emi) ? this.round(emi, 2) : 'Loading...';
             },
 
@@ -613,8 +675,62 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
                 emi += fee;
                 let total_repayment_fee = emi * this.duration;                
                 return typeof total_repayment_fee === 'number' && !isNaN(total_repayment_fee) && isFinite(total_repayment_fee) ? this.round(total_repayment_fee, 2) : 'Loading...';
-            },        
-           
+            },  
+            
+            mgt_fee() {                
+                let employment = this.employments.find((employment) => employment.id === this.employment_id);                
+                let feePercentage = 0;
+                if (employment) {
+                    if (this.duration <= 3) {
+                        feePercentage = (this.selected_period == 'monthly') ? employment.employer.fees_3 : employment.employer.weekly_fee_3;                      
+                    } else if(this.duration > 3 && this.duration <= 6){                       
+                        feePercentage = (this.selected_period == 'monthly') ? employment.employer.fees_6 : employment.employer.weekly_fee_6;
+                    } else {
+                        feePercentage = (this.selected_period == 'monthly') ? employment.employer.fees_12 : employment.employer.weekly_fee_12;
+                    }
+                }                
+                feePercentage = parseFloat(feePercentage);                
+                return typeof feePercentage === 'number' && !isNaN(feePercentage) && isFinite(feePercentage) ? this.round(feePercentage, 2) : 0;
+            },
+
+            upfront_interest() {            
+              let employment = this.employments.find((employment) => employment.id === this.employment_id);
+              
+              let duration = this.duration;
+              let begin_bal = this.amount;
+              let rate = this.interest_percentage/100;
+              let monthly_payments = this.pmt(begin_bal, rate, duration);
+
+              let mgt = this.amount * this.mgt_fee/100;
+              let total_mgt_fee = mgt * this.duration;                      
+              let loan_fee = this.charge; 
+              let interestSum = 0;
+              if (employment) {                     
+                if(employment.employer.upfront_interest == 1) {                          
+                  while (duration > 0) {                            
+                    begin_bal = typeof(end_balance) == 'undefined' ? begin_bal : end_balance;                            
+                    let interest = this.interest_percentage/100 * begin_bal;                            
+                    let principalPart = monthly_payments - interest;
+                    let end_balance = begin_bal - principalPart;
+                    duration = duration - 1;
+                    interestSum += interest;                             
+                  }                          
+                }
+              } 
+
+              this.interest_sum = interestSum;
+              
+              this.total_mgt_fee = this.round(total_mgt_fee,2);
+              let interestMgt = interestSum + total_mgt_fee;
+              this.interestMgt = interestMgt;
+              
+              let upfront_interest = interestSum + loan_fee + total_mgt_fee;
+
+
+              this.upfront_charge = this.round(upfront_interest, 2);                   
+              return isNaN(upfront_interest) ? 'Loading...' : this.round(upfront_interest,2);
+              //return typeof upfront_interest === 'float' && !isNaN(upfront_interest)  ? parseFloat(upfront_interest).toFixed(2) : 'Loading...';               
+          },
             
             max_amount() {
                 let employment = this.employments.find((employment) => employment.id === this.employment_id);
@@ -622,13 +738,13 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
                 let max_amount = "Loading";
                 
                 if(employment) {
-                  if(employment.employer.upgrade_enabled == 0){
-                     this.loanLimit = employment.employer.loan_limit;
+                  if(employment.employer.upgrade_enabled == 0) {
+                     this.loanLimit = employment.employer.loan_limit + (employment.net_pay + this.user.wallet);
                      this.success_fee = employment.employer.success_fee;
                      max_amount = (employment.net_pay + this.user.wallet) * this.duration / 3;
                   }
                   if(employment.employer.upgrade_enabled == 1){
-                    this.loanLimit = employment.employer.loan_limit;
+                    this.loanLimit = employment.employer.loan_limit + (employment.net_pay + this.user.wallet);
                     this.success_fee = employment.employer.success_fee;                     
                     max_amount = (this.user.salary_percentage/100) * (employment.net_pay + this.user.wallet) * this.duration / 3;
                   }
