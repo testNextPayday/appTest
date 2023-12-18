@@ -58,6 +58,7 @@ class LoanRequestDisbursementController extends Controller
      */
     public function prepareLoan(Request $request, LoanRequest $loanRequest)
     {
+        // dd('yolo');
         // Set up a loan based on a loan request
         // for the loan, sets up sweep dates (start and end) [dd-mm]
         // sets up peak period start and end [dd-mm]
