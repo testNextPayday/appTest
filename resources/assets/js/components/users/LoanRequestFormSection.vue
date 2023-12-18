@@ -489,30 +489,31 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
                 this.amount = this.round(this.max_amount, 2);
             }
 
-            if (this.loanLimit != 0 && this.amount > this.loanLimit){
+            if (this.loanLimit != 0 && this.amount > this.loanLimit) {
               this.alertError(`You can't take more than ₦ ${this.loanLimit.toLocaleString()}`);
               this.amount = this.round(this.loanLimit, 2)
             }
             
-            let charge = this.newLoan(this.amount).charge; 
-            let capGrossLoan = parseFloat(this.amount) + parseFloat(this.upfront_interest);
-            let setoffDisbursal = parseFloat(this.amount) - charge - this.interestMgt;
             let employer = this.employment.employer;
+            let interest = (employer.upfront_interest) ? parseFloat(this.upfront_interest) : 0;
+            let charge = this.newLoan(this.amount).charge; 
+            let capGrossLoan = parseFloat(this.amount) + interest;
+            let setoffDisbursal = parseFloat(this.amount) - charge - this.interestMgt;
 
-            if(employer && employer.upfront_interest){
-                if(this.setoff != 1){
-                  this.grossLoan = this.round(capGrossLoan, 2);
-                  this.newAmount = this.round(capGrossLoan, 2);
-                  this.disbursal = this.round(this.amount, 2);
-                }
-                if(this.setoff == 1) {
-                  this.grossLoan = this.round(this.amount,2);
-                  this.newAmount = this.round(this.amount,2);
-                  this.disbursal = this.round(setoffDisbursal ,2);                      
-                }
-                this.charge = charge;
-                this.upfront_status = 1;                    
-            }                 
+            if(employer) {
+              if(this.setoff != 1){
+                this.grossLoan = this.round(parseFloat(capGrossLoan) + parseFloat(!(employer.upfront_interest) ? charge : 0), 2);
+                this.newAmount = this.round(capGrossLoan, 2);
+                this.disbursal = this.round(this.amount, 2);
+              }
+              if(this.setoff == 1) {
+                this.grossLoan = this.round(this.amount,2);
+                this.newAmount = this.round(this.amount,2);
+                this.disbursal = this.round(setoffDisbursal,2);                      
+              }
+              this.charge = charge;
+              this.upfront_status = 1;                    
+            }
         },
 
           newLoan(requestAmount) {
