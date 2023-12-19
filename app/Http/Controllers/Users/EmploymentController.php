@@ -166,9 +166,21 @@ class EmploymentController extends Controller
         if ($user->activeLoans()->count() ) {
             return response()->json(['status' => 0, 'message' => 'You have an active loan running. Kindly Settle Before Updating Profile'], 200);            
         }
-        Storage::delete(Arr::get($employment->getAttributes(), 'employment_letter'));
-        Storage::delete(Arr::get($employment->getAttributes(), 'confirmation_letter'));
-        Storage::delete(Arr::get($employment->getAttributes(), 'work_id_card'));
+        $employment_letter = Arr::get($employment->getAttributes(), 'employment_letter');
+        $confirmation_letter = Arr::get($employment->getAttributes(), 'confirmation_letter');
+        $work_id_card = Arr::get($employment->getAttributes(), 'work_id_card');
+
+        if ($employment_letter) {
+            Storage::delete($employment_letter);
+        }
+
+        if ($confirmation_letter) {
+            Storage::delete($confirmation_letter);
+        }
+
+        if ($work_id_card) {
+            Storage::delete($work_id_card);
+        }
         
         if($employment->delete())
         {
