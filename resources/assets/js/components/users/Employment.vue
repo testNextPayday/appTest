@@ -581,6 +581,7 @@
                             this.employments.splice(index, 1);
                         }
                     } else {
+                        alert(response.data.message)
                         this.setError(response.data.message);
                     }
                     this.stopLoading();
