@@ -9,7 +9,7 @@ use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 
 /**
- *  Default abstract class for okra
+ *  Default abstract class for lydia
  */
 
 class LydiaService 
@@ -73,16 +73,12 @@ class LydiaService
 
 
     protected function login() {
-        $relativeUrl = '/v7/Collect/authentication';
+        $relativeUrl = '/v8/Collect/authentication';
         $data = [
             'username' => $this->getUsername(),
             'password' => $this->getPassword()
         ];
-        try {
-            $this->response = $this->client->post($relativeUrl, ['json'=>$data, 'cookies' => $this->cookieJar]); 
-        } catch (\Throwable $th) {
-            // dd($this->response);   
-        }
+        $this->response = $this->client->post($relativeUrl, ['json'=>$data, 'cookies' => $this->cookieJar]); 
     }
 
     public function createMandate($mandateData = []) {
@@ -93,7 +89,7 @@ class LydiaService
             'amount' => $mandateData['amount'],
             'generate_payments' => true,
             'frequency' => $mandateData['frequency'],
-            'description' => 'Loan Request',
+            'description' => $mandateData['description'],
             'start_date' => $mandateData['start_date'],
             'duration' => $mandateData['duration'],
             'payer_data' => [
@@ -105,24 +101,31 @@ class LydiaService
             ]
         ];
 
-        try {
-            $this->response = $this->client->post($url, ['json'=>$data, 'cookies' => $this->cookieJar]);
-            return response()->json(['status'=>true, 'message'=> 'Please check your email to complete Lidya setup'], 200);
-        } catch (RequestException $e) {
-            if ($e->hasResponse()) {
-                $response = $e->getResponse();
-                $body = $response->getBody()->getContents();
-                $body = json_decode($body, true);
-                if ($body[0] and $body[0]['error']) {
-                    dd($body);
-                    throw new \Exception('Lidya Error: ' . $body[0]['error']);
-                }else{
-                    throw new \Exception($e->getMessage());
-                }
-            }else{
-                throw new \Exception('An Error Occurred');
-            }
-        }
+        $this->response = $this->client->post($url, ['json'=>$data, 'cookies' => $this->cookieJar]);
+
+        // try {
+        //     $this->response = $this->client->post($url, ['json'=>$data, 'cookies' => $this->cookieJar]);
+        //     return response()->json(['status'=>true, 'message'=> 'Please check your email to complete Lidya setup'], 200);
+        // } catch (RequestException $e) {
+        //     if ($e->hasResponse()) {
+        //         $response = $e->getResponse();
+        //         $body = $response->getBody()->getContents();
+        //         $body = json_decode($body, true);
+        //         if ($body[0] and $body[0]['error']) {
+        //             dd($body);
+        //             throw new \Exception('Lidya Error: ' . $body[0]['error']);
+        //         }else{
+        //             throw new \Exception($e->getMessage());
+        //         }
+        //     }else{
+        //         throw new \Exception('An Error Occurred');
+        //     }
+        // }
+    }
+    
+    public function getResponse()
+    {
+        return json_decode($this->response->getBody(), true);
     }
 }
 

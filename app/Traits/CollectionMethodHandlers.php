@@ -13,6 +13,7 @@ use App\Remita\DAS\LoanDisburser;
 use App\Remita\RemitaLoanAdapter;
 
 use App\Remita\DDM\MandateManager;
+use App\Services\Lydia\LydiaService;
 use App\Unicredit\Logs\DatabaseLogger;
 use App\Services\MonoStatement\BaseMonoStatementService;
 
@@ -27,6 +28,7 @@ trait CollectionMethodHandlers
         "100" => "remitaDDMHandler",
         "101"=>  "okraDDMHandler",
         "102"=> "monoDDMHandler",
+        "103"=> "lydiaDDMHandler",
         "200" => "remitaDASHandler",
         "201" => "ippisDASHandler",
         "202" => "rvsgDASHandler",
@@ -89,6 +91,47 @@ trait CollectionMethodHandlers
             'mono_payment_link'=>$paymentLink,
             'mono_payment_reference'=>$reference,
         ]);
+
+        return ['status' => true];
+    }
+
+    public function lydiaDDMHandler(Loan $loan)
+    {
+        // dd($loan->user);
+        $lydiaservice = new LydiaService(new Client);
+        $amount = $loan->emi;
+        $startDate = $this->startDate;
+        $endDate = $this->endDate;
+
+        //create lydia mandate
+        $lydiaservice->createMandate(
+            [
+                'amount' => $amount,
+                'generate_payments' => true,
+                'frequency' => $loan->loanRequest->loan_period,
+                'description' => 'Loan Request Mandate',
+                'start_date' => $startDate,
+                'duration' => $loan->duration,
+                'payer_data' => [
+                    'bvn' => $loan->user->bvn,
+                    'name' => $loan->user->name,
+                    'phone_number' => $loan->user->phone,
+                    'phone_prefix_id' => 2,
+                    'email' => $loan->user->email
+                ]
+            ]
+        );
+        $lydiaInfo = $lydiaservice->getResponse(); 
+
+        // dd($lydiaInfo);
+        // $paymentId = $monoInfo['id'];        
+        // $reference = $monoInfo['reference'];
+        // $paymentLink = $monoInfo['payment_link'];        
+        
+        // $loan->update([
+        //     'mono_payment_link'=>$paymentLink,
+        //     'mono_payment_reference'=>$reference,
+        // ]);
 
         return ['status' => true];
     }
