@@ -83,7 +83,7 @@ class LydiaService
 
     public function createMandate($mandateData = []) {
         $resp = json_decode($this->response->getBody(), true);
-        $url = '/v7/Collect/create';
+        $url = '/v8/Collect/create';
         $data = [
             'enterprise_id' => $resp['default_enterprise_id'],
             'amount' => $mandateData['amount'],

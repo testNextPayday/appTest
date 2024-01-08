@@ -27,6 +27,7 @@ class MainLoanArmotizer implements LoanArmotizerStrategy
         $duration = $this->loan->duration;
         $emi = $this->loan->emi();
         $interest_rate = ($this->loan->interest_percentage)/100;
+        $loan_period = $loanRequest->loan_period;
         
        
         
@@ -49,7 +50,7 @@ class MainLoanArmotizer implements LoanArmotizerStrategy
                 'begin_balance'=>$begin_bal,
                 'payments'=>$monthly_payments,
                 'is_new'=>true,
-                'payday' => $startDate->addMonths($monthNumber)->format('Y-m-d'),
+                'payday' => ($loan_period == 'monthly') ? $startDate->addMonths($monthNumber)->format('Y-m-d') : $startDate->addWeeks($monthNumber)->format('Y-m-d'),
                 'month_no' => ++$monthNumber, 
                 'status' => false
             ]);

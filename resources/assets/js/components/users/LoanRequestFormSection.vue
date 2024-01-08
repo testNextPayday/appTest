@@ -210,6 +210,13 @@
             <div class="card-header">
               <strong>Guarantor's Information</strong>
             </div>
+
+            <div style="margin: 0 20px; margin-top: 14px;">
+              <strong>Guarantor 1</strong>
+            </div>
+
+            <hr>
+
             <div class="card-body">
 
               <div class="form-group">
@@ -236,14 +243,51 @@
                 <label for="email"><strong>BVN</strong></label>
                 <input type="text" class="form-control" name="bvn" v-model="guarantor_details.bvn" placeholder="Enter Guarantor's BVN" required>
               </div>
+            </div>
+
+            <hr>
+
+            <div style="margin: 0 20px; margin-top: 6px;">
+              <strong>Guarantor 2</strong>
+            </div>
+
+            <hr>
+
+            <div class="card-body">
+              <div class="form-group">
+                  <label for="firstname"><strong>First Name</strong></label>
+                  <input type="text" class="form-control" name="firstname" v-model="guarantor2_details.firstname" placeholder="Enter Guarantor's First Name" required>
+              </div>
+  
+              <div class="form-group">
+                <label for="lastname"><strong>Last Name</strong></label>
+                <input type="text" class="form-control" name="lastname" v-model="guarantor2_details.lastname" placeholder="Enter Guarantor's Last Name" required>
+              </div>
+  
+              <div class="form-group">
+                <label for="phone_number"><strong>Phone Number</strong></label>
+                <input type="text" class="form-control" name="phone_number" v-model="guarantor2_details.phone" placeholder="Enter Guarantor's Phone Number" required>
+              </div>
+  
+              <div class="form-group">
+                <label for="email"><strong>Email</strong></label>
+                <input type="text" class="form-control" name="email" v-model="guarantor2_details.email" placeholder="Enter Guarantor's Email Address" required>
+              </div>
+  
+              <div class="form-group">
+                <label for="email"><strong>BVN</strong></label>
+                <input type="text" class="form-control" name="bvn" v-model="guarantor2_details.bvn" placeholder="Enter Guarantor's BVN" required>
+              </div>
   
               <div class="mb-2 d-flex justify-content-between">
                 <button type="submit" class="btn btn-primary" @click.prevent="back" id="booking-form"><i class="fa fa-arrow-left"></i> Back</button>
                 <button type="submit" class="btn btn-primary" @click.prevent="payWithPaystack" id="booking-form"><i class="fa fa-dot-circle-o"></i> Submit</button>
               </div>
             </div>
+
           </div>
         </div>
+      </div>
       </div>
       
     </div>
@@ -269,6 +313,7 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
                 },
                 employment_id: '',
                 amount: '',
+                amountAlt: '',
                 interest_percentage: '',
                 duration: '',
                 loanLimit: 0,
@@ -297,13 +342,21 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
                 selected_period: "monthly",
                 lidya_success: false, 
                 interestMgt: 0,
+                interestMgtAlt: 0,
                 guarantor_details: {
                   firstname: "",
                   lastname: "",
                   phone: "",
                   email: "",
                   bvn: ""
-                }                      
+                }, 
+                guarantor2_details: {
+                  firstname: "",
+                  lastname: "",
+                  phone: "",
+                  email: "",
+                  bvn: ""
+                },                      
             };
         },
 
@@ -419,7 +472,15 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
               formData.append('guarantor_phone',this.guarantor_details.phone);
               formData.append('guarantor_email',this.guarantor_details.email);
               formData.append('guarantor_bvn',this.guarantor_details.bvn);
+
+              formData.append('guarantor_first_name_2',this.guarantor2_details.firstname);
+              formData.append('guarantor_last_name_2',this.guarantor2_details.lastname);
+              formData.append('guarantor_phone_2',this.guarantor2_details.phone);
+              formData.append('guarantor_email_2',this.guarantor2_details.email);
+              formData.append('guarantor_bvn_2',this.guarantor2_details.bvn);
+
               formData.append('upfront_charge', this.upfront_interest);
+              formData.append('is_setoff', this.setoff);
 
               axios.post(`/loan-requests/store`, formData).then(res => {
                 // console.log(res.data.message)
@@ -496,14 +557,27 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
             
             let employer = this.employment.employer;
             let interest = (employer.upfront_interest) ? parseFloat(this.upfront_interest) : 0;
-            let charge = this.newLoan(this.amount).charge; 
+            let charge = this.newLoan(this.amount).charge;
             let capGrossLoan = parseFloat(this.amount) + interest;
             let setoffDisbursal = parseFloat(this.amount) - charge - this.interestMgt;
 
             if(employer) {
               if(this.setoff != 1){
-                this.grossLoan = this.round(parseFloat(capGrossLoan) + parseFloat(!(employer.upfront_interest) ? charge : 0), 2);
-                this.newAmount = this.round(capGrossLoan, 2);
+                let mGrossloan = this.round(parseFloat(capGrossLoan) + parseFloat(!(employer.upfront_interest) ? charge : 0), 2) 
+                let mCharge = this.newLoan(mGrossloan).charge;
+                // this.upfront_interest
+                let newGrossLoan = mGrossloan + mCharge + this.interestMgt
+                this.grossLoan = newGrossLoan;
+                // + " ---- " + mGrossloan +" -=- "+ this.interestMgtAlt +' :::::::::: '+ capGrossLoan +' ~~~~'+ this.upfront_charge +' ^^^^^ '+ interest
+                // this.round(parseFloat(capGrossLoan) + parseFloat(!(employer.upfront_interest) ? charge : 0), 2) +" -- " + mCharge +" "+ (newGrossloan + mCharge);
+                charge = mCharge;
+                this.upfront_interest
+                // this.amount = mGrossloan;
+                // +" --- "+charge+" --- "+ interest +" == "+this.interestMgt;
+                // this.interestMgt = this.interestMgtAlt;
+                // this.newAmount = this.round(newGrossLoan, 2);
+
+                this.newAmount = this.round(this.amount, 2);
                 this.disbursal = this.round(this.amount, 2);
               }
               if(this.setoff == 1) {
@@ -514,7 +588,7 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
               this.charge = charge;
               this.upfront_status = 1;                    
             }
-        },
+          },
 
           newLoan(requestAmount) {
             let percentage = this.success_fee/100;
@@ -679,11 +753,11 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
               let employment = this.employments.find((employment) => employment.id === this.employment_id);
               
               let duration = this.duration;
-              let begin_bal = this.amount;
+              let begin_bal = (this.setoff != 1) ? this.grossLoan : this.amount;
               let rate = this.interest_percentage/100;
               let monthly_payments = this.pmt(begin_bal, rate, duration);
 
-              let mgt = this.amount * this.mgt_fee/100;
+              let mgt = ((this.setoff != 1) ? this.grossLoan : this.amount) * this.mgt_fee/100;
               let total_mgt_fee = mgt * this.duration;                      
               let loan_fee = this.charge; 
               let interestSum = 0;
@@ -706,13 +780,58 @@ import IncompleteLoanRequestForm from './IncompleteLoanRequestForm.vue';
               let interestMgt = interestSum + total_mgt_fee;
               this.interestMgt = interestMgt;
               
-              let upfront_interest = interestSum + loan_fee + total_mgt_fee;
+              // let upfront_interest = interestSum + loan_fee + total_mgt_fee;
+
+              let upfront_interest = interestSum + total_mgt_fee;
 
 
               this.upfront_charge = this.round(upfront_interest, 2);                   
               return isNaN(upfront_interest) ? 'Loading...' : this.round(upfront_interest,2);
               //return typeof upfront_interest === 'float' && !isNaN(upfront_interest)  ? parseFloat(upfront_interest).toFixed(2) : 'Loading...';               
-          },
+            },
+
+            upfront_interest_alt() {          
+              let employment = this.employments.find((employment) => employment.id === this.employment_id);
+              
+              let duration = this.duration;
+              let begin_bal = this.amountAlt;
+              let rate = this.interest_percentage/100;
+              let monthly_payments = this.pmt(begin_bal, rate, duration);
+
+              let mgt = this.amountAlt * this.mgt_fee/100;
+              let total_mgt_fee = mgt * this.duration;                      
+              let loan_fee = this.charge; 
+              let interestSum = 0;
+              if (employment) {                     
+                if(employment.employer.upfront_interest == 1) {                          
+                  while (duration > 0) {                            
+                    begin_bal = typeof(end_balance) == 'undefined' ? begin_bal : end_balance;                            
+                    let interest = this.interest_percentage/100 * begin_bal;                            
+                    let principalPart = monthly_payments - interest;
+                    let end_balance = begin_bal - principalPart;
+                    duration = duration - 1;
+                    interestSum += interest;                             
+                  }                          
+                }
+              } 
+
+              this.interest_sum = interestSum;
+              
+              this.total_mgt_fee = this.round(total_mgt_fee,2);
+              let interestMgtAlt = interestSum + total_mgt_fee;
+              this.interestMgtAlt = interestMgtAlt;
+              // let upfront_interest = interestSum + loan_fee + total_mgt_fee;
+
+              let upfront_interest = interestSum + total_mgt_fee;
+
+              this.upfront_charge = this.round(upfront_interest, 2);    
+              
+              setInterval(() => {
+                this.interestMgtAlt = interestMgtAlt;
+                this.upfront_charge = this.round(upfront_interest, 2);  
+              }, 500);
+              return isNaN(upfront_interest) ? 'Loading...' : this.round(upfront_interest,2);           
+            },
             
             max_amount() {
                 let employment = this.employments.find((employment) => employment.id === this.employment_id);

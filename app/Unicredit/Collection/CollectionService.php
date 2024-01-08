@@ -121,6 +121,7 @@ class CollectionService
         $tenure = $duration;
         $managementFee = $loanRequest->fee($loan->amount);
        
+        $loan_period = $loanRequest->loan_period;
         
         while($duration > 0) {
             
@@ -134,7 +135,7 @@ class CollectionService
                 'emi' => $loan->emi,
                 'management_fee' => ($loanRequest->upfront_interest == 0) ? $managementFee : 0, 
                 'balance' => $principalBalance, 
-                'payday' => $startDate->addMonths($monthNumber)->format('Y-m-d'),
+                'payday' => ($loan_period == 'monthly') ? $startDate->addMonths($monthNumber)->format('Y-m-d') : $startDate->addWeeks($monthNumber)->format('Y-m-d'),
                 'month_no' => ++$monthNumber, 
                 'status' => false,               
             ]);
@@ -157,6 +158,8 @@ class CollectionService
         $duration = $loan->duration;
         $emi = $loan->emi();
         $interest_rate = ($loan->interest_percentage)/100;
+
+        $loan_period = $loanRequest->loan_period;
         
         while($duration > 0) {
             $begin_bal = isset($end_balance) ? $end_balance : $begin_bal;
@@ -175,7 +178,7 @@ class CollectionService
                 'begin_balance'=>$begin_bal,
                 'payments'=>$monthly_payments,
                 'is_new'=>true,
-                'payday' => $startDate->addMonths($monthNumber)->format('Y-m-d'),
+                'payday' => ($loan_period == 'monthly') ? $startDate->addMonths($monthNumber)->format('Y-m-d') : $startDate->addWeeks($monthNumber)->format('Y-m-d'),
                 'month_no' => ++$monthNumber, 
                 'status' => false
             ]);

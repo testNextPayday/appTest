@@ -81,6 +81,8 @@ class RestructuringLoanArmotizer implements LoanArmotizerStrategy
         $firstPlan = $this->loan->repaymentPlans->first();
         $managementFee = $firstPlan ? $firstPlan->management_fee : $this->loan->mgt_fee() ;
         $emi = round($monthly_payments +  $managementFee, 2);
+
+        $loan_period = $this->loan->loanRequest->loan_period;
         
         $interest_rate = ($rate)/100;
         while($duration > 0 ) {
@@ -113,7 +115,7 @@ class RestructuringLoanArmotizer implements LoanArmotizerStrategy
                 'begin_balance'=>$begin_bal,
                 'payments'=>$monthly_payments,
                 'is_new'=>true,
-                'payday' => $startDate->addMonths($monthNumber)->format('Y-m-d'),
+                'payday' => ($loan_period == 'monthly') ? $startDate->addMonths($monthNumber)->format('Y-m-d') : $startDate->addWeeks($monthNumber)->format('Y-m-d'),
                 'month_no' => ++$monthNumber, 
                 'status' => false
             ]);

@@ -169,6 +169,7 @@ class LoanRequest extends Model
             $monthlyPayment = $loanAmount/$duration;
             return $monthlyPayment;
         }
+
         return $this->pmt($amount, $this->interest_percentage, $this->duration);
     }
     

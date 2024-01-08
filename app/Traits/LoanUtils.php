@@ -245,6 +245,7 @@ trait LoanUtils {
             $month_number = 0;
             $principal_balance = $data['principal'];
             $duration = $loanRequest->duration;
+            $loan_period = $loanRequest->loan_period;
             $tenure = $duration;
             while($duration > 0) {
                 
@@ -261,7 +262,7 @@ trait LoanUtils {
                     'management_fee' => $data['management_fee'], 
                     'balance' => $principal_balance, 
                     'month_no' => ++$month_number, 
-                    'payday' => $startDate->addMonths($month_number)->format('Y-m-d'),
+                    'payday' => ($loan_period == 'monthly') ? $startDate->addMonths($month_number)->format('Y-m-d') : $startDate->addWeeks($month_number)->format('Y-m-d'),
                     'status' => false
                 ]);
                 $duration = $duration - 1;

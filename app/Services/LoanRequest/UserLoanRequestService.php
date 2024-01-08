@@ -165,6 +165,12 @@ class UserLoanRequestService
             "guarantor_phone" => $request->guarantor_phone,
             "guarantor_email" => $request->guarantor_email,
             "guarantor_bvn" => $request->guarantor_bvn,
+            "guarantor_first_name_2" => $request->guarantor_first_name_2,
+            "guarantor_last_name_2" => $request->guarantor_last_name_2,
+            "guarantor_phone_2" => $request->guarantor_phone_2,
+            "guarantor_email_2" => $request->guarantor_email_2,
+            "guarantor_bvn_2" => $request->guarantor_bvn_2,
+            "is_setoff" => $request->is_setoff,
         ];
 
         // When Mono is enabled

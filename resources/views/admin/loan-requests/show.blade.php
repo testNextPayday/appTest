@@ -87,6 +87,12 @@
                                 <a class="nav-link " id="user-employments-tab" data-toggle="pill" href="#user-employments"
                                     role="tab " aria-controls="user-employments" aria-selected="false ">Employments</a>
                             </li>
+                            @if($loanRequest->guarantor_first_name)
+                                <li class="nav-item ">
+                                    <a class="nav-link " id="user-guarantor-tab" data-toggle="pill" href="#user-guarantor"
+                                        role="tab " aria-controls="user-guarantor" aria-selected="false ">Guarantors</a>
+                                </li>
+                            @endif
                         </ul>
                         
                         <div class="row ">
@@ -289,6 +295,47 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @if($loanRequest->guarantor_first_name)
+                                        <div class="tab-pane fade" id="user-guarantor" role="tabpanel"
+                                            aria-labelledby="user-guarantor-tab ">
+                                            <div class="row ">
+                                                <div class="row ">
+                                                    <div class="col-12 mt-5">
+                                                        <h5 class="">Guarantor(s)</h5>
+                                                        <div class="stage-wrapper pl-4">
+                                                            <div class="stages border-left pl-5 pb-4">
+                                                                <div class="btn btn-icons btn-rounded stage-badge btn-inverse-primary">
+                                                                    1
+                                                                </div>
+                                                                <br/>
+                                                                    <p><strong>Firstname: </strong>{{$loanRequest->guarantor_first_name}}</p>
+                                                                    <p><strong>Lastname: </strong>{{$loanRequest->guarantor_last_name}}</p>
+                                                                    <p><strong>Phone Number: </strong>{{$loanRequest->guarantor_phone}}</p>
+                                                                    <p><strong>Email: </strong>{{$loanRequest->guarantor_email}}</p>
+                                                                    <p><strong>BVN: </strong>{{$loanRequest->guarantor_bvn}}</p>
+                                                                <hr/>
+                                                            </div>
+                                                            
+                                                            @if($loanRequest->guarantor_first_name_2)
+                                                                <div class="stages border-left pl-5 pb-4">
+                                                                    <div class="btn btn-icons btn-rounded stage-badge btn-inverse-primary">
+                                                                        2
+                                                                    </div>
+                                                                    <br/>
+                                                                        <p><strong>Firstname: </strong>{{$loanRequest->guarantor_first_name_2}}</p>
+                                                                        <p><strong>Lastname: </strong>{{$loanRequest->guarantor_last_name_2}}</p>
+                                                                        <p><strong>Phone Number: </strong> {{$loanRequest->guarantor_phone_2}}</p>
+                                                                        <p><strong>Email: </strong> {{$loanRequest->guarantor_email_2}}</p>
+                                                                        <p><strong>BVN: </strong> {{$loanRequest->guarantor_bvn_2}}</p>
+                                                                    <hr/>
+                                                                </div>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>

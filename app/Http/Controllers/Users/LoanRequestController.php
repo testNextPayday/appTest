@@ -142,21 +142,6 @@ class LoanRequestController extends Controller
             // generate user loan request data
             $loanRequest = UserLoanRequestService::createLoanRequest($request);
 
-            // Create Lidya Mandate
-            // if ($loanRequest->employment->employer->collection_plan == 103) {
-            //     $user = Auth::user();
-            //     $this->lydiaService->createMandate([
-            //         'amount' => $loanRequest->amount,
-            //         'frequency' => 'monthly',
-            //         'start_date' => Carbon::now()->addDay()->format('Y-m-d'),
-            //         'duration' => $loanRequest->loan_period == 'weekly' ? 7 : 30,
-            //         'bvn' => $user->bvn,
-            //         'name' => $user->name,
-            //         'phone_number' => $user->phone,
-            //         'email' => $user->email
-            //     ]);
-            // }
-
             UserLoanRequestService::handleLoanRequestFee($request->application_fee, $loanRequest);
             //Log::info(json_encode($verifyResponse));            
             

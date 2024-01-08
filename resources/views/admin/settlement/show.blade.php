@@ -287,7 +287,7 @@
 
                             @empty
                             <tr>
-                                <td colspan="8" class="text-center">Repayments not found</td>
+                                <td colspan="8" class="text-center">Repayments not found -- </td>
                             </tr>
                             @endforelse
                         </tbody>
